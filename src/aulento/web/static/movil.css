@@ -1,0 +1,90 @@
+/* 071: utilidades para el celular. Se carga después de Tailwind en index.html.
+   Las clases cambian el comportamiento en pantallas táctiles o angostas sin tocar el aspecto en escritorio. */
+
+:root {
+  --alto-barra-inferior: 64px;
+}
+
+/* R6: área táctil mínima de 40×40 con el dedo. Con mouse, la densidad de siempre.
+   Solo tamaños: el display lo decide el elemento, así `hidden`, `lg:hidden` o `w-full` siguen mandando. */
+@media (pointer: coarse) {
+  .toque {
+    min-width: 40px;
+    min-height: 40px;
+  }
+}
+
+/* Tailwind se compila y carga antes de esta hoja: por orden de cascada las utilidades
+   de movil.css pisan a las de Tailwind a igual especificidad sin necesidad de !important. */
+
+/* R8 / R3: las teclas de atajo no sirven sin teclado ni en pantallas móviles. */
+@media (pointer: coarse), (max-width: 639.98px) {
+  .solo-teclado {
+    display: none;
+  }
+}
+
+/* R12: pista de que hay más contenido para el costado. */
+.scroll-x-pista {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+}
+
+/* R5 (modales que empiezan arriba): lo cumple .au-modal en componentes.css (072). */
+
+/* R4: barra de navegación inferior y el margen que deja al contenido. */
+#barra-inferior {
+  height: calc(var(--alto-barra-inferior) + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+#barra-inferior [aria-current="page"] {
+  color: #38bdf8;
+}
+
+@media (max-width: 767.98px) {
+  .margen-barra-inferior {
+    padding-bottom: calc(var(--alto-barra-inferior) + env(safe-area-inset-bottom) + 1rem);
+  }
+
+  /* R9: los avisos se apilan por encima de la barra y del tutor flotante. */
+  #toast-container {
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: calc(var(--alto-barra-inferior) + env(safe-area-inset-bottom) + 5rem);
+    max-width: none;
+  }
+}
+
+/* Íconos de cabecera de tarjeta: no se aplastan cuando el título es largo. */
+.flex > .w-10.h-10,
+.flex > .w-12.h-12 {
+  flex-shrink: 0;
+}
+
+/* Cabeceras de tarjeta en el celular: el título con sus insignias y los botones de la derecha
+   bajan de línea en vez de apretar el título en una columna angosta. Solo dentro del contenido:
+   el encabezado de la app tiene alto fijo y no debe partirse. */
+@media (max-width: 639.98px) {
+  main h1.flex,
+  main h2.flex,
+  main h3.flex,
+  main .flex:has(> h1, > h2, > h3),
+  main .flex.justify-between {
+    flex-wrap: wrap;
+  }
+
+  /* Al bajar de línea, ningún bloque pasa del ancho de su fila (un título con `truncate` adentro lo haría). */
+  main .flex:has(> h1, > h2, > h3) > *,
+  main .flex.justify-between > * {
+    max-width: 100%;
+  }
+
+  /* Tarjetas grandes con menos relleno: 24 px por lado es un 13 % del ancho a 375. */
+  main .rounded-3xl.p-6 {
+    padding: 1rem;
+  }
+}

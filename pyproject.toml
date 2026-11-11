@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aulento"
+version = "0.1.0"
+description = "Sistema Maestro de Estudio Inteligente (Local First)"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Leandro Esteban Aguilar Montilla" }
+]
+dependencies = [
+    "typer>=0.12.0",
+    "fastapi>=0.110.0",
+    "uvicorn>=0.53.0",
+    "pydantic>=2.6.0",
+    "fsrs>=3.0.0",
+    "httpx>=0.27.0",
+    "mcp>=2.2.0",
+    "rich>=13.0.0",
+    "cryptography>=3.1",
+    "pypdf>=6.19.0",
+    "python-multipart>=0.0.18",
+    "sqlite-vec>=0.1.6",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-xdist>=3.6",
+    "ruff>=0.3.0",
+    "playwright>=1.40.0",
+    "pytest-playwright>=0.5.0",
+]
+postgres = [
+    "psycopg[binary]>=3.1.0",
+    "pgvector>=0.3.0",
+]
+
+[project.scripts]
+aulento = "aulento.cli.app:cli"
+# Nombre anterior (ADR 021): avisa y reenvía a `aulento`
+study-engine = "study_engine:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# La interfaz web (HTML, JS y librerías propias) viaja dentro del paquete: sin esto el wheel de la imagen sale sin ella
+[tool.setuptools.package-data]
+aulento = [
+    "web/static/*",
+    "web/static/css/*",
+    "web/static/js/*",
+    "web/static/vendor/*",
+    "web/static/icons/*",
+]
+
+# La raíz del repo en el path: hay tests que importan `scripts.*` y `tests.*`, y `pytest` a secas (CI) no la agrega
+# Reglas fijas, no las de cada versión de ruff: `ruff check .` corre en el CI del core público (068: R4).
+# Solo lo que es un error seguro (sintaxis, nombres sin definir); el estilo se suma cuando se limpie.
+[tool.ruff.lint]
+select = ["E9", "F63", "F7", "F82"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

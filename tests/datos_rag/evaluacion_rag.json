@@ -1,0 +1,164 @@
+{
+  "piso_aciertos_palabras": 0.95,
+  "piso_aciertos_fusion": 0.95,
+  "notas": [
+    {
+      "id": "fsrs_v5",
+      "titulo": "Algoritmo FSRS v5",
+      "contenido": "# Algoritmo FSRS v5\n\nEl algoritmo FSRS (Free Spaced Repetition Scheduler) versión 5 modela la memoria humana utilizando cuatro variables fundamentales: estabilidad (S), dificultad (D), retrievability (R) y el tiempo transcurrido desde el último repaso (t).\n\n## Retrievability y Decaimiento\n\nLa retrievability representa la probabilidad de recordar un elemento con éxito en un momento determinado. Sigue una función exponencial decreciente basada en la estabilidad de la memoria. A diferencia del algoritmo SM-2 de Anki clásico que ajusta factores fijos de facilidad, FSRS optimiza diecinueve parámetros mediante descenso de gradiente sobre el historial de repasos.\n\n## Estabilidad y Dificultad\n\nCada calificación (Again, Hard, Good, Easy) actualiza la estabilidad y la dificultad adaptándose al ritmo real de aprendizaje del estudiante, calculando intervalos óptimos para mantener la retención deseada."
+    },
+    {
+      "id": "docker_networking",
+      "titulo": "Redes en Docker y Contenedores",
+      "contenido": "# Redes en Docker y Contenedores\n\nDocker ofrece varios controladores de red para aislar o comunicar contenedores de forma segura.\n\n## Redes Bridge y Host\n\nEl controlador de red bridge es el predeterminado para contenedores individuales en un único host. Crea una interfaz de puente virtual donde cada contenedor obtiene una dirección IP interna y resolución DNS automática si se utiliza una red definida por el usuario. En contraste, el modo host comparte la pila de red directamente con la máquina anfitriona sin aislamiento de puertos.\n\n## Redes Overlay y Resolución DNS\n\nLas redes overlay permiten la comunicación cifrada de múltiples hosts en clústeres Swarm. El servidor DNS interno de Docker resuelve nombres de servicio a direcciones IP virtuales equilibradas."
+    },
+    {
+      "id": "sqlite_wal",
+      "titulo": "Modo WAL en SQLite",
+      "contenido": "# Modo WAL en SQLite\n\nEl registro previo a la escritura o Write-Ahead Logging (WAL) es un modo de diario que mejora drásticamente la concurrencia en bases de datos SQLite.\n\n## Concurrencia Lectores Escritor\n\nEn el modo tradicional de rollback journal, los escritores bloquean a todos los lectores. En modo WAL, los lectores operan sobre la base principal y el archivo de registro simultáneamente sin bloquearse entre sí, permitiendo un escritor concurrente junto a múltiples lectores sin colisiones.\n\n## Operaciones de Checkpoint\n\nPeriódicamente, SQLite transfiere las páginas modificadas del archivo -wal a la base de datos principal mediante una operación de checkpoint (pasivo, completo o reinicio), evitando el crecimiento indefinido del archivo de log."
+    },
+    {
+      "id": "python_asyncio",
+      "titulo": "Programación Asíncrona con Python Asyncio",
+      "contenido": "# Programación Asíncrona con Python Asyncio\n\nEl módulo asyncio de Python implementa un bucle de eventos (event loop) que gestiona la ejecución cooperativa de tareas de entrada y salida no bloqueantes.\n\n## Corrutinas y Tasks\n\nUna corrutina definida con async def suspende su ejecución al invocar await sobre un objeto awaitable. Cuando se programa en el bucle mediante asyncio.create_task(), se convierte en una Task que corre concurrentemente con otras tareas en el mismo hilo.\n\n## Ejecución Concurrente con Gather\n\nLa función asyncio.gather() agrupa múltiples corrutinas o tareas, esperando a que todas finalicen y devolviendo sus resultados ordenados, capturando o propagando excepciones según la configuración."
+    },
+    {
+      "id": "arquitectura_hexagonal",
+      "titulo": "Arquitectura Hexagonal Puertos y Adaptadores",
+      "contenido": "# Arquitectura Hexagonal Puertos y Adaptadores\n\nLa Arquitectura Hexagonal, propuesta por Alistair Cockburn, busca desacoplar la lógica de negocio central de las tecnologías de entrada y salida.\n\n## Puertos de Entrada y Salida\n\nEl dominio puro define contratos o interfaces abstractas denominadas puertos. Los puertos de entrada expresan los casos de uso que la aplicación ofrece, mientras que los puertos de salida definen las necesidades del dominio, como repositorios de persistencia o servicios externos.\n\n## Adaptadores Primarios y Secundarios\n\nLos adaptadores primarios o conductores (APIs REST, CLI) llaman a los puertos de entrada. Los adaptadores secundarios o conducidos (implementaciones SQLite, PostgreSQL, pasarelas HTTP) implementan los puertos de salida cumpliendo el principio de inversión de dependencias."
+    },
+    {
+      "id": "postgresql_indices",
+      "titulo": "Estrategias de Índices en PostgreSQL",
+      "contenido": "# Estrategias de Índices en PostgreSQL\n\nPostgreSQL soporta diversos tipos de índices para optimizar consultas relacionales y búsquedas vectoriales avanzadas.\n\n## Índices B-Tree y Parciales\n\nEl índice B-Tree estándar es óptimo para comparaciones de igualdad y rangos ordenados. Los índices parciales incluyen una cláusula WHERE para indexar únicamente un subconjunto relevante de filas, reduciendo el tamaño en disco y acelerando las escrituras.\n\n## Índices Vectoriales HNSW y IVFFlat\n\nLa extensión pgvector proporciona algoritmos de vecinos más cercanos aproximados (ANN). HNSW (Hierarchical Navigable Small World) ofrece una velocidad de búsqueda y recall superiores en comparación con IVFFlat, a cambio de mayor consumo de memoria y tiempo de construcción."
+    },
+    {
+      "id": "clean_code_solid",
+      "titulo": "Principios de Diseño SOLID",
+      "contenido": "# Principios de Diseño SOLID\n\nLos principios SOLID son cinco directrices de diseño orientado a objetos orientadas a producir software mantenible, comprensible y extensible.\n\n## Responsabilidad Única y Sustitución de Liskov\n\nEl Principio de Responsabilidad Única (SRP) postula que una clase debe tener una sola razón para cambiar. El Principio de Sustitución de Liskov (LSP) exige que las subclases puedan sustituir a sus clases base sin alterar el comportamiento correcto del programa.\n\n## Inversión de Dependencias\n\nEl principio de inversión de dependencias (DIP) establece que los módulos de alto nivel no deben depender de módulos de bajo nivel, sino que ambos deben depender de abstracciones, desacoplando la implementación del contrato."
+    },
+    {
+      "id": "oauth2_pkce",
+      "titulo": "Seguridad en OAuth 2.0 y Flujo PKCE",
+      "contenido": "# Seguridad en OAuth 2.0 y Flujo PKCE\n\nProof Key for Code Exchange (PKCE) es una extensión de seguridad para OAuth 2.0 diseñada para proteger el intercambio del código de autorización en clientes públicos.\n\n## Vulnerabilidades del Flujo Implícito\n\nEl flujo implícito tradicional exponía tokens de acceso directamente en fragmentos de URL en el navegador. PKCE reemplaza este flujo eliminando la necesidad de un secreto de cliente que no puede resguardarse en aplicaciones web de una sola página (SPA).\n\n## Verifier y Challenge Criptográfico\n\nEl cliente genera un secreto aleatorio llamado code_verifier y calcula su hash SHA-256 codificado en base64url como code_challenge. El servidor de autorización valida que el verifier presentado al canjear el código coincida con el challenge inicial."
+    },
+    {
+      "id": "mcp_protocol",
+      "titulo": "Protocolo Model Context Protocol MCP",
+      "contenido": "# Protocolo Model Context Protocol MCP\n\nModel Context Protocol (MCP) es un estándar abierto desarrollado por Anthropic para conectar modelos de inteligencia artificial con sistemas de datos y herramientas de forma segura.\n\n## Primitivas del Protocolo\n\nEl protocolo define tres primitivas principales: Recursos (Resources) para exponer datos legibles como archivos o bases de datos, Herramientas (Tools) para invocar funciones con efectos colaterales, y Prompts para compartir plantillas estructuradas de interacción pedagógica o asistida.\n\n## Clientes y Servidores MCP\n\nLos servidores MCP implementan transportes basados en stdio o Server-Sent Events (SSE) con endpoints HTTP POST para recibir llamadas JSON-RPC 2.0 de clientes autorizados."
+    },
+    {
+      "id": "algoritmos_grafos",
+      "titulo": "Recorridos y Caminos Cortos en Grafos",
+      "contenido": "# Recorridos y Caminos Cortos en Grafos\n\nLos grafos modelan relaciones complejas entre entidades representadas como vértices y aristas dirigidas o no dirigidas.\n\n## Búsqueda en Anchura y Profundidad\n\nBreadth-First Search (BFS) explora nivel por nivel utilizando una cola FIFO, encontrando el camino más corto en aristas no ponderadas. Depth-First Search (DFS) explora ramas hasta el fondo usando recursión o una pila LIFO, ideal para detección de ciclos y ordenamiento topológico.\n\n## Algoritmo de Dijkstra\n\nEl algoritmo de Dijkstra calcula el camino más corto desde un nodo origen a todos los demás en grafos con pesos no negativos, empleando una cola de prioridad basada en montículos binarios para una complejidad O((V+E) log V)."
+    },
+    {
+      "id": "css_container_queries",
+      "titulo": "Diseño Modular con CSS Container Queries",
+      "contenido": "# Diseño Modular con CSS Container Queries\n\nLas Container Queries representan una evolución fundamental respecto a las Media Queries tradicionales en el diseño web moderno.\n\n## Regla @container y Tipos de Contenedor\n\nAl aplicar container-type: inline-size a un elemento padre, los componentes hijos pueden responder a las dimensiones de su contenedor directo usando la regla @container, en lugar de depender del ancho total de la ventana (viewport).\n\n## Unidades de Contenedor CQW y CQH\n\nLas unidades cqw (1% del ancho del contenedor) y cqh permiten tipografía y espaciados verdaderamente fluidos y desacoplados del tamaño del navegador, facilitando bibliotecas de diseño reusables."
+    },
+    {
+      "id": "active_recall_spaced_repetition",
+      "titulo": "Ciencia del Aprendizaje Active Recall y Repetición Espaciada",
+      "contenido": "# Ciencia del Aprendizaje Active Recall y Repetición Espaciada\n\nLa ciencia cognitiva demuestra que la memoria a largo plazo se consolida mediante el esfuerzo deliberado de recuperación y repasos espaciados estratégicos.\n\n## Efecto de la Práctica de Recuperación\n\nActive Recall o recuperación activa consiste en examinarse activamente para evocar información de la memoria sin mirar los apuntes. Este proceso reconstruye y fortalece las rutas neuronales mucho más eficazmente que la lectura pasiva o el subrayado.\n\n## Curva del Olvido de Ebbinghaus\n\nHermann Ebbinghaus descubrió que la retención de nueva información decae exponencialmente en cuestión de días. Cada repaso programado justo antes de olvidar aplana la curva de decaimiento, logrando memoria duradera con un mínimo de sesiones."
+    }
+  ],
+  "preguntas": [
+    {
+      "pregunta": "¿Cómo calcula FSRS v5 la retrievability y la estabilidad de una tarjeta?",
+      "fuente_esperada": "fsrs_v5"
+    },
+    {
+      "pregunta": "¿Qué ventajas ofrece el programador de repetición espaciada FSRS frente a SM-2?",
+      "fuente_esperada": "fsrs_v5"
+    },
+    {
+      "pregunta": "¿En qué casos se utiliza la red bridge por defecto en contenedores Docker?",
+      "fuente_esperada": "docker_networking"
+    },
+    {
+      "pregunta": "¿Cómo funciona la resolución DNS interna entre servicios dentro de una red overlay?",
+      "fuente_esperada": "docker_networking"
+    },
+    {
+      "pregunta": "¿Cómo reduce la contención de lecturas y escrituras el modo WAL en SQLite?",
+      "fuente_esperada": "sqlite_wal"
+    },
+    {
+      "pregunta": "¿Qué operaciones desencadena un checkpoint pasivo en el archivo write-ahead log?",
+      "fuente_esperada": "sqlite_wal"
+    },
+    {
+      "pregunta": "¿Cuál es la diferencia entre una Task y una corrutina en el event loop de asyncio?",
+      "fuente_esperada": "python_asyncio"
+    },
+    {
+      "pregunta": "¿Cómo se ejecutan múltiples corrutinas concurrentes usando asyncio.gather?",
+      "fuente_esperada": "python_asyncio"
+    },
+    {
+      "pregunta": "¿Cómo aíslan los adaptadores secundarios a la infraestructura externa del núcleo de dominio?",
+      "fuente_esperada": "arquitectura_hexagonal"
+    },
+    {
+      "pregunta": "¿Cuál es el rol de los puertos de entrada en la arquitectura de puertos y adaptadores?",
+      "fuente_esperada": "arquitectura_hexagonal"
+    },
+    {
+      "pregunta": "¿Cuándo conviene utilizar un índice HNSW en lugar de IVFFlat para búsqueda de vectores?",
+      "fuente_esperada": "postgresql_indices"
+    },
+    {
+      "pregunta": "¿Cómo optimizan los índices parciales las consultas con filtros frecuentes en Postgres?",
+      "fuente_esperada": "postgresql_indices"
+    },
+    {
+      "pregunta": "¿Qué principio SOLID establece que una subclase debe poder sustituir a su clase base?",
+      "fuente_esperada": "clean_code_solid"
+    },
+    {
+      "pregunta": "¿Cómo ayuda el principio de inversión de dependencias a desacoplar módulos de alto nivel?",
+      "fuente_esperada": "clean_code_solid"
+    },
+    {
+      "pregunta": "¿Por qué el flujo de autorización con PKCE reemplaza al flujo implícito en aplicaciones SPA?",
+      "fuente_esperada": "oauth2_pkce"
+    },
+    {
+      "pregunta": "¿Cómo se calcula el code_challenge a partir del code_verifier en OAuth 2.0?",
+      "fuente_esperada": "oauth2_pkce"
+    },
+    {
+      "pregunta": "¿Cómo expone un servidor MCP herramientas y recursos a los modelos de lenguaje?",
+      "fuente_esperada": "mcp_protocol"
+    },
+    {
+      "pregunta": "¿Qué rol cumplen los prompts registrados en el protocolo Model Context Protocol?",
+      "fuente_esperada": "mcp_protocol"
+    },
+    {
+      "pregunta": "¿Qué estructura de datos utiliza el algoritmo de Dijkstra para seleccionar el nodo más cercano?",
+      "fuente_esperada": "algoritmos_grafos"
+    },
+    {
+      "pregunta": "¿En qué situaciones es preferible una búsqueda en anchura BFS frente a DFS?",
+      "fuente_esperada": "algoritmos_grafos"
+    },
+    {
+      "pregunta": "¿Cómo se define un contexto de contenedor con container-type en CSS moderno?",
+      "fuente_esperada": "css_container_queries"
+    },
+    {
+      "pregunta": "¿Qué diferencia a las unidades cqw de las unidades de viewport vw en estilos responsivos?",
+      "fuente_esperada": "css_container_queries"
+    },
+    {
+      "pregunta": "¿Por qué la recuperación activa genera mayor retención a largo plazo que la relectura pasiva?",
+      "fuente_esperada": "active_recall_spaced_repetition"
+    },
+    {
+      "pregunta": "¿Cómo describe la curva del olvido de Ebbinghaus la tasa de pérdida de memoria en el tiempo?",
+      "fuente_esperada": "active_recall_spaced_repetition"
+    }
+  ]
+}

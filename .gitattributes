@@ -1,0 +1,29 @@
+# Normalización de fin de línea (lección del vault Sistema Maestro):
+# los hooks son bash y DEBEN conservar LF siempre — con CRLF, el shebang
+# y los `\r` finales rompen la ejecución en Git Bash (Windows).
+* text=auto
+*.sh text eol=lf
+.claude/hooks/* text eol=lf
+.githooks/* text eol=lf
+setup.sh text eol=lf
+# cmd.exe lee mal algunos bloques con LF: los .bat van siempre con CRLF
+*.bat text eol=crlf
+
+# ── Archivos append-only: unión en vez de conflicto ──────────────────────────
+# `merge=union` conserva las líneas de AMBOS lados en lugar de marcar conflicto.
+# La bitácora es el hotspot estructural del repo: el Stop hook OBLIGA a escribir
+# al final del archivo, así que dos agentes en worktrees distintos (o dos
+# personas en ramas distintas) chocan SIEMPRE en la última línea.
+#
+# ⚠️ Dos límites: union NO ordena — tras un merge conflictivo, revisá que el
+# orden cronológico siga teniendo sentido — y la UI web de GitHub no lo honra
+# al resolver conflictos en el navegador.
+# NO extender a código ni a specs: ahí el conflicto explícito es lo correcto,
+# porque unir dos versiones de una función produce un archivo que no compila.
+docs/BITACORA.md merge=union
+
+# Librerías de terceros servidas tal cual: sin normalizar fin de línea, para conservar el hash publicado.
+src/aulento/web/static/vendor/** -text
+
+# Esquema OpenAPI exportado: LF canónico para evitar diffs por CRLF entre Windows y CI
+docs/api/openapi.json text eol=lf

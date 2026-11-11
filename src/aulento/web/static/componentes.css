@@ -1,0 +1,438 @@
+/* 072: componentes de Aulento. Catálogo y uso en docs/COMPONENTES.md.
+   Primero el celular; las reglas de la 071 (40 px con el dedo, 12 px de texto, cabeceras que bajan de línea,
+   modales que empiezan arriba) vienen incluidas.
+   Se carga ANTES de Tailwind: a igual especificidad, una utilidad (hidden, md:hidden, border-l-4, flex-row…) pisa
+   al componente, como manda la convención de Tailwind. El reset de Tailwind no lo pisa: usa selectores de elemento. */
+
+/* ---------- Tokens ---------- */
+:root {
+  /* Superficies (de más profunda a más alta) */
+  --au-fondo: #020617;            /* slate-950 */
+  --au-superficie: #0f172a;       /* slate-900 */
+  --au-superficie-alta: #1e293b;  /* slate-800 */
+  --au-superficie-hundida: rgba(2, 6, 23, 0.7);
+  --au-borde: #1e293b;            /* slate-800 */
+  --au-borde-fuerte: #334155;     /* slate-700 */
+
+  /* Texto */
+  --au-texto: #f1f5f9;            /* slate-100 */
+  --au-texto-titulo: #ffffff;
+  --au-texto-suave: #94a3b8;      /* slate-400 */
+  --au-texto-tenue: #64748b;      /* slate-500 */
+
+  /* Tonos: primario, éxito, alerta, peligro, neutro. Cada uno con fuerte, suave (fondo) y borde */
+  --au-primario: #0284c7;         /* sky-600 */
+  --au-primario-hover: #0ea5e9;   /* sky-500 */
+  --au-primario-texto: #38bdf8;   /* sky-400 */
+  --au-primario-suave: rgba(8, 47, 73, 0.7);
+  --au-primario-borde: rgba(7, 89, 133, 0.7);
+  --au-exito: #059669;
+  --au-exito-texto: #34d399;
+  --au-exito-suave: rgba(2, 44, 34, 0.7);
+  --au-exito-borde: rgba(6, 95, 70, 0.7);
+  --au-alerta: #d97706;
+  --au-alerta-texto: #fbbf24;
+  --au-alerta-suave: rgba(69, 26, 3, 0.7);
+  --au-alerta-borde: rgba(146, 64, 14, 0.7);
+  --au-peligro: #e11d48;
+  --au-peligro-hover: #f43f5e;
+  --au-peligro-texto: #fb7185;
+  --au-peligro-suave: rgba(76, 5, 25, 0.7);
+  --au-peligro-borde: rgba(159, 18, 57, 0.7);
+
+  /* Forma */
+  --au-radio-tarjeta: 1.5rem;     /* rounded-3xl */
+  --au-radio-subtarjeta: 1rem;    /* rounded-2xl */
+  --au-radio-control: 0.75rem;    /* rounded-xl */
+  --au-radio-pildora: 9999px;
+
+  /* Espacio */
+  --au-espacio-tarjeta: 1rem;
+  --au-espacio-tarjeta-sm: 1.5rem;
+  --au-hueco: 0.75rem;
+
+  /* Texto: nunca menos de 12 px debajo de sm (071 R7) */
+  --au-texto-xs: 0.75rem;
+  --au-texto-sm: 0.875rem;
+  --au-texto-titulo-tarjeta: 1rem;
+  --au-texto-titulo-tarjeta-sm: 1.125rem;
+
+  /* Controles */
+  --au-alto-control: 2.25rem;     /* 36 px con mouse */
+  --au-alto-control-tactil: 2.5rem; /* 40 px con el dedo (071 R6) */
+}
+
+/* ---------- Tarjeta ---------- */
+.au-tarjeta {
+  background: var(--au-superficie);
+  border: 1px solid var(--au-borde);
+  border-radius: var(--au-radio-tarjeta);
+  padding: var(--au-espacio-tarjeta);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+  box-shadow: 0 10px 25px -10px rgba(2, 6, 23, 0.6);
+}
+@media (min-width: 640px) {
+  .au-tarjeta { padding: var(--au-espacio-tarjeta-sm); }
+}
+.au-tarjeta--interactiva { transition: border-color 0.15s; }
+.au-tarjeta--interactiva:hover { border-color: var(--au-borde-fuerte); }
+.au-tarjeta--destacada {
+  background: linear-gradient(to right, var(--au-superficie), rgba(30, 27, 75, 0.4), var(--au-superficie));
+  border-color: rgba(99, 102, 241, 0.3);
+}
+.au-tarjeta--hundida {
+  background: var(--au-superficie-hundida);
+  border-radius: var(--au-radio-subtarjeta);
+  box-shadow: none;
+  padding: 0.875rem;
+}
+
+/* ---------- Cabecera de tarjeta ---------- */
+/* Ícono fijo a la izquierda; título e insignias bajan de línea; las acciones van abajo si no entran (071). */
+.au-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.au-cabecera--con-linea {
+  border-bottom: 1px solid var(--au-borde);
+  padding-bottom: 0.75rem;
+}
+.au-cabecera__principal {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  flex: 1 1 14rem;
+}
+.au-cabecera__icono {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--au-radio-control);
+  background: var(--au-superficie-alta);
+  font-size: 1.25rem;
+}
+.au-cabecera__textos { min-width: 0; }
+.au-cabecera__titulo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--au-texto-titulo);
+  font-weight: 700;
+  font-size: var(--au-texto-titulo-tarjeta);
+  line-height: 1.3;
+}
+@media (min-width: 640px) {
+  .au-cabecera__titulo { font-size: var(--au-texto-titulo-tarjeta-sm); }
+}
+.au-cabecera__subtitulo {
+  margin: 0.125rem 0 0;
+  color: var(--au-texto-suave);
+  font-size: var(--au-texto-xs);
+  line-height: 1.45;
+}
+.au-cabecera__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ---------- Insignia ---------- */
+.au-insignia {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--au-radio-pildora);
+  border: 1px solid var(--au-borde-fuerte);
+  background: var(--au-superficie-alta);
+  color: var(--au-texto-suave);
+  font-size: var(--au-texto-xs);
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.au-insignia--primario { background: var(--au-primario-suave); border-color: var(--au-primario-borde); color: var(--au-primario-texto); }
+.au-insignia--exito { background: var(--au-exito-suave); border-color: var(--au-exito-borde); color: var(--au-exito-texto); }
+.au-insignia--alerta { background: var(--au-alerta-suave); border-color: var(--au-alerta-borde); color: var(--au-alerta-texto); }
+.au-insignia--peligro { background: var(--au-peligro-suave); border-color: var(--au-peligro-borde); color: var(--au-peligro-texto); }
+.au-insignia--mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+/* ---------- Botón ---------- */
+.au-boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  min-height: var(--au-alto-control);
+  padding: 0.5rem 1rem;
+  border-radius: var(--au-radio-control);
+  border: 1px solid var(--au-borde-fuerte);
+  background: var(--au-superficie-alta);
+  color: var(--au-texto);
+  font-size: var(--au-texto-xs);
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.au-boton:hover { background: var(--au-borde-fuerte); }
+.au-boton:focus-visible { outline: 2px solid var(--au-primario-texto); outline-offset: 2px; }
+.au-boton:disabled, .au-boton[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
+.au-boton--primario { background: var(--au-primario); border-color: transparent; color: #fff; }
+.au-boton--primario:hover { background: var(--au-primario-hover); }
+.au-boton--peligro { background: var(--au-peligro); border-color: transparent; color: #fff; }
+.au-boton--peligro:hover { background: var(--au-peligro-hover); }
+.au-boton--fantasma { background: transparent; border-color: transparent; color: var(--au-texto-suave); }
+/* La variante por defecto, explícita en el marcado */
+.au-boton--secundario { background: var(--au-superficie-alta); }
+/* Teñidos suaves: opciones que comunican un tono sin ser la acción principal (las calificaciones de una tarjeta) */
+.au-boton--suave-primario { background: var(--au-primario-suave); border-color: var(--au-primario-borde); color: var(--au-primario-texto); }
+.au-boton--suave-exito { background: var(--au-exito-suave); border-color: var(--au-exito-borde); color: var(--au-exito-texto); }
+.au-boton--suave-alerta { background: var(--au-alerta-suave); border-color: var(--au-alerta-borde); color: var(--au-alerta-texto); }
+.au-boton--suave-peligro { background: var(--au-peligro-suave); border-color: var(--au-peligro-borde); color: var(--au-peligro-texto); }
+.au-boton--suave-primario:hover, .au-boton--suave-exito:hover, .au-boton--suave-alerta:hover, .au-boton--suave-peligro:hover { filter: brightness(1.25); }
+.au-boton--fantasma:hover { background: var(--au-superficie-alta); color: var(--au-texto-titulo); }
+.au-boton--icono { padding: 0; width: var(--au-alto-control); }
+.au-boton--chico { min-height: 1.75rem; padding: 0.25rem 0.625rem; }
+.au-boton--icono.au-boton--chico { width: 1.75rem; }
+.au-boton--bloque { width: 100%; }
+/* Texto a la izquierda y el ícono final a la derecha (mosaicos de enlaces) */
+.au-boton--extremos { justify-content: space-between; }
+/* Botón que se prende y se apaga (los días de la agenda, los minutos del planificador): el estado va en aria-pressed */
+.au-boton[aria-pressed="true"] { background: var(--au-primario); border-color: transparent; color: #fff; }
+.au-boton[aria-pressed="true"]:hover { background: var(--au-primario-hover); }
+@media (pointer: coarse) {
+  .au-boton { min-height: var(--au-alto-control-tactil); min-width: var(--au-alto-control-tactil); }
+  .au-boton--icono, .au-boton--icono.au-boton--chico { width: var(--au-alto-control-tactil); }
+  .au-boton--chico { min-height: var(--au-alto-control-tactil); }
+}
+
+/* ---------- Pestañas (segmentado) ---------- */
+.au-pestanas {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: var(--au-radio-control);
+  border: 1px solid var(--au-borde);
+  background: var(--au-fondo);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  max-width: 100%;
+}
+.au-pestanas__boton {
+  flex: 0 0 auto;
+  min-height: 2rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: calc(var(--au-radio-control) - 0.25rem);
+  border: 0;
+  background: transparent;
+  color: var(--au-texto-suave);
+  font-size: var(--au-texto-xs);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.au-pestanas__boton:hover { color: var(--au-texto-titulo); }
+.au-pestanas__boton[aria-selected="true"] { background: var(--au-primario); color: #fff; }
+@media (pointer: coarse) {
+  .au-pestanas__boton { min-height: var(--au-alto-control-tactil); }
+}
+
+/* ---------- Campo de formulario ---------- */
+.au-campo { display: flex; flex-direction: column; gap: 0.375rem; min-width: 0; }
+.au-campo__etiqueta { color: var(--au-texto-suave); font-size: var(--au-texto-xs); font-weight: 600; }
+.au-campo__control {
+  width: 100%;
+  min-height: var(--au-alto-control);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--au-radio-control);
+  border: 1px solid var(--au-borde);
+  background: var(--au-fondo);
+  color: var(--au-texto);
+  font-size: var(--au-texto-sm);
+}
+.au-campo__control:focus { outline: none; border-color: var(--au-primario-hover); }
+/* Campo con ícono adentro, a la izquierda: el ícono va en un .au-campo__icono hermano, dentro de un contenedor relative */
+.au-campo__control--con-icono { padding-left: 2.5rem; }
+/* Control que no ocupa todo el ancho: un selector de período en una cabecera */
+.au-campo__control--compacto { width: auto; max-width: 100%; font-size: var(--au-texto-xs); }
+.au-campo__icono { position: absolute; top: 0; bottom: 0; left: 0.875rem; display: flex; align-items: center; pointer-events: none; color: var(--au-texto-tenue); }
+.au-campo__ayuda { color: var(--au-texto-tenue); font-size: var(--au-texto-xs); }
+.au-campo__error { color: var(--au-peligro-texto); font-size: var(--au-texto-xs); }
+@media (pointer: coarse) {
+  .au-campo__control { min-height: var(--au-alto-control-tactil); font-size: 1rem; } /* 16 px: iOS no hace zoom */
+}
+
+/* ---------- Métrica (KPI) ---------- */
+.au-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+  padding: 0.75rem;
+  border-radius: var(--au-radio-subtarjeta);
+  border: 1px solid var(--au-borde);
+  background: var(--au-superficie);
+}
+.au-kpi__etiqueta {
+  color: var(--au-texto-suave);
+  font-size: var(--au-texto-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+}
+.au-kpi__valor { color: var(--au-texto-titulo); font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
+.au-kpi__unidad { color: var(--au-texto-suave); font-size: var(--au-texto-sm); font-weight: 600; margin-left: 0.25rem; }
+.au-kpi__detalle { color: var(--au-texto-suave); font-size: var(--au-texto-xs); }
+
+/* ---------- Barra de progreso ---------- */
+.au-progreso {
+  height: 0.5rem;
+  border-radius: var(--au-radio-pildora);
+  background: var(--au-superficie-alta);
+  overflow: hidden;
+}
+.au-progreso__barra {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--au-primario-hover);
+  transition: width 0.3s;
+}
+.au-progreso--exito .au-progreso__barra { background: var(--au-exito-texto); }
+.au-progreso--alerta .au-progreso__barra { background: var(--au-alerta-texto); }
+.au-progreso--peligro .au-progreso__barra { background: var(--au-peligro-texto); }
+
+/* ---------- Estado vacío ---------- */
+.au-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 2rem 1rem;
+  border: 1px dashed var(--au-borde-fuerte);
+  border-radius: var(--au-radio-subtarjeta);
+  color: var(--au-texto-suave);
+}
+.au-vacio__icono { font-size: 2rem; line-height: 1; }
+.au-vacio__titulo { color: var(--au-texto-titulo); font-weight: 700; font-size: var(--au-texto-sm); margin: 0; }
+.au-vacio__texto { font-size: var(--au-texto-xs); margin: 0; max-width: 28rem; }
+
+/* ---------- Aviso ---------- */
+.au-aviso {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0.875rem 1rem;
+  border-radius: var(--au-radio-subtarjeta);
+  border: 1px solid var(--au-primario-borde);
+  background: var(--au-primario-suave);
+  color: var(--au-texto);
+  font-size: var(--au-texto-xs);
+}
+.au-aviso__icono { flex-shrink: 0; font-size: 1rem; line-height: 1.2; }
+.au-aviso__contenido { flex: 1; min-width: 0; }
+.au-aviso__titulo { display: block; font-weight: 700; font-size: var(--au-texto-sm); margin-bottom: 0.125rem; }
+.au-aviso--exito { border-color: var(--au-exito-borde); background: var(--au-exito-suave); }
+.au-aviso--alerta { border-color: var(--au-alerta-borde); background: var(--au-alerta-suave); }
+.au-aviso--alerta .au-aviso__titulo { color: var(--au-alerta-texto); }
+.au-aviso--peligro { border-color: var(--au-peligro-borde); background: var(--au-peligro-suave); }
+.au-aviso--peligro .au-aviso__titulo { color: var(--au-peligro-texto); }
+
+/* ---------- Fila de lista ---------- */
+.au-fila {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-width: 0;
+  padding: 0.625rem 0.75rem;
+  border-radius: var(--au-radio-control);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--au-texto);
+  text-align: left;
+}
+button.au-fila, a.au-fila { cursor: pointer; }
+button.au-fila:hover, a.au-fila:hover { background: var(--au-superficie-alta); }
+.au-fila[aria-current="true"], .au-fila--activa { border-color: var(--au-primario-borde); background: var(--au-primario-suave); }
+.au-fila__contenido { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.125rem; }
+.au-fila__titulo { font-size: var(--au-texto-sm); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.au-fila__detalle { font-size: var(--au-texto-xs); color: var(--au-texto-suave); }
+.au-fila__acciones { display: flex; flex-shrink: 0; gap: 0.25rem; }
+@media (pointer: coarse) {
+  .au-fila { min-height: 3rem; }
+}
+
+/* ---------- Modal ---------- */
+/* La capa ocupa la pantalla y se desplaza; la caja empieza arriba si es más alta que la pantalla (071 R5). */
+.au-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1rem 0.5rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+}
+.au-modal[hidden] { display: none; }
+.au-modal__caja {
+  position: relative;
+  margin: auto 0;
+  width: 100%;
+  max-width: 32rem;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--au-radio-tarjeta);
+  border: 1px solid var(--au-borde);
+  background: var(--au-superficie);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+}
+.au-modal__caja--ancha { max-width: 48rem; }
+.au-modal__caja--angosta { max-width: 24rem; }
+.au-modal__cabecera {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1rem 0.75rem;
+  border-bottom: 1px solid var(--au-borde);
+}
+.au-modal__titulo { margin: 0; color: var(--au-texto-titulo); font-weight: 700; font-size: var(--au-texto-titulo-tarjeta); }
+.au-modal__cuerpo { padding: 1rem; display: flex; flex-direction: column; gap: 1rem; }
+.au-modal__pie {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem 1rem;
+  border-top: 1px solid var(--au-borde);
+}
+@media (min-width: 640px) {
+  /* Sin align-items: center: la caja se centra con margin auto y, si es más alta que la pantalla, empieza arriba */
+  .au-modal { padding: 2rem 1rem; }
+  .au-modal__cabecera { padding: 1.25rem 1.5rem 1rem; }
+  .au-modal__cuerpo { padding: 1.25rem 1.5rem; }
+  .au-modal__pie { padding: 1rem 1.5rem 1.25rem; }
+}
+body.au-modal-abierto { overflow: hidden; }

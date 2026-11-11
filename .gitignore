@@ -1,0 +1,52 @@
+# ─── Secretos y credenciales (NUNCA a git) — pegar en el .gitignore del proyecto ───
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+*.ppk
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+credentials.json
+client_secret_*.json
+*token*.json
+gdrive_token.json
+token_gdrive.json
+mcp_config.json
+.study-engine/
+.aulento/
+*.egg-info/
+.aws/credentials
+secrets.json
+secrets.yaml
+secrets.yml
+
+# ─── Bases de datos locales (SQLite y locks) ───
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+*.sqlite-wal
+# Config local de Claude Code (permisos personales; no se comparte)
+.claude/settings.local.json
+# Python bytecode
+__pycache__/
+*.pyc
+# ─── Artefactos comunes (ajustar al stack en el kickoff) ───
+node_modules/
+dist/
+build/
+.venv/
+venv/
+# Grafo de conocimiento del repo (graphify, local)
+graphify-out/
+# Marcas de sesión y kill-switches de los hooks (local, nunca a git)
+# OJO: repo.conf NO va acá — el modo del repo es compartido y se versiona.
+.repo-meta/
+
+# Material de trabajo de archify: su caché guarda datos de las rutas
+.archify/
