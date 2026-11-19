@@ -437,6 +437,7 @@ POR_IDENTIFICADOR = {
     "CursoRepository.update": lambda s, x: s.cursos.update(x.curso, CursoUpdate(nombre_curso="Tomado")),
     "LibroRepository.get_by_id": lambda s, x: s.libros.get_by_id(x.libro),
     "LibroRepository.find_by_title": lambda s, x: s.libros.find_by_title(x.titulo_libro),
+    "LibroRepository.buscar_por_titulo": lambda s, x: s.libros.buscar_por_titulo(x.titulo_libro),
     "LibroRepository.update_progress": lambda s, x: s.libros.update_progress(x.libro, pagina_actual=1),
     "LibroRepository.advance_chapter": lambda s, x: s.libros.advance_chapter(x.libro),
     "LibroRepository.delete": lambda s, x: s.libros.delete(x.libro),

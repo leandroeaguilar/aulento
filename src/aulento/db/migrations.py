@@ -336,6 +336,30 @@ def _migracion_tokens_de_alcance(conn: sqlite3.Connection) -> None:
     conn.execute("CREATE INDEX idx_tokens_de_alcance_cuenta ON tokens_de_alcance(user_id, alcance);")
 
 
+def _migracion_libros_autor_y_avances(conn: sqlite3.Connection) -> None:
+    """Repara páginas que superan el total, agrega autor a libros y crea la tabla avances_de_lectura."""
+    conn.execute(
+        """
+        UPDATE libros_lectura
+        SET pagina_actual = total_paginas
+        WHERE total_paginas IS NOT NULL AND pagina_actual > total_paginas;
+        """
+    )
+    conn.execute("ALTER TABLE libros_lectura ADD COLUMN autor TEXT DEFAULT NULL;")
+    conn.execute(
+        """
+        CREATE TABLE avances_de_lectura (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+            libro_id INTEGER REFERENCES libros_lectura(id) ON DELETE SET NULL,
+            paginas INTEGER NOT NULL CHECK(paginas > 0),
+            registrado_en TEXT NOT NULL
+        );
+        """
+    )
+    conn.execute("CREATE INDEX idx_avances_de_lectura_cuenta ON avances_de_lectura(user_id, registrado_en);")
+
+
 MIGRACIONES: list[Migracion] = [
     (1, "esquema_base", _migracion_esquema_base),
     (2, "cuentas_y_sesiones", _migracion_cuentas),
@@ -348,6 +372,7 @@ MIGRACIONES: list[Migracion] = [
     (9, "demo_siembra", _migracion_reservada_de_la_demo),
     (10, "hashes_indexados", _migracion_hashes_indexados),
     (11, "tokens_de_alcance", _migracion_tokens_de_alcance),
+    (12, "libros_autor_y_avances", _migracion_libros_autor_y_avances),
 ]
 
 

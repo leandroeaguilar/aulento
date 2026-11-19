@@ -8,6 +8,7 @@ from aulento.auth.dependencias import usuario_de_token_de_alcance
 from aulento.connectors.google_calendar import GoogleCalendarConnector, zona_valida
 from aulento.core import tokens_de_alcance
 from aulento.core.secretos import AjustesDeCuenta
+from aulento.core.zona_horaria import AJUSTE_ZONA_HORARIA
 from aulento.db.repository import BloqueHorarioRepository
 from aulento.models.horario import (
     BloqueHorario,
@@ -27,8 +28,6 @@ router = APIRouter(prefix="/api/schedule", tags=["Schedule"])
 # Sin sesión: la cuenta sale del token del feed, que solo sirve para leer el calendario (feature 061, R2)
 feed_publico = APIRouter(prefix="/api/schedule", tags=["Schedule"])
 
-# Ajuste de la cuenta con su zona horaria IANA; sin él, la zona por defecto del conector
-AJUSTE_ZONA_HORARIA = "zona_horaria"
 
 
 def _zona_de_la_cuenta(conn: sqlite3.Connection, user_id: int) -> str:

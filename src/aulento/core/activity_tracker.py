@@ -1,22 +1,22 @@
 """Servidor y agregador unificado de métricas de consistencia y Heatmap de Actividad.
 
-Consolida por fecha minutos de estudio, páginas leídas, tarjetas FSRS repasadas
+Consolida por fecha local minutos de estudio, páginas leídas, tarjetas FSRS repasadas
 y temas de rutas completados, calculando scores de consistencia, niveles de intensidad (0-4)
-y rachas de estudio activas y récord.
+y rachas de estudio activas y récord en la zona horaria de la cuenta.
 """
 
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone, tzinfo
 import logging
 import sqlite3
-from typing import Any
 
 from aulento.config import get_db_path
+from aulento.core.zona_horaria import fecha_local, fecha_local_str, zona_de_la_cuenta
 from aulento.db.connection import get_connection
 from aulento.db.cuenta import exigir_cuenta
 from aulento.models.macro_fsrs import (
     ActivityDay,
-    StreakInfo,
     ActivityHeatmapResponse,
+    StreakInfo,
 )
 
 logger = logging.getLogger(__name__)
@@ -36,10 +36,17 @@ _REPASOS_DE_TEMAS = (
 class ActivityTracker:
     """Motor de métricas diarias de consistencia y análisis de hábitos de estudio de una cuenta."""
 
-    def __init__(self, user_id: int, db_path: str | None = None, conn: sqlite3.Connection | None = None):
+    def __init__(
+        self,
+        user_id: int,
+        db_path: str | None = None,
+        conn: sqlite3.Connection | None = None,
+        zona: tzinfo | None = None,
+    ):
         self.user_id = exigir_cuenta(user_id)
         self.db_path = db_path or get_db_path()
         self._external_conn = conn
+        self._zona = zona
 
     def _get_conn(self) -> sqlite3.Connection:
         if self._external_conn:
@@ -49,81 +56,128 @@ class ActivityTracker:
         create_schema(conn)
         return conn
 
-    def get_heatmap(self, days: int = 90, reference_date: date | None = None) -> ActivityHeatmapResponse:
-        """Obtiene la serie temporal completa de actividad y las estadísticas de racha."""
-        if reference_date is None:
-            reference_date = date.today()
+    def _obtener_zona(self, conn: sqlite3.Connection) -> tzinfo:
+        if self._zona is not None:
+            return self._zona
+        return zona_de_la_cuenta(conn, self.user_id)
 
-        start_date = reference_date - timedelta(days=days - 1)
-        start_str = start_date.isoformat()
-        end_str = reference_date.isoformat()
-
+    @property
+    def zona(self) -> tzinfo:
+        if self._zona is not None:
+            return self._zona
         conn = self._get_conn()
         try:
+            return zona_de_la_cuenta(conn, self.user_id)
+        finally:
+            if not self._external_conn:
+                conn.close()
+
+    def get_heatmap(self, days: int = 90, reference_date: date | None = None) -> ActivityHeatmapResponse:
+        """Obtiene la serie temporal completa de actividad y las estadísticas de racha."""
+        conn = self._get_conn()
+        try:
+            zona = self._obtener_zona(conn)
+            if reference_date is None:
+                reference_date = datetime.now(zona).date()
+
+            start_date = reference_date - timedelta(days=days - 1)
+            start_str = start_date.isoformat()
+            end_str = reference_date.isoformat()
+
+            # Rango SQL ampliado un día de cada lado para cubrir desfases horarios entre UTC y la zona local
+            sql_start_str = (start_date - timedelta(days=1)).isoformat()
+            sql_end_str = (reference_date + timedelta(days=1)).isoformat()
+
             cursor = conn.cursor()
 
             # 1. Minutos de sesiones de estudio reales (Pomodoro / Focus)
             cursor.execute(
                 """
-                SELECT substr(fecha_hora, 1, 10) as dia, SUM(duracion_minutos) as total_min
+                SELECT fecha_hora, duracion_minutos
                 FROM sesiones_estudio
-                WHERE user_id = ? AND substr(fecha_hora, 1, 10) >= ? AND substr(fecha_hora, 1, 10) <= ?
-                GROUP BY dia;
+                WHERE user_id = ? AND substr(fecha_hora, 1, 10) >= ? AND substr(fecha_hora, 1, 10) <= ?;
                 """,
-                (self.user_id, start_str, end_str),
+                (self.user_id, sql_start_str, sql_end_str),
             )
-            minutes_by_day = {row["dia"]: int(row["total_min"] or 0) for row in cursor.fetchall()}
+            minutes_by_day: dict[str, int] = {}
+            for row in cursor.fetchall():
+                if not row["fecha_hora"]:
+                    continue
+                d = fecha_local_str(row["fecha_hora"], zona)
+                if start_str <= d <= end_str:
+                    minutes_by_day[d] = minutes_by_day.get(d, 0) + int(row["duracion_minutos"] or 0)
 
             # 2. Tarjetas FSRS repasadas (Inglés y Conceptos)
             cursor.execute(
                 f"""
-                SELECT substr(l.review_datetime, 1, 10) as dia, COUNT(l.id) as total_cards
+                SELECT l.review_datetime
                 FROM {_REPASOS_DE_TARJETAS}
-                WHERE i.user_id = ? AND substr(l.review_datetime, 1, 10) >= ? AND substr(l.review_datetime, 1, 10) <= ?
-                GROUP BY dia;
+                WHERE i.user_id = ? AND substr(l.review_datetime, 1, 10) >= ? AND substr(l.review_datetime, 1, 10) <= ?;
                 """,
-                (self.user_id, start_str, end_str),
+                (self.user_id, sql_start_str, sql_end_str),
             )
-            fsrs_by_day = {row["dia"]: int(row["total_cards"] or 0) for row in cursor.fetchall()}
+            fsrs_by_day: dict[str, int] = {}
+            for row in cursor.fetchall():
+                if not row["review_datetime"]:
+                    continue
+                d = fecha_local_str(row["review_datetime"], zona)
+                if start_str <= d <= end_str:
+                    fsrs_by_day[d] = fsrs_by_day.get(d, 0) + 1
 
             # 3. Revisiones macro FSRS de temas
             cursor.execute(
                 f"""
-                SELECT substr(v.review_time, 1, 10) as dia, COUNT(v.id) as total_rev
+                SELECT v.review_time
                 FROM {_REPASOS_DE_TEMAS}
-                WHERE a.user_id = ? AND substr(v.review_time, 1, 10) >= ? AND substr(v.review_time, 1, 10) <= ?
-                GROUP BY dia;
+                WHERE a.user_id = ? AND substr(v.review_time, 1, 10) >= ? AND substr(v.review_time, 1, 10) <= ?;
                 """,
-                (self.user_id, start_str, end_str),
+                (self.user_id, sql_start_str, sql_end_str),
             )
             for row in cursor.fetchall():
-                d = row["dia"]
-                fsrs_by_day[d] = fsrs_by_day.get(d, 0) + int(row["total_rev"] or 0)
+                if not row["review_time"]:
+                    continue
+                d = fecha_local_str(row["review_time"], zona)
+                if start_str <= d <= end_str:
+                    fsrs_by_day[d] = fsrs_by_day.get(d, 0) + 1
 
             # 4. Temas completados del Roadmap
             cursor.execute(
                 f"""
-                SELECT substr(t.fecha_actualizacion, 1, 10) as dia, COUNT(t.id) as total_topics
+                SELECT t.fecha_actualizacion
                 FROM {_TEMAS_DE_RUTAS}
                 WHERE a.user_id = ? AND t.estado = 'completado'
-                  AND substr(t.fecha_actualizacion, 1, 10) >= ? AND substr(t.fecha_actualizacion, 1, 10) <= ?
-                GROUP BY dia;
+                  AND substr(t.fecha_actualizacion, 1, 10) >= ? AND substr(t.fecha_actualizacion, 1, 10) <= ?;
                 """,
-                (self.user_id, start_str, end_str),
+                (self.user_id, sql_start_str, sql_end_str),
             )
-            topics_by_day = {row["dia"]: int(row["total_topics"] or 0) for row in cursor.fetchall()}
+            topics_by_day: dict[str, int] = {}
+            for row in cursor.fetchall():
+                if not row["fecha_actualizacion"]:
+                    continue
+                d = fecha_local_str(row["fecha_actualizacion"], zona)
+                if start_str <= d <= end_str:
+                    topics_by_day[d] = topics_by_day.get(d, 0) + 1
 
-            # 5. Páginas leídas estimadas o actualizadas
-            cursor.execute(
-                """
-                SELECT substr(fecha_actualizacion, 1, 10) as dia, SUM(pagina_actual) as paginas
-                FROM libros_lectura
-                WHERE user_id = ? AND substr(fecha_actualizacion, 1, 10) >= ? AND substr(fecha_actualizacion, 1, 10) <= ?
-                GROUP BY dia;
-                """,
-                (self.user_id, start_str, end_str),
-            )
-            pages_by_day = {row["dia"]: int(row["paginas"] or 0) for row in cursor.fetchall()}
+            # 5. Páginas leídas por día desde avances_de_lectura (decisión 4)
+            pages_by_day: dict[str, int] = {}
+            try:
+                cursor.execute(
+                    """
+                    SELECT registrado_en, paginas
+                    FROM avances_de_lectura
+                    WHERE user_id = ? AND substr(registrado_en, 1, 10) >= ? AND substr(registrado_en, 1, 10) <= ?;
+                    """,
+                    (self.user_id, sql_start_str, sql_end_str),
+                )
+                for row in cursor.fetchall():
+                    if not row["registrado_en"]:
+                        continue
+                    d = fecha_local_str(row["registrado_en"], zona)
+                    if start_str <= d <= end_str:
+                        pages_by_day[d] = pages_by_day.get(d, 0) + int(row["paginas"] or 0)
+            except sqlite3.OperationalError:
+                # Si la base aún no tiene la migración 12 de avances de lectura
+                pass
 
             # Construir la cuadrícula completa día por día
             days_list: list[ActivityDay] = []
@@ -163,7 +217,7 @@ class ActivityTracker:
                 )
                 curr += timedelta(days=1)
 
-            streak_info = self._calculate_streaks(reference_date)
+            streak_info = self._calculate_streaks(reference_date, zona=zona)
 
             return ActivityHeatmapResponse(
                 days=days_list,
@@ -174,29 +228,31 @@ class ActivityTracker:
             if not self._external_conn:
                 conn.close()
 
-    def _calculate_streaks(self, reference_date: date) -> StreakInfo:
-        """Calcula la racha actual y récord histórico recorriendo los días activos."""
+    def _calculate_streaks(self, reference_date: date, zona: tzinfo | None = None) -> StreakInfo:
+        """Calcula la racha actual y récord histórico recorriendo los días activos en la zona de la cuenta."""
         conn = self._get_conn()
         try:
+            if zona is None:
+                zona = self._obtener_zona(conn)
             cursor = conn.cursor()
 
             # Recolectar todos los días con actividad histórica (minutos, tarjetas o temas)
+            # Decisión 5: la racha no suma lectura
             query = f"""
-            SELECT DISTINCT dia FROM (
-                SELECT substr(fecha_hora, 1, 10) as dia FROM sesiones_estudio
-                WHERE user_id = ? AND duracion_minutos > 0
-                UNION
-                SELECT substr(l.review_datetime, 1, 10) as dia FROM {_REPASOS_DE_TARJETAS} WHERE i.user_id = ?
-                UNION
-                SELECT substr(v.review_time, 1, 10) as dia FROM {_REPASOS_DE_TEMAS} WHERE a.user_id = ?
-                UNION
-                SELECT substr(t.fecha_actualizacion, 1, 10) as dia FROM {_TEMAS_DE_RUTAS}
+            SELECT fecha_hora FROM (
+                SELECT fecha_hora FROM sesiones_estudio WHERE user_id = ? AND duracion_minutos > 0
+                UNION ALL
+                SELECT l.review_datetime FROM {_REPASOS_DE_TARJETAS} WHERE i.user_id = ?
+                UNION ALL
+                SELECT v.review_time FROM {_REPASOS_DE_TEMAS} WHERE a.user_id = ?
+                UNION ALL
+                SELECT t.fecha_actualizacion FROM {_TEMAS_DE_RUTAS}
                 WHERE a.user_id = ? AND t.estado = 'completado'
-            ) ORDER BY dia ASC;
+            ) WHERE fecha_hora IS NOT NULL;
             """
             cursor.execute(query, (self.user_id,) * 4)
             active_dates_set = {
-                datetime.strptime(row[0], "%Y-%m-%d").date()
+                fecha_local(row[0], zona)
                 for row in cursor.fetchall()
                 if row[0]
             }
@@ -253,6 +309,7 @@ class ActivityTracker:
             )
             total_topics = int(cursor.fetchone()[0] or 0)
 
+            # Decisión 4: StreakInfo.total_pages_read sigue siendo la suma de pagina_actual
             cursor.execute(
                 "SELECT COALESCE(SUM(pagina_actual), 0) FROM libros_lectura WHERE user_id = ?;", (self.user_id,)
             )

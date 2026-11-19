@@ -180,7 +180,7 @@ def update_course_progress(course_id: int, data: ProgressUpdateRequest, c_repo: 
     if not c_repo.get_by_id(course_id):
         raise no_encontrado("Curso", course_id)
 
-    updated = c_repo.update_progress(course_id, data.progreso_pct)
+    updated = c_repo.update_progress(course_id, data.progreso_pct, data.estado)
     if not updated:
         raise HTTPException(status_code=500, detail="No se pudo actualizar el progreso.")
     return updated

@@ -343,6 +343,14 @@ EXCEPCIONES: dict[tuple[str, str, str], str] = {
         "administrador activo más antiguo. Solo alcanza filas sin dueño: no toca las de ninguna cuenta."
     ),
     (
+        MIGRACIONES,
+        "_migracion_libros_autor_y_avances",
+        "UPDATE libros_lectura SET pagina_actual = total_paginas WHERE total_paginas IS NOT NULL AND pagina_actual > total_paginas;",
+    ): (
+        "Migración 12 (decisión 3): repara filas históricas de libros_lectura con pagina_actual > total_paginas "
+        "ajustándolas al total de páginas antes de que se use el esquema. Es una corrección global de esquema de una sola vez."
+    ),
+    (
         "aulento/auth/repositorio.py",
         "RepositorioAuth.reclamar_datos_sin_dueno",
         f"UPDATE {ABRE}tabla{CIERRA} SET user_id = ? WHERE user_id IS NULL;",

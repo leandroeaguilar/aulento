@@ -1,6 +1,7 @@
 """Repositorios de acceso a datos para Plataformas, Cursos, Libros y Horarios."""
 
 import sqlite3
+from datetime import UTC, datetime
 
 from aulento.core import permisos
 from aulento.db.cuenta import exigir_cuenta
@@ -175,7 +176,7 @@ class CursoRepository:
             query += " AND c.estado = ?"
             params.append(estado.value)
 
-        query += " ORDER BY c.prioridad ASC, c.progreso_pct DESC;"
+        query += " ORDER BY CASE c.prioridad WHEN 'alta' THEN 0 WHEN 'media' THEN 1 WHEN 'baja' THEN 2 ELSE 3 END, c.progreso_pct DESC;"
         cursor.execute(query, params)
         return [Curso(**dict(row)) for row in cursor.fetchall()]
 
@@ -402,6 +403,39 @@ class CursoRepository:
         }
 
 
+def _validar_progreso_libro(
+    pagina: int,
+    total_paginas: int | None,
+    capitulo: int,
+    total_capitulos: int | None,
+) -> None:
+    """Valida la coherencia de páginas y capítulos antes de escribir en la base."""
+    if pagina < 0 or capitulo < 0:
+        raise ValueError("La página y el capítulo no pueden ser negativos.")
+    if total_paginas is not None and total_paginas <= 0:
+        raise ValueError("El total de páginas debe ser mayor a 0.")
+    if total_capitulos is None or total_capitulos <= 0:
+        raise ValueError("El total de capítulos debe ser mayor a 0.")
+    if total_paginas is not None and pagina > total_paginas:
+        raise ValueError(f"La página {pagina} supera el total de páginas del libro ({total_paginas}).")
+    if capitulo > total_capitulos:
+        raise ValueError(f"El capítulo {capitulo} supera el total de capítulos del libro ({total_capitulos}).")
+
+
+def _esta_completado(
+    pagina: int,
+    total_paginas: int | None,
+    capitulo: int,
+    total_capitulos: int | None,
+) -> bool:
+    """Calcula si un libro alcanzó el 100% de lectura según páginas si se conocen, o capítulos si no."""
+    if total_paginas and total_paginas > 0:
+        return pagina >= total_paginas
+    if total_capitulos and total_capitulos > 0:
+        return capitulo >= total_capitulos
+    return False
+
+
 class LibroRepository:
     def __init__(self, conn: sqlite3.Connection, user_id: int):
         self.conn = conn
@@ -411,10 +445,10 @@ class LibroRepository:
         cursor = self.conn.cursor()
         query = """
         INSERT INTO libros_lectura (
-            user_id, titulo, capitulo_actual, total_capitulos, pagina_actual, total_paginas,
+            user_id, titulo, autor, capitulo_actual, total_capitulos, pagina_actual, total_paginas,
             ruta_vault, estado, google_books_id, fuente_sincronizacion, ultima_sincronizacion
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         RETURNING *;
         """
         cursor.execute(
@@ -422,6 +456,7 @@ class LibroRepository:
             (
                 self.user_id,
                 l.titulo,
+                l.autor,
                 l.capitulo_actual,
                 l.total_capitulos,
                 l.pagina_actual,
@@ -461,6 +496,28 @@ class LibroRepository:
             )
             row = cursor.fetchone()
         return Libro(**dict(row)) if row else None
+
+    def buscar_por_titulo(self, titulo: str) -> list[Libro]:
+        """Busca libros por coincidencias exactas (case-insensitive) o, si no hay ninguna, parciales."""
+        t_clean = (titulo or "").strip()
+        if not t_clean:
+            return []
+
+        cursor = self.conn.cursor()
+        cursor.execute(
+            "SELECT * FROM libros_lectura WHERE LOWER(titulo) = LOWER(?) AND user_id = ? ORDER BY id ASC;",
+            (t_clean, self.user_id),
+        )
+        exactas = [Libro(**dict(row)) for row in cursor.fetchall()]
+        if exactas:
+            return exactas
+
+        t_escapado = t_clean.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+        cursor.execute(
+            "SELECT * FROM libros_lectura WHERE LOWER(titulo) LIKE LOWER(?) ESCAPE '\\' AND user_id = ? ORDER BY id ASC;",
+            (f"%{t_escapado}%", self.user_id),
+        )
+        return [Libro(**dict(row)) for row in cursor.fetchall()]
 
     def find_by_google_books_id(self, google_books_id: str) -> Libro | None:
         """Busca un libro por su ID de volumen de Google Books."""
@@ -524,24 +581,13 @@ class LibroRepository:
         new_total_cap = total_capitulos if total_capitulos is not None else libro.total_capitulos
 
         # Validar antes de escribir: un valor inválido dejaría la fila ilegible para el modelo
-        if new_pag < 0 or new_cap < 0:
-            raise ValueError("La página y el capítulo no pueden ser negativos.")
-        if new_total_pag is not None and new_total_pag <= 0:
-            raise ValueError("El total de páginas debe ser mayor a 0.")
-        if new_total_cap is None or new_total_cap <= 0:
-            raise ValueError("El total de capítulos debe ser mayor a 0.")
-        if new_total_pag is not None and new_pag > new_total_pag:
-            raise ValueError(f"La página {new_pag} supera el total de páginas del libro ({new_total_pag}).")
-        if new_cap > new_total_cap:
-            raise ValueError(f"El capítulo {new_cap} supera el total de capítulos del libro ({new_total_cap}).")
+        _validar_progreso_libro(new_pag, new_total_pag, new_cap, new_total_cap)
 
         # Determinar estado
         if estado:
             new_estado = estado.value if isinstance(estado, EstadoLibro) else str(estado)
         else:
-            is_complete = False
-            if new_total_pag and new_pag >= new_total_pag or new_total_cap and new_cap >= new_total_cap:
-                is_complete = True
+            is_complete = _esta_completado(new_pag, new_total_pag, new_cap, new_total_cap)
             new_estado = EstadoLibro.COMPLETADO.value if is_complete else libro.estado.value
 
         new_fuente = fuente_sincronizacion if fuente_sincronizacion is not None else libro.fuente_sincronizacion
@@ -566,6 +612,14 @@ class LibroRepository:
             query,
             (new_pag, new_total_pag, new_cap, new_total_cap, new_estado, new_fuente, new_sync, new_gbooks, id, self.user_id),
         )
+        if new_pag > libro.pagina_actual:
+            cursor.execute(
+                """
+                INSERT INTO avances_de_lectura (user_id, libro_id, paginas, registrado_en)
+                VALUES (?, ?, ?, ?);
+                """,
+                (self.user_id, id, new_pag - libro.pagina_actual, datetime.now(UTC).isoformat()),
+            )
         self.conn.commit()
         return self.get_by_id(id)
 
@@ -577,7 +631,8 @@ class LibroRepository:
         nuevo_cap = libro.capitulo_actual + chapters
         nuevo_cap = min(nuevo_cap, libro.total_capitulos)
 
-        nuevo_estado = EstadoLibro.COMPLETADO.value if nuevo_cap >= libro.total_capitulos else libro.estado.value
+        is_complete = _esta_completado(libro.pagina_actual, libro.total_paginas, nuevo_cap, libro.total_capitulos)
+        nuevo_estado = EstadoLibro.COMPLETADO.value if is_complete else libro.estado.value
 
         cursor = self.conn.cursor()
         query = """
@@ -601,27 +656,65 @@ class LibroRepository:
         libro = self.get_by_id(id)
         if not libro:
             return None
+
+        # Campos no anulables: siguen ignorando null
         new_tit = l.titulo if l.titulo is not None else libro.titulo
         new_cap = l.capitulo_actual if l.capitulo_actual is not None else libro.capitulo_actual
         new_tot_cap = l.total_capitulos if l.total_capitulos is not None else libro.total_capitulos
         new_pag = l.pagina_actual if l.pagina_actual is not None else libro.pagina_actual
-        new_tot_pag = l.total_paginas if l.total_paginas is not None else libro.total_paginas
-        new_vault = l.ruta_vault if l.ruta_vault is not None else libro.ruta_vault
-        new_st = l.estado.value if l.estado else (libro.estado.value if hasattr(libro.estado, "value") else str(libro.estado))
-        new_gbooks = l.google_books_id if l.google_books_id is not None else libro.google_books_id
-        new_fuente = l.fuente_sincronizacion if l.fuente_sincronizacion is not None else libro.fuente_sincronizacion
-        new_sync = str(l.ultima_sincronizacion) if l.ultima_sincronizacion is not None else libro.ultima_sincronizacion
+        new_st = (
+            l.estado.value
+            if l.estado
+            else (libro.estado.value if hasattr(libro.estado, "value") else str(libro.estado))
+        )
+
+        # Campos anulables: se actualizan si vinieron en el pedido aunque su valor sea None
+        fields_set = getattr(l, "model_fields_set", set())
+        new_aut = l.autor if "autor" in fields_set else libro.autor
+        new_tot_pag = l.total_paginas if "total_paginas" in fields_set else libro.total_paginas
+        new_vault = l.ruta_vault if "ruta_vault" in fields_set else libro.ruta_vault
+        new_gbooks = l.google_books_id if "google_books_id" in fields_set else libro.google_books_id
+        new_fuente = l.fuente_sincronizacion if "fuente_sincronizacion" in fields_set else libro.fuente_sincronizacion
+        if "ultima_sincronizacion" in fields_set:
+            new_sync = str(l.ultima_sincronizacion) if l.ultima_sincronizacion is not None else None
+        else:
+            new_sync = libro.ultima_sincronizacion
+
+        _validar_progreso_libro(new_pag, new_tot_pag, new_cap, new_tot_cap)
+
         cursor = self.conn.cursor()
         cursor.execute(
             """
             UPDATE libros_lectura
-            SET titulo = ?, capitulo_actual = ?, total_capitulos = ?, pagina_actual = ?, total_paginas = ?,
+            SET titulo = ?, autor = ?, capitulo_actual = ?, total_capitulos = ?, pagina_actual = ?, total_paginas = ?,
                 ruta_vault = ?, estado = ?, google_books_id = ?, fuente_sincronizacion = ?,
                 ultima_sincronizacion = ?, fecha_actualizacion = CURRENT_TIMESTAMP
             WHERE id = ? AND user_id = ?;
             """,
-            (new_tit, new_cap, new_tot_cap, new_pag, new_tot_pag, new_vault, new_st, new_gbooks, new_fuente, new_sync, id, self.user_id),
+            (
+                new_tit,
+                new_aut,
+                new_cap,
+                new_tot_cap,
+                new_pag,
+                new_tot_pag,
+                new_vault,
+                new_st,
+                new_gbooks,
+                new_fuente,
+                new_sync,
+                id,
+                self.user_id,
+            ),
         )
+        if new_pag > libro.pagina_actual:
+            cursor.execute(
+                """
+                INSERT INTO avances_de_lectura (user_id, libro_id, paginas, registrado_en)
+                VALUES (?, ?, ?, ?);
+                """,
+                (self.user_id, id, new_pag - libro.pagina_actual, datetime.now(UTC).isoformat()),
+            )
         self.conn.commit()
         return self.get_by_id(id)
 

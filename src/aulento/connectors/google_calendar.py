@@ -20,14 +20,24 @@ ZONA_POR_DEFECTO = "America/Argentina/Buenos_Aires"
 
 
 def zona_valida(nombre: str | None) -> str:
-    """La zona IANA pedida si existe; si no, la zona por defecto."""
-    if nombre and isinstance(nombre, str):
-        try:
-            ZoneInfo(nombre)
-            return nombre
-        except (ZoneInfoNotFoundError, ValueError):
-            pass
-    return ZONA_POR_DEFECTO
+    """La zona IANA pedida si existe; si no, la zona por defecto o UTC si ninguna carga."""
+    for candidata in (nombre, ZONA_POR_DEFECTO, "UTC"):
+        if candidata and isinstance(candidata, str):
+            try:
+                ZoneInfo(candidata)
+                return candidata
+            except (ZoneInfoNotFoundError, ValueError, KeyError):
+                pass
+    return "UTC"
+
+
+def _tzinfo_o_utc(nombre: str | None) -> Any:
+    """Devuelve el tzinfo correspondiente a la zona IANA o UTC si ninguna zona carga."""
+    zona_str = zona_valida(nombre)
+    try:
+        return ZoneInfo(zona_str)
+    except (ZoneInfoNotFoundError, ValueError, KeyError):
+        return UTC
 
 
 def _desfase(minutos: int) -> str:
@@ -41,23 +51,29 @@ def _bloque_vtimezone(zona: str, anio: int) -> list[str]:
 
     Una zona con cambio de horario se identifica solo por su nombre IANA en `TZID`, que Google Calendar,
     Apple Calendar y Outlook reconocen: describir sus reglas de cambio a mano sería un error esperando pasar.
+    Si la zona es UTC o ninguna zona IANA carga en el sistema, no se emite bloque `VTIMEZONE`.
     """
-    tz = ZoneInfo(zona)
-    enero = datetime(anio, 1, 1, 12, tzinfo=tz).utcoffset()
-    julio = datetime(anio, 7, 1, 12, tzinfo=tz).utcoffset()
-    if enero is None or enero != julio:
+    if zona.upper() == "UTC":
         return []
-    desfase = _desfase(int(enero.total_seconds() // 60))
-    return [
-        "BEGIN:VTIMEZONE",
-        f"TZID:{zona}",
-        "BEGIN:STANDARD",
-        "DTSTART:19700101T000000",
-        f"TZOFFSETFROM:{desfase}",
-        f"TZOFFSETTO:{desfase}",
-        "END:STANDARD",
-        "END:VTIMEZONE",
-    ]
+    try:
+        tz = ZoneInfo(zona)
+        enero = datetime(anio, 1, 1, 12, tzinfo=tz).utcoffset()
+        julio = datetime(anio, 7, 1, 12, tzinfo=tz).utcoffset()
+        if enero is None or enero != julio:
+            return []
+        desfase = _desfase(int(enero.total_seconds() // 60))
+        return [
+            "BEGIN:VTIMEZONE",
+            f"TZID:{zona}",
+            "BEGIN:STANDARD",
+            "DTSTART:19700101T000000",
+            f"TZOFFSETFROM:{desfase}",
+            f"TZOFFSETTO:{desfase}",
+            "END:STANDARD",
+            "END:VTIMEZONE",
+        ]
+    except (ZoneInfoNotFoundError, ValueError, KeyError):
+        return []
 
 
 DAY_MAP_ICAL: dict[int, str] = {
@@ -99,7 +115,7 @@ class GoogleCalendarConnector:
 
         Sin `ref_date`, "hoy" es el de la zona (la del servidor puede ir otro día por delante).
         """
-        ref = ref_date or datetime.now(ZoneInfo(zona_valida(zona))).date()
+        ref = ref_date or datetime.now(_tzinfo_o_utc(zona)).date()
         # isoweekday: 1=Lunes, 7=Domingo
         days_ahead = (dia_semana - ref.isoweekday()) % 7
         return ref + timedelta(days=days_ahead)
@@ -178,9 +194,11 @@ class GoogleCalendarConnector:
         """Genera el contenido completo de un archivo iCalendar (.ics) RFC 5545 para el cronograma.
 
         Las horas de cada bloque son locales de `zona` (la de la cuenta, o la por defecto): cada evento
-        lleva `TZID` para que el calendario no las corra al leerlas como UTC.
+        lleva `TZID` para que el calendario no las corra al leerlas como UTC, salvo cuando la zona resuelta
+        es UTC, en cuyo caso emite formato UTC (con sufijo Z y sin TZID) según RFC 5545.
         """
         zona = zona_valida(zona)
+        tz = _tzinfo_o_utc(zona)
         now_utc = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
         lines = [
             "BEGIN:VCALENDAR",
@@ -191,7 +209,10 @@ class GoogleCalendarConnector:
             "X-WR-CALNAME:Aulento - Cronograma Semanal",
             f"X-WR-TIMEZONE:{zona}",
         ]
-        lines.extend(_bloque_vtimezone(zona, (ref_date or datetime.now(ZoneInfo(zona)).date()).year))
+        anio_ref = (ref_date or datetime.now(tz).date()).year
+        lines.extend(_bloque_vtimezone(zona, anio_ref))
+
+        es_utc = zona.upper() == "UTC"
 
         for bloque in bloques:
             target_date = self.get_next_date_for_weekday(bloque.dia_semana, ref_date, zona)
@@ -215,12 +236,22 @@ class GoogleCalendarConnector:
 
             uid = f"study-engine-block-{bloque.id}-{byday.lower()}@studyengine.local"
 
+            dtstart_val = start_dt.strftime("%Y%m%dT%H%M%S")
+            dtend_val = end_dt.strftime("%Y%m%dT%H%M%S")
+            # RFC 5545 (§3.2.19 y §3.3.5): las horas en UTC llevan 'Z' y nunca parámetro TZID
+            if es_utc:
+                dtstart_line = f"DTSTART:{dtstart_val}Z"
+                dtend_line = f"DTEND:{dtend_val}Z"
+            else:
+                dtstart_line = f"DTSTART;TZID={zona}:{dtstart_val}"
+                dtend_line = f"DTEND;TZID={zona}:{dtend_val}"
+
             lines.extend([
                 "BEGIN:VEVENT",
                 f"UID:{uid}",
                 f"DTSTAMP:{now_utc}",
-                f"DTSTART;TZID={zona}:{start_dt.strftime('%Y%m%dT%H%M%S')}",
-                f"DTEND;TZID={zona}:{end_dt.strftime('%Y%m%dT%H%M%S')}",
+                dtstart_line,
+                dtend_line,
                 f"RRULE:FREQ=WEEKLY;BYDAY={byday}",
                 f"SUMMARY:{self._escape_ical(summary)}",
                 f"DESCRIPTION:{self._escape_ical(description)}",

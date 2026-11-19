@@ -33,8 +33,16 @@ TABLAS_DE_LA_MIGRACION_7 = {"materiales"}
 TABLAS_DE_LA_MIGRACION_9: set[str] = set()  # reservada desde la 051: la siembra de la demo es de la nube
 TABLAS_DE_LA_MIGRACION_10 = {"hashes_indexados"}
 TABLAS_DE_LA_MIGRACION_11 = {"tokens_de_alcance"}
+TABLAS_DE_LA_MIGRACION_12 = {"avances_de_lectura"}
 TABLAS_POSTERIORES_AL_ESQUEMA_BASE = (
-    TABLAS_DE_CUENTAS_DEL_CORE | {"mcp_tokens"} | TABLAS_DE_LA_MIGRACION_4 | TABLAS_DE_LA_MIGRACION_7 | TABLAS_DE_LA_MIGRACION_9 | TABLAS_DE_LA_MIGRACION_10 | TABLAS_DE_LA_MIGRACION_11
+    TABLAS_DE_CUENTAS_DEL_CORE
+    | {"mcp_tokens"}
+    | TABLAS_DE_LA_MIGRACION_4
+    | TABLAS_DE_LA_MIGRACION_7
+    | TABLAS_DE_LA_MIGRACION_9
+    | TABLAS_DE_LA_MIGRACION_10
+    | TABLAS_DE_LA_MIGRACION_11
+    | TABLAS_DE_LA_MIGRACION_12
 )
 TABLAS_CON_DUENO = {
     "plataformas",
@@ -75,7 +83,20 @@ def _contenido(conn: sqlite3.Connection) -> dict[str, list[dict]]:
         cursor = conn.execute(f"SELECT * FROM {tabla} ORDER BY rowid;")
         columnas = [columna[0] for columna in cursor.description]
         contenido[tabla] = [
-            {columna: valor for columna, valor in zip(columnas, fila, strict=True) if columna not in ("user_id", "google_books_id", "fuente_sincronizacion", "ultima_sincronizacion", "external_id", "sync_config_json")}
+            {
+                columna: valor
+                for columna, valor in zip(columnas, fila, strict=True)
+                if columna
+                not in (
+                    "user_id",
+                    "google_books_id",
+                    "fuente_sincronizacion",
+                    "ultima_sincronizacion",
+                    "external_id",
+                    "sync_config_json",
+                    "autor",
+                )
+            }
             for fila in cursor.fetchall()
         ]
     return contenido
@@ -483,7 +504,7 @@ def test_base_en_version_2_con_filas_en_todas_las_tablas_migra_conservando_cada_
 
     despues = _contenido(conn)
     assert {tabla: despues[tabla] for tabla in antes} == antes
-    assert set(despues) - set(antes) == {"mcp_tokens"} | TABLAS_DE_LA_MIGRACION_4 | TABLAS_DE_LA_MIGRACION_7 | TABLAS_DE_LA_MIGRACION_9 | TABLAS_DE_LA_MIGRACION_10 | TABLAS_DE_LA_MIGRACION_11
+    assert set(despues) - set(antes) == {"mcp_tokens"} | TABLAS_DE_LA_MIGRACION_4 | TABLAS_DE_LA_MIGRACION_7 | TABLAS_DE_LA_MIGRACION_9 | TABLAS_DE_LA_MIGRACION_10 | TABLAS_DE_LA_MIGRACION_11 | TABLAS_DE_LA_MIGRACION_12
     assert conn.execute("PRAGMA foreign_key_check;").fetchall() == []
     assert _claves_foraneas(conn) == 1
     assert not conn.in_transaction
@@ -882,13 +903,13 @@ def test_la_migracion_4_conserva_cada_fila_y_su_dueno(tmp_path):
     assert set(antes) == TABLAS_DE_ESTUDIO | TABLAS_DE_CUENTAS | {"mcp_tokens"}
     assert all(antes.values()), "el test tiene que cargar filas en todas las tablas"
 
-    assert migrar(conn) == ULTIMA_VERSION == 11
+    assert migrar(conn) == ULTIMA_VERSION == 12
 
     despues = _contenido(conn)
     assert {tabla: despues[tabla] for tabla in antes} == antes
     assert _duenos(conn) == duenos
-    assert set(despues) - set(antes) == TABLAS_DE_LA_MIGRACION_4 | TABLAS_DE_LA_MIGRACION_7 | TABLAS_DE_LA_MIGRACION_9 | TABLAS_DE_LA_MIGRACION_10 | TABLAS_DE_LA_MIGRACION_11
-    assert all(despues[tabla] == [] for tabla in TABLAS_DE_LA_MIGRACION_4 | TABLAS_DE_LA_MIGRACION_7 | TABLAS_DE_LA_MIGRACION_9 | TABLAS_DE_LA_MIGRACION_10 | TABLAS_DE_LA_MIGRACION_11)
+    assert set(despues) - set(antes) == TABLAS_DE_LA_MIGRACION_4 | TABLAS_DE_LA_MIGRACION_7 | TABLAS_DE_LA_MIGRACION_9 | TABLAS_DE_LA_MIGRACION_10 | TABLAS_DE_LA_MIGRACION_11 | TABLAS_DE_LA_MIGRACION_12
+    assert all(despues[tabla] == [] for tabla in TABLAS_DE_LA_MIGRACION_4 | TABLAS_DE_LA_MIGRACION_7 | TABLAS_DE_LA_MIGRACION_9 | TABLAS_DE_LA_MIGRACION_10 | TABLAS_DE_LA_MIGRACION_11 | TABLAS_DE_LA_MIGRACION_12)
     assert conn.execute("PRAGMA foreign_key_check;").fetchall() == []
     assert _claves_foraneas(conn) == 1
     assert len(_respaldos(tmp_path)) == 1
