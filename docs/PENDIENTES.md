@@ -17,16 +17,16 @@ Al revisar, la suite daba 2345 tests verdes y 3 rojos en Windows (los del punto 
 
 | # | Hallazgo | Severidad | Estado | Fase |
 |---|---|---|---|---|
-| 1 | Editar un libro (PUT) guarda valores inválidos y deja la lista de libros en 500 | Alta | ✅ Hecho | 0 |
-| 2 | Un libro se marca «completado» al avanzar páginas si está en su último capítulo | Alta | ✅ Hecho | 0 |
-| 3 | Sin `tzdata`, en Windows el calendario (.ics, feed y enlaces) responde 500 | Alta | ✅ Hecho | 1 |
-| 4 | Con `--port` distinto de 8000/8001/8080, la interfaz no puede guardar nada (403) | Media | ✅ Hecho | 1 |
-| 5 | Los cursos se ordenan por prioridad alfabéticamente (alta, baja, media) | Baja | ✅ Hecho | 0 |
-| 6 | Actividad, rachas y «minutos de hoy» cuentan el día en UTC | Media | ✅ Hecho | 2 |
-| 7 | El webhook de libros busca por título parcial y puede actualizar otro libro | Media | ✅ Hecho | 0 |
-| 8 | «Páginas leídas» del mapa de calor suma la página actual, no lo leído ese día | Media | ✅ Hecho | 0 y 2 |
-| 9 | En modo local, la ayuda del atajo de Libros promete abrir la app a la red, cosa que el modo local impide | Baja | ✅ Hecho | 0 |
-| 10 | Campos que se aceptan y se ignoran: `estado` del avance de un curso, `autor` del libro, días del log FSRS | Baja | ✅ Hecho | 0 y 1 |
+| 1 | Editar un libro (PUT) guarda valores inválidos y deja la lista de libros en 500 | Alta | ✅ Hecho (`74690ea`) | 0 |
+| 2 | Un libro se marca «completado» al avanzar páginas si está en su último capítulo | Alta | ✅ Hecho (`74690ea`) | 0 |
+| 3 | Sin `tzdata`, en Windows el calendario (.ics, feed y enlaces) responde 500 | Alta | ✅ Hecho (`74690ea`) | 1 |
+| 4 | Con `--port` distinto de 8000/8001/8080, la interfaz no puede guardar nada (403) | Media | ✅ Hecho (`74690ea`) | 1 |
+| 5 | Los cursos se ordenan por prioridad alfabéticamente (alta, baja, media) | Baja | ✅ Hecho (`74690ea`) | 0 |
+| 6 | Actividad, rachas y «minutos de hoy» cuentan el día en UTC | Media | ✅ Hecho (`74690ea`) | 2 |
+| 7 | El webhook de libros busca por título parcial y puede actualizar otro libro | Media | ✅ Hecho (`74690ea`) | 0 |
+| 8 | «Páginas leídas» del mapa de calor suma la página actual, no lo leído ese día | Media | ✅ Hecho (`74690ea`) | 0 y 2 |
+| 9 | En modo local, la ayuda del atajo de Libros promete abrir la app a la red, cosa que el modo local impide | Baja | ✅ Hecho (`74690ea`) | 0 |
+| 10 | Campos que se aceptan y se ignoran: `estado` del avance de un curso, `autor` del libro, días del log FSRS | Baja | ✅ Hecho (`74690ea`) | 0 y 1 |
 | 11 | Manejo de conexiones heterogéneo: `RoadmapRepository` ignora la conexión recibida | Media | ⏳ Pendiente | — |
 | 12 | Las migraciones corren desde varios lugares y con criterios distintos ante un fallo | Media | ⏳ Pendiente | — |
 | 13 | `AULENTO_EXTENSIONS` se lee en `aulento mcp serve` pero no en `aulento web` | Baja | ⏳ Pendiente | — |
@@ -49,9 +49,9 @@ Las tareas de cada fase están en `odd/revision-arquitectura/faseN.md`.
 
 | Fase | Puntos | Depende de | Estado |
 |---|---|---|---|
-| 0. Libros y cursos | 1, 2, 5, 7, 8 (registro), 9, 10 (`estado` y `autor`) | — | ✅ Hecho |
-| 1. Entorno | 3, 4, 10 (log FSRS) | — | ✅ Hecho |
-| 2. El día de la cuenta | 6, 8 (lectura en el mapa de calor) | 0 (tabla de avances), 1 (`tzdata`) | ✅ Hecho |
+| 0. Libros y cursos | 1, 2, 5, 7, 8 (registro), 9, 10 (`estado` y `autor`) | — | ✅ Hecho (`74690ea`) |
+| 1. Entorno | 3, 4, 10 (log FSRS) | — | ✅ Hecho (`74690ea`) |
+| 2. El día de la cuenta | 6, 8 (lectura en el mapa de calor) | 0 (tabla de avances), 1 (`tzdata`) | ✅ Hecho (`74690ea`) |
 
 ```text
 fase 0 ──┐
@@ -59,7 +59,7 @@ fase 0 ──┐
 fase 1 ──┘
 ```
 
-### Verificación (2026-11-19, sin commitear todavía)
+### Verificación (2026-11-19, commit `74690ea`)
 
 - Implementación: Antigravity con Gemini 3.8 Flash. Revisión independiente: Gemini 4 Hydrogen, en modo de solo lectura, para las fases 0 y 1; sus observaciones se corrigieron. La de la fase 2 se cortó por falta de memoria (M11) y se revisó a mano.
 - Suite completa: 2381 tests pasan, 10 omitidos y ninguno falla (antes, 3 fallaban en Windows). `ruff check .` limpio.
