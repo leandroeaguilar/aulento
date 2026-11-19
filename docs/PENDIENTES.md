@@ -35,7 +35,7 @@ Al revisar, la suite daba 2345 tests verdes y 3 rojos en Windows (los del punto 
 | M2 | Docstring de `web/routes/books.py` ubicado después de los imports | Baja | ⏳ Pendiente | — |
 | M3 | Comentarios de `start.sh` y `start.bat` sobre un código de administrador que el modo local no tiene | Baja | ⏳ Pendiente | — |
 | M4 | Versión «0.1.0» escrita a mano en `web/app.py` en lugar de `__version__` | Baja | ⏳ Pendiente | — |
-| M5 | `docs/` no viaja en el wheel: instalado sin `-e`, el manual de la app queda «en preparación» | Baja | ⏳ Pendiente | — |
+| M5 | `docs/` no viaja en el wheel: instalado sin `-e`, y en aulento.com, el manual de la app queda «en preparación» | Media (subida: afectaba a producción) | ✅ Hecho | — |
 | M6 | Datos personales dentro del producto: plataformas semilla, zona por defecto y nombres heredados | Baja | ⏳ Pendiente | — |
 | M7 | El calendario cae en Buenos Aires si la cuenta no fijó `zona_horaria`, y no hay interfaz para fijarla | Baja | ⏳ Pendiente | — |
 | M8 | Las herramientas MCP y el copiloto también buscan libros por título parcial | Baja | ⏳ Pendiente | — |
@@ -142,7 +142,8 @@ El mapa de calor suma `pagina_actual` de los libros actualizados ese día: un li
 - **M2.** El docstring de `src/aulento/web/routes/books.py` está después de los imports y no funciona como docstring.
 - **M3.** `start.sh` y `start.bat` hablan de un «código del primer administrador» que el modo local no tiene.
 - **M4.** `src/aulento/web/app.py` repite «0.1.0» en lugar de usar `aulento.__version__`.
-- **M5.** `pyproject.toml` no empaqueta `docs/`: instalado sin `-e`, `/api/docs/manual` muestra «Documentación en preparación».
+- **M5.** `pyproject.toml` no empaqueta `docs/`: instalado sin `-e`, `/api/docs/manual` muestra «Documentación en preparación». En la revisión se anotó como baja, pero la imagen de la nube instala el wheel y su `.dockerignore` excluye `docs/`, así que aulento.com mostraba ese texto en los cuatro documentos.
+  - _Hecho:_ `setup.py` agrega un gancho a `build_py` que copia los cuatro documentos a `aulento/documentos/` al construir (falla si falta alguno). `aulento.web.app` los busca ahí primero (`DOCUMENTOS_DE_LA_APP`, `ruta_del_documento`), y `/manual` usa la misma búsqueda. El `Dockerfile` copia `setup.py` y los cuatro documentos, y el `.dockerignore` los vuelve a incluir; `test_despliegue.py` fija esas dos excepciones. Tests en `tests/test_documentos_empaquetados.py`: uno construye el wheel de verdad y compara los documentos de adentro con los de `docs/`.
 - **M6.** Las plataformas semilla son «las 5 reales del usuario», la zona por defecto es Buenos Aires y el contenedor de Docker se sigue llamando `study-engine-postgres`.
 - **M7.** El calendario usa `zona_horaria` o Buenos Aires; el resto de la app, la zona de la máquina. No hay ruta ni pantalla para fijar `zona_horaria`.
 - **M8.** `study_update_book_progress` (MCP) y el copiloto siguen usando `find_by_title` con coincidencia parcial.
