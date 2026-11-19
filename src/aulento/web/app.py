@@ -238,8 +238,20 @@ class SoloElPropioEquipoEnModoLocal(BaseHTTPMiddleware):
         return await call_next(request)
 
 
+def _propio_origen(request: Request) -> str | None:
+    """El origen del propio servidor tal como lo escribe un navegador: minúsculas y sin el puerto por defecto."""
+    host = (request.headers.get("host") or "").strip().lower()
+    if not host:
+        return None
+    esquema = request.url.scheme.lower()
+    puerto_por_defecto = {"http": ":80", "https": ":443"}.get(esquema)
+    if puerto_por_defecto and host.endswith(puerto_por_defecto):
+        host = host[: -len(puerto_por_defecto)]
+    return f"{esquema}://{host}"
+
+
 class LocalOriginAuthMiddleware(BaseHTTPMiddleware):
-    """Valida que peticiones cross-origin del navegador provengan únicamente de orígenes locales autorizados."""
+    """Valida que peticiones cross-origin del navegador provengan únicamente de orígenes locales autorizados o del propio host."""
 
     async def dispatch(self, request: Request, call_next):
         if request.url.path.startswith("/mcp"):
@@ -247,7 +259,10 @@ class LocalOriginAuthMiddleware(BaseHTTPMiddleware):
         origin = request.headers.get("origin")
         if origin:
             allowed = get_allowed_origins()
-            if origin not in allowed:
+            # El propio origen también vale: el navegador manda `Origin` en los POST de la misma página, y con otro
+            # puerto (`--port 9000`) la lista fija lo rechazaría. Un sitio ajeno no puede hacerse pasar por él; el DNS
+            # rebinding, que sí podría, llega con un `Host` ajeno y lo frena `TrustedHostMiddleware`.
+            if origin not in allowed and origin != _propio_origen(request):
                 return JSONResponse(
                     status_code=403,
                     content={"detail": "Forbidden: cross-origin request not permitted from this origin"},

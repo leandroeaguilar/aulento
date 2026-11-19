@@ -24,6 +24,7 @@ dependencies = [
     "pypdf>=6.19.0",
     "python-multipart>=0.0.18",
     "sqlite-vec>=0.1.6",
+    "tzdata>=2024.1",
 ]
 
 [project.optional-dependencies]

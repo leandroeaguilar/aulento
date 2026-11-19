@@ -4431,6 +4431,19 @@
       },
       "Libro": {
         "properties": {
+          "autor": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Autor o autores del libro",
+            "title": "Autor"
+          },
           "capitulo_actual": {
             "default": 1,
             "description": "Capítulo o sección actual",
@@ -4580,6 +4593,19 @@
       },
       "LibroCreate": {
         "properties": {
+          "autor": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Autor o autores del libro",
+            "title": "Autor"
+          },
           "capitulo_actual": {
             "default": 1,
             "description": "Capítulo o sección actual",
@@ -4688,6 +4714,18 @@
       },
       "LibroUpdate": {
         "properties": {
+          "autor": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Autor"
+          },
           "capitulo_actual": {
             "anyOf": [
               {

@@ -68,6 +68,16 @@ class FSRSEngine:
         due_iso = updated_card.due.isoformat()
         last_review_iso = now_utc.isoformat()
 
+        # Cálculo de días del log FSRS (decisión 5 de arquitectura)
+        if db_card.last_review:
+            last_review_dt = self._parse_datetime(db_card.last_review)
+            elapsed_days = max(0.0, (now_utc - last_review_dt).total_seconds() / 86400.0)
+        else:
+            elapsed_days = 0.0
+
+        due_dt = self._parse_datetime(updated_card.due)
+        scheduled_days = max(0.0, (due_dt - now_utc).total_seconds() / 86400.0)
+
         # Persistir tarjeta actualizada
         saved_card = self.repo.update_card_fsrs(
             card_id=card_id,
@@ -86,8 +96,8 @@ class FSRSEngine:
             card_id=card_id,
             rating=int(rating.value),
             review_datetime_iso=last_review_iso,
-            elapsed_days=review_log.elapsed_days if hasattr(review_log, "elapsed_days") else 0.0,
-            scheduled_days=review_log.scheduled_days if hasattr(review_log, "scheduled_days") else 0.0,
+            elapsed_days=elapsed_days,
+            scheduled_days=scheduled_days,
             state=int(updated_card.state.value),
         )
 

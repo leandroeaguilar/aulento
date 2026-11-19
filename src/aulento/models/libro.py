@@ -14,6 +14,7 @@ class EstadoLibro(str, Enum):
 
 class LibroBase(BaseModel):
     titulo: str = Field(..., min_length=1, max_length=200, description="Título del libro")
+    autor: str | None = Field(default=None, max_length=200, description="Autor o autores del libro")
     capitulo_actual: int = Field(default=1, ge=0, description="Capítulo o sección actual")
     total_capitulos: int = Field(default=1, gt=0, description="Total de capítulos o secciones")
     pagina_actual: int = Field(default=0, ge=0, description="Página actual leída")
@@ -39,6 +40,7 @@ class LibroCreate(LibroBase):
 
 class LibroUpdate(BaseModel):
     titulo: str | None = Field(default=None, min_length=1, max_length=200)
+    autor: str | None = Field(default=None, max_length=200)
     capitulo_actual: int | None = Field(default=None, ge=0)
     total_capitulos: int | None = Field(default=None, gt=0)
     pagina_actual: int | None = Field(default=None, ge=0)

@@ -200,7 +200,7 @@ async function handleCreateBook(e) {
   try {
     const payload = {
       titulo: title,
-      autor: author,
+      autor: author || null,
       capitulo_actual: current,
       total_capitulos: total,
       pagina_actual: curPage,
@@ -231,6 +231,7 @@ function openEditBookModal(bookId) {
 
   document.getElementById('edit-book-id').value = b.id;
   document.getElementById('edit-book-title').value = b.titulo;
+  document.getElementById('edit-book-author').value = b.autor || '';
   document.getElementById('edit-book-current-chapter').value = b.capitulo_actual;
   document.getElementById('edit-book-total-chapters').value = b.total_capitulos;
   document.getElementById('edit-book-current-page').value = b.pagina_actual || 0;
@@ -248,6 +249,7 @@ async function handleEditBook(e) {
   e.preventDefault();
   const id = document.getElementById('edit-book-id').value;
   const title = document.getElementById('edit-book-title').value.trim();
+  const author = document.getElementById('edit-book-author').value.trim();
   const cap = parseInt(document.getElementById('edit-book-current-chapter').value, 10);
   const totCap = parseInt(document.getElementById('edit-book-total-chapters').value, 10);
   const pag = parseInt(document.getElementById('edit-book-current-page').value, 10) || 0;
@@ -261,6 +263,7 @@ async function handleEditBook(e) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         titulo: title,
+        autor: author || null,
         capitulo_actual: cap,
         total_capitulos: totCap,
         pagina_actual: pag,

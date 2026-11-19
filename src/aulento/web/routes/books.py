@@ -21,7 +21,8 @@ import os
 from datetime import UTC, datetime
 
 from fastapi import APIRouter, HTTPException, Query, Request, Response, status
-from pydantic import BaseModel, Field
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel, Field, ValidationError
 
 from aulento.connectors.google_books import (
     AutorizacionGoogleBooksInvalida,
@@ -153,7 +154,10 @@ def update_book(book_id: int, data: LibroUpdate, repo: RepoLibros):
     """Actualiza metadatos y progreso de un libro técnico."""
     if not repo.get_by_id(book_id):
         raise no_encontrado("Libro", book_id)
-    return repo.update(book_id, data)
+    try:
+        return repo.update(book_id, data)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 
 @router.delete("/{book_id}", status_code=status.HTTP_200_OK, dependencies=[SinCuentaCompartida])
@@ -185,7 +189,17 @@ def webhook_sync_reading(
     ahora_iso = datetime.now(UTC).isoformat()
     titulo_limpio = data.titulo.strip()
 
-    libro = repo.find_by_title(titulo_limpio)
+    candidatos = repo.buscar_por_titulo(titulo_limpio)
+    if len(candidatos) > 1:
+        return JSONResponse(
+            status_code=status.HTTP_409_CONFLICT,
+            content={
+                "detail": f"Hay más de un libro que coincide con '{titulo_limpio}'.",
+                "candidatos": [{"id": l.id, "titulo": l.titulo} for l in candidatos],
+            },
+        )
+
+    libro = candidatos[0] if len(candidatos) == 1 else None
 
     # Determinar página actual
     if data.pagina_actual is not None:
@@ -196,40 +210,41 @@ def webhook_sync_reading(
     else:
         nueva_pag = (libro.pagina_actual if libro else 0) + 1
 
-    if libro is None:
-        tot_pag = data.total_paginas or (nueva_pag if nueva_pag > 0 else 100)
-        libro = repo.create(
-            LibroCreate(
-                titulo=titulo_limpio,
-                capitulo_actual=data.capitulo_actual or 1,
-                total_capitulos=data.total_capitulos or 1,
+    try:
+        if libro is None:
+            tot_pag = data.total_paginas or (nueva_pag if nueva_pag > 0 else 100)
+            libro = repo.create(
+                LibroCreate(
+                    titulo=titulo_limpio,
+                    capitulo_actual=data.capitulo_actual or 1,
+                    total_capitulos=data.total_capitulos or 1,
+                    pagina_actual=nueva_pag,
+                    total_paginas=tot_pag,
+                    estado=EstadoLibro.COMPLETADO if nueva_pag >= tot_pag else EstadoLibro.LEYENDO,
+                    fuente_sincronizacion=data.fuente,
+                    ultima_sincronizacion=ahora_iso,
+                )
+            )
+            accion = "creado"
+        else:
+            tot_pag = data.total_paginas or libro.total_paginas
+            nueva_pag = max(libro.pagina_actual, nueva_pag)
+            cap = data.capitulo_actual or libro.capitulo_actual
+            tot_cap = data.total_capitulos or libro.total_capitulos
+
+            libro = repo.update_progress(
+                libro.id,
                 pagina_actual=nueva_pag,
                 total_paginas=tot_pag,
-                estado=EstadoLibro.COMPLETADO if nueva_pag >= tot_pag else EstadoLibro.LEYENDO,
+                capitulo_actual=cap,
+                total_capitulos=tot_cap,
+                estado=None,
                 fuente_sincronizacion=data.fuente,
                 ultima_sincronizacion=ahora_iso,
             )
-        )
-        accion = "creado"
-    else:
-        tot_pag = data.total_paginas or libro.total_paginas
-        nueva_pag = max(libro.pagina_actual, nueva_pag)
-        cap = data.capitulo_actual or libro.capitulo_actual
-        tot_cap = data.total_capitulos or libro.total_capitulos
-        completado = bool(tot_pag and nueva_pag >= tot_pag)
-        st = EstadoLibro.COMPLETADO if completado else libro.estado
-
-        libro = repo.update_progress(
-            libro.id,
-            pagina_actual=nueva_pag,
-            total_paginas=tot_pag,
-            capitulo_actual=cap,
-            total_capitulos=tot_cap,
-            estado=st,
-            fuente_sincronizacion=data.fuente,
-            ultima_sincronizacion=ahora_iso,
-        )
-        accion = "actualizado"
+            accion = "actualizado"
+    except (ValueError, ValidationError) as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
     return {
         "status": "ok",

@@ -78,7 +78,7 @@ Para errores de validación de esquema (código `422`), `detail` contiene la lis
 | `401` | Unauthorized | Falta la cookie de sesión `se_sesion`, la sesión ha expirado o las credenciales provistas son inválidas. |
 | `403` | Forbidden | La cuenta autenticada carece de permisos (ej. usuario estándar intentando acceder a rutas de administración, o cuenta demo intentando modificar configuraciones bloqueadas). |
 | `404` | Not Found | El recurso solicitado (curso, libro, tarjeta FSRS, tema de ruta, usuario, etc.) no existe en la base de datos de la cuenta. |
-| `409` | Conflict | Conflicto con el estado actual (ej. nombre de usuario ya registrado, código de invitación ya utilizado, duplicación de identificadores o un material que la cuenta ya subió). |
+| `409` | Conflict | Conflicto con el estado actual (ej. nombre de usuario ya registrado, código de invitación ya utilizado, duplicación de identificadores, coincidencia ambigua en el webhook de libros o un material que la cuenta ya subió). |
 | `413` | Content Too Large | La subida de un material pasa el tope de 25 MB por archivo o el espacio libre de la cuenta (200 MB en total). El mensaje dice el tope y cuánto queda libre. Detrás de Caddy, un cuerpo de más de 30 MB se corta antes de llegar a la aplicación. |
 | `415` | Unsupported Media Type | El material no es PDF, Markdown ni texto, por extensión o por contenido. |
 | `422` | Unprocessable Entity | Error en la validación semántica del payload JSON (tipos de datos incorrectos, campos requeridos omitidos), o un material sin texto legible (PDF escaneado, cifrado o roto). |
@@ -132,7 +132,7 @@ A continuación se listan todas las operaciones de la API REST, agrupadas por et
 | `POST /api/books/google/authorize` | Iniciar flujo de autorización OAuth 2.0 con Google Books |
 | `POST /api/books/google/sync` | Sincronizar estantes y progreso de lectura con Google Play Libros |
 | `GET /api/books/sync/webhook-info` | Obtener URL y configuración del webhook para Atajos de Apple Libros |
-| `POST /api/books/sync/webhook` | Webhook para recibir actualizaciones de lectura desde Apple Libros / Atajos. Acepta el token de libros en `Authorization: Bearer` (y, por compatibilidad, la sesión o un token MCP) |
+| `POST /api/books/sync/webhook` | Webhook para recibir actualizaciones de lectura desde Apple Libros / Atajos. Acepta el token de libros en `Authorization: Bearer` (y, por compatibilidad, la sesión o un token MCP); responde `409` si el título coincide con varios libros |
 | `GET /api/books/sync/token` | Estado del token de libros de la cuenta (nunca lo devuelve) |
 | `POST /api/books/sync/token` | Crear el token de libros para Atajos; revoca el anterior. Es la única respuesta que lo trae en claro |
 | `DELETE /api/books/sync/token` | Revocar el token de libros |
