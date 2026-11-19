@@ -3,6 +3,7 @@
 import ipaddress
 import logging
 import os
+import re
 import sqlite3
 import time
 from collections.abc import Sequence
@@ -91,6 +92,18 @@ logger = logging.getLogger(__name__)
 
 STATIC_DIR = Path(__file__).parent / "static"
 
+# Los documentos de la pestaña de documentación: clave → (título, archivo). Se escriben en `docs/`;
+# instalada como paquete (wheel o imagen de la nube), la app no tiene `docs/` y el build los copia a
+# `aulento/documentos/` (ver `setup.py`, que repite los nombres de archivo).
+DOCUMENTOS_DE_LA_APP: dict[str, tuple[str, str]] = {
+    "manual": ("Manual de Usuario: Interfaz Web de Aulento", "MANUAL_DE_USUARIO.md"),
+    "api": ("Referencia de la API REST", "REFERENCIA_API.md"),
+    "mcp": ("Guía del Servidor MCP y Conectores", "GUIA_MCP.md"),
+    "cli": ("Referencia de la CLI de Aulento", "REFERENCIA_CLI.md"),
+}
+DOCUMENTOS_EMPAQUETADOS = Path(__file__).resolve().parents[1] / "documentos"
+DOCUMENTOS_DEL_REPO = Path(__file__).resolve().parents[3] / "docs"
+
 RUTA_DE_INGRESO = "/login"
 CAMPOS_PUBLICOS_DE_VALIDACION = ("type", "loc", "msg")
 
@@ -110,6 +123,24 @@ DEFAULT_ALLOWED_HOSTS = [
     "[::1]",
     "testserver",
 ]
+
+
+def ruta_del_documento(nombre: str) -> Path | None:
+    """Dónde está un documento de la app: la copia del paquete, el repo o `docs/` de la carpeta de trabajo."""
+    for carpeta in (DOCUMENTOS_EMPAQUETADOS, DOCUMENTOS_DEL_REPO, Path("docs")):
+        ruta = carpeta / nombre
+        if ruta.is_file():
+            return ruta
+    logger.warning("No se encontró el documento %s: la app muestra el texto de reemplazo", nombre)
+    return None
+
+
+def leer_documento(nombre: str) -> str | None:
+    """El texto del documento sin el frontmatter, o None si no está."""
+    ruta = ruta_del_documento(nombre)
+    if ruta is None:
+        return None
+    return re.sub(r"^---\r?\n[\s\S]*?\r?\n---\r?\n?", "", ruta.read_text(encoding="utf-8")).lstrip()
 
 
 def get_allowed_origins() -> list[str]:
@@ -669,37 +700,17 @@ def create_app(extensiones: Sequence[Extension] = ()) -> FastAPI:
     @web_app.get("/api/docs/manual", tags=["Frontend"], dependencies=[Depends(usuario_actual)])
     def get_user_manual(doc: str = "manual"):
         """Devuelve el contenido del documento solicitado en formato Markdown."""
-        doc_map = {
-            "manual": ("Manual de Usuario: Interfaz Web de Aulento", "MANUAL_DE_USUARIO.md"),
-            "api": ("Referencia de la API REST", "REFERENCIA_API.md"),
-            "mcp": ("Guía del Servidor MCP y Conectores", "GUIA_MCP.md"),
-            "cli": ("Referencia de la CLI de Aulento", "REFERENCIA_CLI.md"),
-        }
-        title, filename = doc_map.get(doc, ("Manual de Usuario", "MANUAL_DE_USUARIO.md"))
-        manual_path = Path(__file__).resolve().parents[3] / "docs" / filename
-        if not manual_path.exists():
-            manual_path = Path("docs") / filename
-        import re
-        if manual_path.exists():
-            raw_text = manual_path.read_text(encoding="utf-8")
-            clean_text = re.sub(r"^---\r?\n[\s\S]*?\r?\n---\r?\n?", "", raw_text).lstrip()
-            return {
-                "doc": doc,
-                "title": title,
-                "content": clean_text
-            }
+        title, filename = DOCUMENTOS_DE_LA_APP.get(doc, ("Manual de Usuario", "MANUAL_DE_USUARIO.md"))
+        contenido = leer_documento(filename)
+        if contenido is not None:
+            return {"doc": doc, "title": title, "content": contenido}
         return {"doc": doc, "title": title, "content": f"# {title}\n\nDocumentación en preparación."}
 
     @web_app.get("/manual", response_class=HTMLResponse, include_in_schema=False, dependencies=[Depends(usuario_actual)])
     def get_manual_standalone():
         """Sirve el Manual de Usuario como vista de lectura independiente."""
         import json
-        manual_path = Path(__file__).resolve().parents[3] / "docs" / "MANUAL_DE_USUARIO.md"
-        if not manual_path.exists():
-            manual_path = Path("docs/MANUAL_DE_USUARIO.md")
-        import re
-        raw_text = manual_path.read_text(encoding="utf-8") if manual_path.exists() else "# Manual de Usuario"
-        clean_text = re.sub(r"^---\r?\n[\s\S]*?\r?\n---\r?\n?", "", raw_text).lstrip()
+        clean_text = leer_documento("MANUAL_DE_USUARIO.md") or "# Manual de Usuario"
         # "</" escapado: el texto no puede cerrar el <script> en el que viaja
         content_json = json.dumps(clean_text).replace("</", "<\\/")
         html = f"""<!DOCTYPE html>
