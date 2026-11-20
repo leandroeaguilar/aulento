@@ -234,6 +234,9 @@
   scrollbar-width: thin;
   max-width: 100%;
 }
+@supports not (scrollbar-color: auto) {
+  .au-pestanas { scrollbar-width: auto; }
+}
 .au-pestanas__boton {
   flex: 0 0 auto;
   min-height: 2rem;
@@ -303,20 +306,23 @@
 
 /* ---------- Barra de progreso ---------- */
 .au-progreso {
+  --au-progreso-relleno: var(--au-primario-hover);
+  appearance: none;
+  -webkit-appearance: none;
+  display: block;
+  width: 100%;
   height: 0.5rem;
+  border: 0 solid;
   border-radius: var(--au-radio-pildora);
   background: var(--au-superficie-alta);
-  overflow: hidden;
+  overflow: clip;
 }
-.au-progreso__barra {
-  height: 100%;
-  border-radius: inherit;
-  background: var(--au-primario-hover);
-  transition: width 0.3s;
-}
-.au-progreso--exito .au-progreso__barra { background: var(--au-exito-texto); }
-.au-progreso--alerta .au-progreso__barra { background: var(--au-alerta-texto); }
-.au-progreso--peligro .au-progreso__barra { background: var(--au-peligro-texto); }
+.au-progreso--exito { --au-progreso-relleno: var(--au-exito-texto); }
+.au-progreso--alerta { --au-progreso-relleno: var(--au-alerta-texto); }
+.au-progreso--peligro { --au-progreso-relleno: var(--au-peligro-texto); }
+.au-progreso::-webkit-progress-bar { background: transparent; }
+.au-progreso::-webkit-progress-value { background: var(--au-progreso-relleno); border-radius: var(--au-radio-pildora); transition: inline-size 0.3s; }
+.au-progreso::-moz-progress-bar { background: var(--au-progreso-relleno); border-radius: var(--au-radio-pildora); transition: inline-size 0.3s; }
 
 /* ---------- Estado vacío ---------- */
 .au-vacio {
@@ -436,3 +442,31 @@ button.au-fila:hover, a.au-fila:hover { background: var(--au-superficie-alta); }
   .au-modal__pie { padding: 1rem 1.5rem 1.25rem; }
 }
 body.au-modal-abierto { overflow: hidden; }
+
+/* ---------- Enlace de salto (skip link) ---------- */
+.au-saltar-contenido {
+  position: fixed;
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.au-saltar-contenido:focus-visible {
+  clip-path: none;
+  width: auto;
+  height: auto;
+  white-space: normal;
+  left: 0.75rem;
+  top: 0.75rem;
+  z-index: 60;
+  padding: 0.5rem 1rem;
+  border-radius: var(--au-radio-control);
+  background: var(--au-primario);
+  color: #fff;
+  outline: 2px solid var(--au-primario-texto);
+  outline-offset: 2px;
+}
+
+/* ---------- Elementos semánticos HTML ---------- */
+search { display: block; }

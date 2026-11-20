@@ -1,4 +1,4 @@
-# Aulento 🧠⚡
+# <img src="src/aulento/web/static/icons/icon.svg" alt="Aulento" width="36" align="top" /> Aulento
 ### Intelligent Local-First Study Operating System & Academic Library RAG
 
 [![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue.svg?logo=python&logoColor=white)](https://python.org)

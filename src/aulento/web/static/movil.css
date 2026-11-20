@@ -32,6 +32,9 @@
   -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
   mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
 }
+@supports not (scrollbar-color: auto) {
+  .scroll-x-pista { scrollbar-width: auto; }
+}
 
 /* R5 (modales que empiezan arriba): lo cumple .au-modal en componentes.css (072). */
 
@@ -87,4 +90,20 @@
   main .rounded-3xl.p-6 {
     padding: 1rem;
   }
+}
+
+/* Alturas dinámicas de viewport (dvh) para modales y contenedores móviles */
+.min-h-screen { min-height: 100dvh; }
+.max-h-\[55vh\] { max-height: 55dvh; }
+.max-h-\[60vh\] { max-height: 60dvh; }
+.max-h-\[70vh\] { max-height: 70dvh; }
+.max-h-\[85vh\] { max-height: 85dvh; }
+.max-h-\[90vh\] { max-height: 90dvh; }
+.max-h-\[92vh\] { max-height: 92dvh; }
+.h-\[60vh\] { height: 60dvh; }
+.h-\[85vh\] { height: 85dvh; }
+.h-\[92vh\] { height: 92dvh; }
+
+@media (min-width: 768px) {
+  .md\:h-\[68vh\] { height: 68dvh; }
 }

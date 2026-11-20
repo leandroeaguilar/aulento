@@ -6,10 +6,8 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; img-src 'self' data: https:; media-src 'self' data: blob:;">
   <title>Aulento — Sistema Maestro de Estudio</title>
   <!-- Librerías servidas desde la propia app (ver static/vendor/README.md): la CSP no permite CDNs de scripts. -->
-  <script src="/static/vendor/mermaid.min.js"></script>
-  <script src="/static/vendor/marked.min.js"></script>
-  <script src="/static/vendor/purify.min.js"></script>
-  <script>if (window.mermaid) mermaid.initialize({ startOnLoad: false, theme: 'dark', securityLevel: 'strict', maxTextSize: 500000, maxEdges: 5000 });</script>
+  <script src="/static/vendor/marked.min.js" defer></script>
+  <script src="/static/vendor/purify.min.js" defer></script>
   <style>
     body[data-modo="saas"] #btn-diagnostico { display: none; }
 
@@ -28,11 +26,23 @@
     .backface-hidden { backface-visibility: hidden; }
     .rotate-y-180 { transform: rotateY(180deg); }
     
-    /* Scrollbar personalizada */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0f172a; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    /* Scrollbar estándar con fallback WebKit */
+    :root {
+      --au-sb-thumb: #64748b;
+      --au-sb-thumb-hover: #94a3b8;
+      --au-sb-track: #0f172a;
+    }
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--au-sb-thumb) var(--au-sb-track);
+    }
+    @supports not (scrollbar-color: auto) {
+      * { scrollbar-width: auto; }
+      ::-webkit-scrollbar { width: 6px; height: 6px; }
+      ::-webkit-scrollbar-track { background: var(--au-sb-track); }
+      ::-webkit-scrollbar-thumb { background: var(--au-sb-thumb); border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: var(--au-sb-thumb-hover); }
+    }
 
     /* Clase renderizada desde Markdown (visor y diapositivas) */
     .lesson-md { color: #cbd5e1; line-height: 1.65; overflow-wrap: anywhere; contain: paint; }
@@ -96,14 +106,18 @@
     #dag-canvas-card.dag-fullscreen #dag-diagram {
       flex: 1 1 auto !important;
       height: calc(100vh - 7.5rem) !important;
+      height: calc(100dvh - 7.5rem) !important;
       max-height: calc(100vh - 7.5rem) !important;
+      max-height: calc(100dvh - 7.5rem) !important;
     }
     #dag-diagram.dag-fullscreen {
       position: fixed !important;
       inset: 1.5rem !important;
       z-index: 60 !important;
       max-height: calc(100vh - 3rem) !important;
+      max-height: calc(100dvh - 3rem) !important;
       height: calc(100vh - 3rem) !important;
+      height: calc(100dvh - 3rem) !important;
       box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.8), 0 25px 50px -12px rgba(0, 0, 0, 0.9) !important;
     }
     #dag-diagram svg {
@@ -173,6 +187,7 @@
     }
     /* Selección reactiva de temas */
     #dag-diagram g.node:focus { outline: none; }
+    #dag-diagram g.node:focus-visible > rect, #dag-diagram g.node:focus-visible > polygon { stroke: #38bdf8 !important; stroke-width: 3px !important; filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.85)) !important; }
     #dag-diagram g.node.dag-node-dimmed {
       opacity: 0.18 !important;
       filter: grayscale(85%) !important;
@@ -272,6 +287,7 @@
   <link rel="stylesheet" href="/static/movil.css?v=2.21">
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex font-sans selection:bg-sky-500 selection:text-white overflow-x-hidden">
+  <a href="#main-content" class="au-saltar-contenido">Saltar al contenido</a>
 
   <!-- Mobile Overlay Backdrop -->
   <div id="sidebar-backdrop" data-accion="alternar-sidebar-movil" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[48] hidden lg:hidden transition-opacity"></div>
@@ -281,9 +297,7 @@
     <!-- Brand / Header de la Aplicación -->
     <div class="p-5 border-b border-slate-800/80 flex items-center justify-between">
       <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center font-bold text-xl shadow-lg shadow-sky-500/20 text-white shrink-0">
-          ⚡
-        </div>
+        <img src="/static/icons/icon.svg" alt="Logo de Aulento" width="40" height="40" class="w-10 h-10 rounded-xl shadow-lg shadow-sky-500/20 shrink-0">
         <div class="min-w-0">
           <h1 class="font-bold text-base tracking-tight text-white flex items-center gap-1.5">
             <span>Aulento</span>
@@ -298,14 +312,14 @@
     </div>
 
     <!-- Navegación por Módulos y Categorías -->
-    <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-6">
+    <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-6" aria-label="Principal">
       <!-- 1. Principal -->
       <div class="space-y-1">
         <p class="px-3 text-xs font-bold uppercase tracking-wider text-slate-400">Principal</p>
-        <button data-accion="ir-a-pestana" data-pestana="dashboard" id="tab-btn-dashboard" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-bold rounded-xl bg-sky-600 text-white shadow-md shadow-sky-950/40 border border-sky-500/50 transition">
+        <button type="button" data-accion="ir-a-pestana" data-pestana="dashboard" id="tab-btn-dashboard" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-bold rounded-xl bg-sky-600 text-white shadow-md shadow-sky-950/40 border border-sky-500/50 transition">
           <span class="flex items-center gap-3"><span>🏠</span> <span>Dashboard</span></span>
         </button>
-        <button data-accion="ir-a-pestana" data-pestana="schedule" id="tab-btn-schedule" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
+        <button type="button" data-accion="ir-a-pestana" data-pestana="schedule" id="tab-btn-schedule" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
           <span class="flex items-center gap-3"><span>📅</span> <span>Cronograma</span></span>
         </button>
       </div>
@@ -313,16 +327,16 @@
       <!-- 2. Aprendizaje -->
       <div class="space-y-1">
         <p class="px-3 text-xs font-bold uppercase tracking-wider text-slate-400">Aprendizaje</p>
-        <button data-accion="ir-a-pestana" data-pestana="courses" id="tab-btn-courses" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
+        <button type="button" data-accion="ir-a-pestana" data-pestana="courses" id="tab-btn-courses" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
           <span class="flex items-center gap-3"><span>🎓</span> <span>Cursos</span></span>
         </button>
-        <button data-accion="ir-a-pestana" data-pestana="books" id="tab-btn-books" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
+        <button type="button" data-accion="ir-a-pestana" data-pestana="books" id="tab-btn-books" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
           <span class="flex items-center gap-3"><span>📖</span> <span>Libros</span></span>
         </button>
-        <button data-accion="ir-a-pestana" data-pestana="roadmap" id="tab-btn-roadmap" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
+        <button type="button" data-accion="ir-a-pestana" data-pestana="roadmap" id="tab-btn-roadmap" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
           <span class="flex items-center gap-3"><span>🗺️</span> <span>Rutas</span></span>
         </button>
-        <button data-accion="ir-a-pestana" data-pestana="notes" id="tab-btn-notes" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
+        <button type="button" data-accion="ir-a-pestana" data-pestana="notes" id="tab-btn-notes" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
           <span class="flex items-center gap-3"><span>📝</span> <span>Mis notas</span></span>
         </button>
       </div>
@@ -330,15 +344,15 @@
       <!-- 3. Retención & IA -->
       <div class="space-y-1">
         <p class="px-3 text-xs font-bold uppercase tracking-wider text-slate-400">Retención & IA</p>
-        <button data-accion="ir-a-pestana" data-pestana="fsrs" id="tab-btn-fsrs" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
+        <button type="button" data-accion="ir-a-pestana" data-pestana="fsrs" id="tab-btn-fsrs" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
           <span class="flex items-center gap-3"><span>🇬🇧</span> <span>Inglés Técnico</span></span>
           <span id="tab-fsrs-badge" class="px-2 py-0.5 text-xs font-mono font-bold rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/30">0</span>
         </button>
-        <button data-accion="ir-a-pestana" data-pestana="brain" id="tab-btn-brain" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
+        <button type="button" data-accion="ir-a-pestana" data-pestana="brain" id="tab-btn-brain" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
           <span class="flex items-center gap-3"><span>🧠</span> <span>Cerebro & Tutor IA</span></span>
           <span id="tab-brain-badge" class="px-2 py-0.5 text-xs font-mono font-bold rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">Índice</span>
         </button>
-        <button data-accion="ir-a-pestana" data-pestana="exams" id="tab-btn-exams" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
+        <button type="button" data-accion="ir-a-pestana" data-pestana="exams" id="tab-btn-exams" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
           <span class="flex items-center gap-3"><span>📝</span> <span>Repaso Activo</span></span>
         </button>
       </div>
@@ -346,7 +360,7 @@
       <!-- 4. Sistema -->
       <div class="space-y-1">
         <p class="px-3 text-xs font-bold uppercase tracking-wider text-slate-400">Sistema</p>
-        <button data-accion="ir-a-pestana" data-pestana="config" id="tab-btn-config" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
+        <button type="button" data-accion="ir-a-pestana" data-pestana="config" id="tab-btn-config" class="tab-btn w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-slate-950/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800/80 transition">
           <span class="flex items-center gap-3"><span>⚙️</span> <span>Configuración</span></span>
         </button>
 
@@ -483,7 +497,7 @@
     </header>
 
     <!-- Contenedor Principal Amplio y Respirable -->
-    <main class="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-10 py-8 flex-1 margen-barra-inferior">
+    <main id="main-content" tabindex="-1" class="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-10 py-8 flex-1 margen-barra-inferior">
 
       <!-- 1. TAB: DASHBOARD GENERAL -->
       <section id="tab-dashboard" class="tab-content space-y-8">
@@ -615,6 +629,7 @@
                   </div>
                 </div>
                 <div class="au-cabecera__acciones">
+                  <label for="heatmap-days-select" class="sr-only">Período del mapa de constancia</label>
                   <select id="heatmap-days-select" data-accion="cambiar-dias-heatmap" class="au-campo__control au-campo__control--compacto">
                     <option value="30">Últimos 30 días</option>
                     <option value="90" selected>Últimos 90 días</option>
@@ -625,7 +640,7 @@
               </div>
 
               <!-- Contenedor del Heatmap SVG/CSS Grid -->
-              <div class="au-tarjeta au-tarjeta--hundida overflow-x-auto no-scrollbar scroll-x-pista">
+              <div class="au-tarjeta au-tarjeta--hundida overflow-x-auto no-scrollbar scroll-x-pista" tabindex="0" role="region" aria-label="Mapa de constancia diaria">
                 <div id="heatmap-grid-container" class="flex flex-wrap gap-1.5 min-w-[500px]">
                   <!-- Renderizado dinámico -->
                 </div>
@@ -776,6 +791,7 @@
                   </div>
                 </div>
                 <div class="au-campo">
+                  <label for="pomodoro-notes-input" class="sr-only">Objetivo de la sesión</label>
                   <input type="text" id="pomodoro-notes-input" placeholder="Objetivo de la sesión..." class="au-campo__control">
                 </div>
                 <div class="flex flex-wrap items-center gap-2 pt-1">
@@ -860,10 +876,11 @@
 
       <!-- Barra de Búsqueda y Filtros de Cursos -->
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 au-tarjeta au-tarjeta--hundida">
-        <div class="relative flex-1 max-w-md">
+        <search class="relative flex-1 max-w-md">
+          <label for="course-search-input" class="sr-only">Buscar curso o plataforma</label>
           <input type="text" id="course-search-input" data-accion="buscar-cursos" data-al-escribir placeholder="Buscar curso o plataforma..." class="au-campo__control au-campo__control--con-icono">
           <span class="au-campo__icono" aria-hidden="true">🔍</span>
-        </div>
+        </search>
         <div class="au-pestanas" role="tablist" aria-label="Filtro de cursos">
           <button type="button" role="tab" data-accion="filtrar-cursos" data-valor="todos" id="btn-course-filter-todos" class="au-pestanas__boton" aria-selected="true">Todos</button>
           <button type="button" role="tab" data-accion="filtrar-cursos" data-valor="en_progreso" id="btn-course-filter-progreso" class="au-pestanas__boton" aria-selected="false">En Curso</button>
@@ -900,10 +917,11 @@
 
       <!-- Barra de Búsqueda y Filtros de Libros -->
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 au-tarjeta au-tarjeta--hundida">
-        <div class="relative flex-1 max-w-md">
+        <search class="relative flex-1 max-w-md">
+          <label for="book-search-input" class="sr-only">Buscar libro por título o autor</label>
           <input type="text" id="book-search-input" data-accion="buscar-libros" data-al-escribir placeholder="Buscar por título o autor..." class="au-campo__control au-campo__control--con-icono">
           <span class="au-campo__icono" aria-hidden="true">🔍</span>
-        </div>
+        </search>
         <div class="au-pestanas" role="tablist" aria-label="Filtro de libros">
           <button type="button" role="tab" data-accion="filtrar-libros" data-valor="todos" id="btn-book-filter-todos" class="au-pestanas__boton" aria-selected="true">Todos</button>
           <button type="button" role="tab" data-accion="filtrar-libros" data-valor="en_progreso" id="btn-book-filter-progreso" class="au-pestanas__boton" aria-selected="false">En Lectura</button>
@@ -1170,9 +1188,7 @@
             <div class="flex items-center justify-between text-xs text-slate-400 px-1">
               <div class="flex items-center gap-2.5">
                 <span id="fsrs-card-counter" class="font-bold text-slate-200">Tarjeta 1 de 10</span>
-                <div class="w-28 sm:w-44 au-progreso" title="Progreso de la sesión actual">
-                  <div id="fsrs-session-progress-bar" class="au-progreso__barra" style="width: 10%;"></div>
-                </div>
+                <progress id="fsrs-session-progress-bar" class="w-28 sm:w-44 au-progreso" value="10" max="100" aria-label="Progreso de la sesión actual" title="Progreso de la sesión actual"></progress>
               </div>
               <div class="flex items-center gap-2">
                 <!-- Botón Rápido de Siguiente Tarjeta (Visible al voltear) -->
@@ -1525,6 +1541,7 @@
         <form data-accion="preguntar-tutor-cerebro" class="space-y-3">
           <div class="flex flex-col sm:flex-row gap-2">
             <div class="relative flex-1 w-full">
+              <label for="cloud-agent-input" class="sr-only">Pregunta para el tutor o búsqueda</label>
               <input type="text" id="cloud-agent-input" 
                 placeholder="Preguntale a tu biblioteca o busca: ej. '¿Cómo funciona el protocolo TCP?' o 'Estrategias de memorización espaciada'..." 
                 class="au-campo__control">
@@ -1591,7 +1608,7 @@
             <div class="flex items-center gap-2">
               <span class="text-lg" aria-hidden="true">🤖</span>
               <div>
-                <h4 class="font-bold text-white text-sm" id="agent-result-title">Explicación del Agente</h4>
+                <h3 class="font-bold text-white text-sm" id="agent-result-title">Explicación del Agente</h3>
                 <div class="flex items-center gap-2 text-xs text-slate-400">
                   <span id="agent-result-model" class="text-sky-400 font-mono">Gemini AI</span>
                   <span>•</span>
@@ -1688,20 +1705,18 @@
               <span class="text-slate-400 font-medium">Espacio usado</span>
               <span id="materiales-espacio-texto" class="text-slate-300 font-mono text-xs">-</span>
             </div>
-            <div class="au-progreso" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-              <div id="materiales-espacio-barra" class="au-progreso__barra" style="width: 0%"></div>
-            </div>
+            <progress id="materiales-espacio-barra" class="au-progreso" value="0" max="100" aria-label="Espacio usado"></progress>
             <p class="text-xs text-slate-400">Hasta 25 MB por archivo y 200 MB en total. Se aceptan .pdf, .md, .markdown y .txt. Los PDF escaneados sin texto no sirven: el tutor no puede leerlos.</p>
           </div>
 
           <!-- Progreso de las subidas en curso -->
           <div id="materiales-subidas" class="hidden space-y-1.5"></div>
 
-          <div class="flex flex-col sm:flex-row sm:items-center gap-3 pt-3 border-t border-slate-800/80">
+          <search class="flex flex-col sm:flex-row sm:items-center gap-3 pt-3 border-t border-slate-800/80">
             <label for="materiales-filtro" class="sr-only">Buscar por nombre</label>
             <input type="text" id="materiales-filtro" placeholder="Buscar por nombre..." data-accion="filtrar-materiales" data-al-escribir class="flex-1 au-campo__control">
             <span id="materiales-cantidad" class="au-insignia au-insignia--mono">0 materiales</span>
-          </div>
+          </search>
         </section>
 
         <!-- Lista de materiales de la cuenta -->
@@ -1768,7 +1783,7 @@
         <div id="exam-questions-container" class="space-y-4">
           <div class="au-vacio text-center">
             <span class="au-vacio__icono" aria-hidden="true">🎯</span>
-            <h4 class="au-vacio__titulo">Sesión de Repaso Activo</h4>
+            <h3 class="au-vacio__titulo">Sesión de Repaso Activo</h3>
             <p class="au-vacio__texto">
               Seleccioná una nota de Mis notas arriba y elegí el formato de examen (opción múltiple, cloze o razonamiento abierto) para poner a prueba tu retención.
             </p>
@@ -1867,6 +1882,7 @@
           </div>
         </div>
         <div class="flex flex-col sm:flex-row gap-2 pt-1">
+          <label for="notes-location-path" class="sr-only">Ruta de la carpeta de notas</label>
           <input type="text" id="notes-location-path" placeholder="C:\ruta\a\tu\boveda" class="flex-1 au-campo__control font-mono">
           <button type="button" id="btn-save-notes-location" data-accion="guardar-ubicacion-notas" class="au-boton au-boton--primario shrink-0">
             Cambiar carpeta
@@ -1881,13 +1897,14 @@
       <!-- Buscador y Vista Dividida: Lista de notas a la izquierda y visor a la derecha -->
       <div class="space-y-4">
         <!-- Barra de búsqueda -->
-        <div class="relative w-full">
+        <search class="relative w-full">
+          <label for="notes-search-input" class="sr-only">Buscar en mis notas</label>
           <input type="text" id="notes-search-input" data-accion="buscar-notas" data-al-escribir placeholder="Buscar en el título, texto o etiquetas de tus notas..." class="au-campo__control au-campo__control--con-icono">
           <span class="au-campo__icono" aria-hidden="true">🔍</span>
           <div class="absolute right-3 top-0 bottom-0 flex items-center pointer-events-none">
             <span id="notes-count-badge" class="au-insignia au-insignia--mono">0 notas</span>
           </div>
-        </div>
+        </search>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           <!-- Columna izquierda: Lista agrupada por carpeta (4 cols) -->
@@ -2474,16 +2491,17 @@
             </h4>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-xs text-slate-300">
+                <caption class="sr-only">Solicitudes recientes a Gemini Gateway</caption>
                 <thead class="text-xs uppercase tracking-wider text-slate-500 border-b border-slate-800">
                   <tr>
-                    <th class="py-2.5 px-3">Fecha</th>
-                    <th class="py-2.5 px-3">Función del Sistema</th>
-                    <th class="py-2.5 px-3">Modelo</th>
-                    <th class="py-2.5 px-3">Tipo de Clave</th>
-                    <th class="py-2.5 px-3">Tokens (P / C)</th>
-                    <th class="py-2.5 px-3">Latencia</th>
-                    <th class="py-2.5 px-3">Costo USD</th>
-                    <th class="py-2.5 px-3">Estado</th>
+                    <th scope="col" class="py-2.5 px-3">Fecha</th>
+                    <th scope="col" class="py-2.5 px-3">Función del Sistema</th>
+                    <th scope="col" class="py-2.5 px-3">Modelo</th>
+                    <th scope="col" class="py-2.5 px-3">Tipo de Clave</th>
+                    <th scope="col" class="py-2.5 px-3">Tokens (P / C)</th>
+                    <th scope="col" class="py-2.5 px-3">Latencia</th>
+                    <th scope="col" class="py-2.5 px-3">Costo USD</th>
+                    <th scope="col" class="py-2.5 px-3">Estado</th>
                   </tr>
                 </thead>
                 <tbody id="analytics-table-logs-body" class="divide-y divide-slate-900 font-mono text-xs">
@@ -2597,6 +2615,7 @@
           <!-- Selector de Ruta Activa y Acciones (Distribución Limpia & Sin Iconos Apretados) -->
           <div class="flex flex-wrap items-center gap-2.5">
             <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+              <label for="roadmap-selector" class="sr-only">Ruta de aprendizaje activa</label>
               <select id="roadmap-selector" data-accion="ruta-cambiar-seleccion" class="au-campo__control w-full sm:w-auto min-w-0 sm:min-w-[220px] max-w-full sm:max-w-[360px]">
                 <!-- Llenado dinámicamente -->
               </select>
@@ -2645,9 +2664,7 @@
               <span>Maestría de la Ruta</span>
               <span id="roadmap-kpi-bar-text" class="text-emerald-400 font-semibold">0%</span>
             </div>
-            <div class="au-progreso">
-              <div id="roadmap-progress-bar" class="au-progreso__barra" style="width: 0%"></div>
-            </div>
+            <progress id="roadmap-progress-bar" class="au-progreso" value="0" max="100" aria-label="Maestría de la ruta"></progress>
           </div>
         </div>
       </div>
@@ -2701,13 +2718,13 @@
             <div>
               <div class="flex items-center gap-2">
                 <span class="text-lg">🕸️</span>
-                <h4 class="font-bold text-white text-base">Grafo</h4>
+                <h3 class="font-bold text-white text-base">Grafo</h3>
               </div>
               <p class="text-xs text-slate-400 mt-0.5">Haz clic en un tema para ver sus requisitos previos, lo que desbloquea y sus conexiones.</p>
             </div>
             <div class="flex flex-wrap items-center gap-3">
               <label for="dag-toggle-implicit" class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer" title="Cada tema sin requisito previo depende del tema anterior">
-                <input type="checkbox" id="dag-toggle-implicit" data-accion="ruta-alternar-secuencia-implicita" checked class="rounded bg-slate-900 border-slate-700 text-sky-600 focus:ring-0">
+                <input type="checkbox" id="dag-toggle-implicit" data-accion="ruta-alternar-secuencia-implicita" checked class="rounded bg-slate-900 border-slate-700 text-sky-600">
                 Secuencia implícita
               </label>
               <button type="button" id="btn-dag-suggest" data-accion="ruta-sugerir-requisitos" class="au-boton au-boton--primario au-boton--chico">✨ Sugerir requisitos previos con IA</button>
@@ -2849,7 +2866,7 @@
 
   </main>
     <!-- Barra de Navegación Inferior Móvil (R4) -->
-    <nav id="barra-inferior" class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-slate-900/95 backdrop-blur border-t border-slate-800 grid grid-cols-5 items-center px-1 shadow-2xl">
+    <nav id="barra-inferior" aria-label="Acceso rápido móvil" class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-slate-900/95 backdrop-blur border-t border-slate-800 grid grid-cols-5 items-center px-1 shadow-2xl">
       <button type="button" data-pestana="dashboard" data-accion="ir-a-pestana" class="toque flex flex-col items-center justify-center flex-1 py-1 text-slate-400 hover:text-white transition text-xs font-medium" aria-current="page">
         <span class="text-base leading-none" aria-hidden="true">🏠</span>
         <span class="text-xs mt-0.5">Hoy</span>
@@ -2937,7 +2954,7 @@
 
       <div class="au-modal__cuerpo overflow-y-auto flex-1 text-sm">
         <p id="modal-material-cortado" class="hidden text-xs text-amber-200 bg-amber-950/40 border border-amber-800/60 rounded-xl px-3 py-2">El texto es muy largo: acá se muestra solo el principio. El tutor lo lee entero.</p>
-        <pre id="modal-material-content" class="bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-slate-300 whitespace-pre-wrap leading-relaxed overflow-x-auto max-h-[55vh]"></pre>
+        <pre id="modal-material-content" class="bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs font-mono text-slate-300 whitespace-pre-wrap leading-relaxed overflow-x-auto max-h-[55vh]" tabindex="0" role="region" aria-labelledby="modal-material-name"></pre>
       </div>
 
       <div class="au-modal__pie flex justify-end">
@@ -3027,9 +3044,9 @@
       <!-- PASO 1: PROVEEDOR Y CLAVE DE IA -->
       <div id="wizard-step-1" class="space-y-4">
         <div class="space-y-1">
-          <h4 class="text-sm font-bold text-white flex items-center gap-2">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
             <span>✨</span> Elegí tu Proveedor de Inteligencia Artificial
-          </h4>
+          </h3>
           <p class="text-xs text-slate-400">El modelo generará tus clases, cuestionarios de lectura activa y rutas de estudio personalizadas.</p>
         </div>
 
@@ -3074,11 +3091,11 @@
           <div id="wizard-gemini-tier-block" class="flex items-center gap-3 pt-1">
             <label class="text-xs text-slate-400">Nivel de cuenta:</label>
             <label class="inline-flex items-center gap-1.5 text-xs text-slate-300 cursor-pointer">
-              <input type="radio" name="wizard-gemini-tier" value="free" checked class="text-sky-500 focus:ring-0">
+              <input type="radio" name="wizard-gemini-tier" value="free" checked class="text-sky-500">
               Cuenta Gratuita (Estándar)
             </label>
             <label class="inline-flex items-center gap-1.5 text-xs text-slate-300 cursor-pointer">
-              <input type="radio" name="wizard-gemini-tier" value="paid" class="text-sky-500 focus:ring-0">
+              <input type="radio" name="wizard-gemini-tier" value="paid" class="text-sky-500">
               Cuenta con Facturación Activa
             </label>
           </div>
@@ -4278,7 +4295,7 @@
         <div class="flex-1 overflow-hidden flex flex-col space-y-2 border-t border-slate-800 pt-3">
           <div class="flex items-center justify-between text-xs text-slate-400">
             <label class="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" id="harvester-select-all" data-accion="modal-alternar-todas-tarjetas-cosecha" class="rounded bg-slate-950 border-slate-700 text-sky-500 focus:ring-0">
+              <input type="checkbox" id="harvester-select-all" data-accion="modal-alternar-todas-tarjetas-cosecha" class="rounded bg-slate-950 border-slate-700 text-sky-500">
               <span>Seleccionar todas las tarjetas nuevas</span>
             </label>
             <span id="harvester-count-label" class="font-mono text-slate-400">0 tarjetas encontradas</span>
@@ -4517,10 +4534,10 @@
 
           <!-- Desglose por Niveles A1..C1 -->
           <div class="space-y-2">
-            <h4 class="font-bold text-slate-300 text-xs flex items-center justify-between">
+            <h3 class="font-bold text-slate-300 text-xs flex items-center justify-between">
               <span>Desglose por Niveles Progresivos</span>
               <span class="text-slate-500 font-normal text-xs">Retención & Cobertura</span>
-            </h4>
+            </h3>
             <div id="evo-levels-list" class="space-y-2">
               <!-- Rellenado dinámicamente por JS -->
             </div>
@@ -4679,7 +4696,7 @@
         <div id="prereq-suggestions-list" class="space-y-2 pr-1"></div>
 
         <label for="prereq-suggestions-disable-implicit" class="flex items-start gap-2 text-xs text-slate-300 cursor-pointer pt-2">
-          <input type="checkbox" id="prereq-suggestions-disable-implicit" class="mt-0.5 rounded bg-slate-900 border-slate-700 text-sky-600 focus:ring-0">
+          <input type="checkbox" id="prereq-suggestions-disable-implicit" class="mt-0.5 rounded bg-slate-900 border-slate-700 text-sky-600">
           <span>Desactivar la secuencia implícita al aceptar. La propuesta de la IA describe el plan completo: los temas sin requisito explícito quedarán libres.</span>
         </label>
 
@@ -4852,7 +4869,7 @@
 
           <div class="flex items-center justify-between p-3 bg-indigo-950/30 border border-indigo-900/60 rounded-xl">
             <div class="flex items-center gap-2">
-              <input type="checkbox" id="import-syllabus-enhance" class="rounded bg-slate-900 border-slate-700 text-indigo-600 focus:ring-0">
+              <input type="checkbox" id="import-syllabus-enhance" class="rounded bg-slate-900 border-slate-700 text-indigo-600">
               <label for="import-syllabus-enhance" class="text-xs font-semibold text-slate-200 cursor-pointer">
                 ✨ Enriquecer con IA (Detección de temas faltantes y progresión)
               </label>
@@ -4931,11 +4948,11 @@
 
         <div class="flex flex-wrap items-center gap-5 text-xs text-slate-300">
           <label class="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" id="pedagogical-profile-usa-codigo" class="rounded bg-slate-900 border-slate-700 text-sky-600 focus:ring-0">
+            <input type="checkbox" id="pedagogical-profile-usa-codigo" class="rounded bg-slate-900 border-slate-700 text-sky-600">
             Las clases incluyen código
           </label>
           <label class="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" id="pedagogical-profile-usa-diagramas" class="rounded bg-slate-900 border-slate-700 text-sky-600 focus:ring-0">
+            <input type="checkbox" id="pedagogical-profile-usa-diagramas" class="rounded bg-slate-900 border-slate-700 text-sky-600">
             Las clases incluyen diagramas conceptuales
           </label>
         </div>
@@ -4985,35 +5002,35 @@
           <span class="text-xs sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider">Opciones de la Guía</span>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
             <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
-              <input type="checkbox" id="prompt-toggle-materiales" checked data-accion="ruta-refrescar-prompt-tema" class="rounded bg-slate-900 border-slate-700 text-sky-500 focus:ring-0">
+              <input type="checkbox" id="prompt-toggle-materiales" checked data-accion="ruta-refrescar-prompt-tema" class="rounded bg-slate-900 border-slate-700 text-sky-500">
               <span>📚 Buscar en mis materiales (MCP)</span>
             </label>
             <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
-              <input type="checkbox" id="prompt-toggle-web" checked data-accion="ruta-refrescar-prompt-tema" class="rounded bg-slate-900 border-slate-700 text-sky-500 focus:ring-0">
+              <input type="checkbox" id="prompt-toggle-web" checked data-accion="ruta-refrescar-prompt-tema" class="rounded bg-slate-900 border-slate-700 text-sky-500">
               <span>🌐 Investigación Web & Docs Oficial</span>
             </label>
             <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
-              <input type="checkbox" id="prompt-toggle-fsrs" checked data-accion="ruta-refrescar-prompt-tema" class="rounded bg-slate-900 border-slate-700 text-sky-500 focus:ring-0">
+              <input type="checkbox" id="prompt-toggle-fsrs" checked data-accion="ruta-refrescar-prompt-tema" class="rounded bg-slate-900 border-slate-700 text-sky-500">
               <span>🧠 Preguntas de Repaso Activo</span>
             </label>
             <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
-              <input type="checkbox" id="prompt-toggle-visuals" checked data-accion="ruta-refrescar-prompt-tema" class="rounded bg-slate-900 border-slate-700 text-sky-500 focus:ring-0">
+              <input type="checkbox" id="prompt-toggle-visuals" checked data-accion="ruta-refrescar-prompt-tema" class="rounded bg-slate-900 border-slate-700 text-sky-500">
               <span>🖼️ Figuras generadas (SVG)</span>
             </label>
             <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
-              <input type="checkbox" id="prompt-toggle-slides" checked data-accion="ruta-refrescar-prompt-tema" class="rounded bg-slate-900 border-slate-700 text-sky-500 focus:ring-0">
+              <input type="checkbox" id="prompt-toggle-slides" checked data-accion="ruta-refrescar-prompt-tema" class="rounded bg-slate-900 border-slate-700 text-sky-500">
               <span>🎞️ Diapositivas de repaso</span>
             </label>
             <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
-              <input type="checkbox" id="prompt-toggle-quiz" data-accion="ruta-refrescar-prompt-tema" class="rounded bg-slate-900 border-slate-700 text-sky-500 focus:ring-0">
+              <input type="checkbox" id="prompt-toggle-quiz" data-accion="ruta-refrescar-prompt-tema" class="rounded bg-slate-900 border-slate-700 text-sky-500">
               <span>✅ Autoevaluación (5 preguntas)</span>
             </label>
             <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
-              <input type="checkbox" id="prompt-toggle-glossary" data-accion="ruta-refrescar-prompt-tema" class="rounded bg-slate-900 border-slate-700 text-sky-500 focus:ring-0">
+              <input type="checkbox" id="prompt-toggle-glossary" data-accion="ruta-refrescar-prompt-tema" class="rounded bg-slate-900 border-slate-700 text-sky-500">
               <span>📚 Glosario y bibliografía</span>
             </label>
             <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
-              <input type="checkbox" id="prompt-toggle-bridge" data-accion="ruta-refrescar-prompt-tema" class="rounded bg-slate-900 border-slate-700 text-sky-500 focus:ring-0">
+              <input type="checkbox" id="prompt-toggle-bridge" data-accion="ruta-refrescar-prompt-tema" class="rounded bg-slate-900 border-slate-700 text-sky-500">
               <span>🔗 Puente con el tema anterior y el siguiente</span>
             </label>
           </div>
@@ -5089,11 +5106,11 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs p-3 bg-slate-950 border border-slate-800 rounded-xl">
           <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
-            <input type="checkbox" id="import-auto-fsrs" checked class="rounded bg-slate-900 border-slate-700 text-sky-500 focus:ring-0">
+            <input type="checkbox" id="import-auto-fsrs" checked class="rounded bg-slate-900 border-slate-700 text-sky-500">
             <span>🧠 Generar tarjetas de estudio al importar</span>
           </label>
           <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
-            <input type="checkbox" id="import-auto-vault" checked class="rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-0">
+            <input type="checkbox" id="import-auto-vault" checked class="rounded bg-slate-900 border-slate-700 text-emerald-500">
             <span>📝 Guardar apunte en Mis notas</span>
           </label>
         </div>
@@ -5326,28 +5343,28 @@
   </div>
 
   <!-- Script de Capacidades y Textos por Versión -->
-  <script src="/static/componentes.js?v=2.21"></script>
-  <script src="/static/capacidades.js"></script>
+  <script src="/static/componentes.js?v=2.21" defer></script>
+  <script src="/static/capacidades.js" defer></script>
 
   <!-- Scripts modulares del cliente -->
-  <script src="/static/js/00-base.js?v=2.21"></script>
-  <script src="/static/js/comunes.js?v=2.21"></script>
-  <script src="/static/js/pantalla-courses.js?v=2.21"></script>
-  <script src="/static/js/pantalla-schedule.js?v=2.21"></script>
-  <script src="/static/js/pantalla-fsrs.js?v=2.21"></script>
-  <script src="/static/js/pantalla-brain.js?v=2.21"></script>
-  <script src="/static/js/pantalla-dashboard.js?v=2.21"></script>
-  <script src="/static/js/pantalla-exams.js?v=2.21"></script>
-  <script src="/static/js/pantalla-notes.js?v=2.21"></script>
-  <script src="/static/js/pantalla-roadmap.js?v=2.21"></script>
-  <script src="/static/js/pantalla-books.js?v=2.21"></script>
-  <script src="/static/js/pantalla-config.js?v=2.21"></script>
+  <script src="/static/js/00-base.js?v=2.21" defer></script>
+  <script src="/static/js/comunes.js?v=2.21" defer></script>
+  <script src="/static/js/pantalla-courses.js?v=2.21" defer></script>
+  <script src="/static/js/pantalla-schedule.js?v=2.21" defer></script>
+  <script src="/static/js/pantalla-fsrs.js?v=2.21" defer></script>
+  <script src="/static/js/pantalla-brain.js?v=2.21" defer></script>
+  <script src="/static/js/pantalla-dashboard.js?v=2.21" defer></script>
+  <script src="/static/js/pantalla-exams.js?v=2.21" defer></script>
+  <script src="/static/js/pantalla-notes.js?v=2.21" defer></script>
+  <script src="/static/js/pantalla-roadmap.js?v=2.21" defer></script>
+  <script src="/static/js/pantalla-books.js?v=2.21" defer></script>
+  <script src="/static/js/pantalla-config.js?v=2.21" defer></script>
 
   <!-- Script Cliente Reactivo -->
-  <script src="/static/app.js?v=2.21"></script>
+  <script src="/static/app.js?v=2.21" defer></script>
 
   <!-- Script MCP Remoto en la Web -->
-  <script src="/static/mcp-remoto.js"></script>
+  <script src="/static/mcp-remoto.js" defer></script>
 
   <!-- MODAL: SINCRONIZACIÓN AUTOMÁTICA DE CURSOS (WEBHOOK) -->
     <!-- MODAL: WEBHOOK SINCRONIZACIÓN DE CURSOS -->
@@ -5971,7 +5988,7 @@
   </div>
 
   <!-- TOAST CONTAINER FLOTANTE -->
-  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2.5 max-w-sm pointer-events-none"></div>
+  <div id="toast-container" role="status" aria-live="polite" aria-atomic="false" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2.5 max-w-sm pointer-events-none"></div>
 
   <!-- HUD Flotante de Sesión Guiada de Estudio -->
   <div id="guided-session-hud" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-slate-900/95 border border-sky-500/50 shadow-2xl shadow-black/80 rounded-2xl px-5 py-3 items-center gap-4 text-xs backdrop-blur-md">

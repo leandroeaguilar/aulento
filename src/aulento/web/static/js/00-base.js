@@ -170,6 +170,9 @@ function showToast(message, type = 'info', duration = 3500) {
   if (!container) {
     container = document.createElement('div');
     container.id = 'toast-container';
+    container.setAttribute('role', 'status');
+    container.setAttribute('aria-live', 'polite');
+    container.setAttribute('aria-atomic', 'false');
     container.className = 'fixed bottom-6 right-6 z-50 flex flex-col gap-2.5 max-w-sm pointer-events-none';
     document.body.appendChild(container);
   }
@@ -190,9 +193,9 @@ function showToast(message, type = 'info', duration = 3500) {
   const toast = document.createElement('div');
   toast.className = `pointer-events-auto flex items-center gap-3 p-3.5 rounded-2xl border backdrop-blur-md shadow-xl text-xs font-medium transition-all duration-300 transform translate-y-2 opacity-0 ${borders[type] || borders.info}`;
   toast.innerHTML = `
-    <span class="text-base shrink-0">${icons[type] || 'ℹ️'}</span>
+    <span class="text-base shrink-0" aria-hidden="true">${icons[type] || 'ℹ️'}</span>
     <span class="flex-1 text-slate-200 leading-snug">${escapeHtml(message)}</span>
-    <button class="text-slate-400 hover:text-white text-base leading-none shrink-0">&times;</button>
+    <button type="button" aria-label="Cerrar notificación" class="text-slate-400 hover:text-white text-base leading-none shrink-0">&times;</button>
   `;
 
   const closeBtn = toast.querySelector('button');
@@ -442,6 +445,7 @@ function showPromptDialog({
 
     const onKeyDown = (e) => {
       if (e.key === 'Enter') {
+        if (e.isComposing || e.keyCode === 229) return;
         e.preventDefault();
         onOk();
       } else if (e.key === 'Escape') {
