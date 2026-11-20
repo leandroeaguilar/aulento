@@ -102,3 +102,12 @@ Gate final del orquestador (con todas las fases aplicadas):
 - `pytest -q -n 4`: 2381 que pasan, 10 omitidos (los mismos 10 de la línea base).
 - `ruff check .`: limpio.
 - `AULENTO_E2E=1 pytest tests/e2e --browser-channel chrome`: 33 que pasan, ninguno omitido.
+
+## Corrección al desplegar en la nube (2026-11-20)
+
+Los E2E de `aulento-cloud` dibujan la sección de MCP remoto, que en local no aparece. Ahí salieron dos problemas:
+
+- `test_acciones_config.py::test_r8_acciones_tab_config` reemplaza las funciones globales por grabadoras y dispara cada `data-accion`. Con la decisión 8, los manejadores llamaban funciones internas de la IIFE y el test no las podía grabar. Las cuatro vuelven a ser públicas con su nombre de siempre (`window.copiarSnippetMcpRemoto`, `window.revocarTokenMcpRemoto`, `window.elegirClienteMcpRemoto` y `window.crearTokenMcpRemoto`), y los manejadores de `data-accion` las buscan en `window`, como en las otras pantallas. El test de la nube ahora las graba y espera sus 8 llamadas.
+- Esto viene de antes de la revisión: `mcp-remoto.js` reconocía la cuenta demo con `window.state`, pero `state` es un `const` de `00-base.js` y no cuelga de `window`. La demo veía «Crear token» y el servidor le respondía 403. Ahora pregunta con `esCuentaCompartida()`, y la sección se vuelve a dibujar con el evento `aulento:cuenta` por si se dibujó antes de leer la cuenta.
+
+Verificado en Chrome contra la app de la nube: la demo ve el aviso y no el botón. Con una cuenta propia simulada, el evento vuelve a dibujar la sección con «Crear token», y crear con la sesión de la demo recibe 403 y muestra el aviso. Elegir Claude Code muestra su comando, y «Copiar» lo deja en el portapapeles.

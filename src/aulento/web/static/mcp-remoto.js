@@ -208,10 +208,8 @@
     mcpRemoto.snippets = [];
     var url = urlRealMcp();
 
-    var esDemo =
-      window.state &&
-      window.state.currentUser &&
-      window.state.currentUser.compartida === true;
+    // `state` es un const de 00-base.js y no cuelga de window: la cuenta se pregunta con la función de siempre
+    var esDemo = typeof window.esCuentaCompartida === 'function' && window.esCuentaCompartida();
 
     var tokenActivo = mcpRemoto.tokenNuevo ? mcpRemoto.tokenNuevo.token : '<TU_TOKEN>';
 
@@ -324,6 +322,13 @@
       tarjetaEjemplos;
   }
 
+  // Siguen siendo públicas, como cuando las llamaba un onclick. Los manejadores de data-accion las buscan en
+  // window al dispararse, igual que los de las otras pantallas: así el E2E de acciones las puede grabar.
+  window.copiarSnippetMcpRemoto = copiarSnippet;
+  window.revocarTokenMcpRemoto = revocarToken;
+  window.elegirClienteMcpRemoto = elegirCliente;
+  window.crearTokenMcpRemoto = crearToken;
+
   var accionesRegistradas = false;
   function registrarAcciones() {
     if (accionesRegistradas) return;
@@ -332,29 +337,37 @@
     window.Au.acciones.registrar('mcp-copiar-snippet', function (el, ds) {
       var indice = Number(ds.indice);
       if (!Number.isFinite(indice)) return;
-      copiarSnippet(indice, el);
+      window.copiarSnippetMcpRemoto(indice, el);
     });
     window.Au.acciones.registrar('mcp-revocar-token', function (el, ds) {
       var id = Number(ds.id);
       if (!Number.isFinite(id)) return;
-      revocarToken(id);
+      window.revocarTokenMcpRemoto(id);
     });
     window.Au.acciones.registrar('mcp-elegir-cliente', function (el, ds) {
-      elegirCliente(ds.cliente);
+      window.elegirClienteMcpRemoto(ds.cliente);
     });
     window.Au.acciones.registrar('mcp-crear-token', function () {
-      crearToken();
+      window.crearTokenMcpRemoto();
     });
   }
 
+  var tokensCargados = false;
   async function inicializar() {
     registrarAcciones();
     if (window.seTiene && !window.seTiene('mcp_web')) {
       return;
     }
     await cargarTokens();
+    tokensCargados = true;
     renderMcpRemoto();
   }
+
+  // La cuenta llega por su lado (/api/auth/me). Si la sección ya se dibujó sin saber que la cuenta es
+  // compartida, se dibuja de nuevo: la demo no puede crear tokens y no tiene que ver el botón.
+  document.addEventListener('aulento:cuenta', function () {
+    if (tokensCargados) renderMcpRemoto();
+  });
 
   document.addEventListener('capacidades-listas', function () {
     if (window.seTiene && window.seTiene('mcp_web')) {
