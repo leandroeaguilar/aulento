@@ -174,7 +174,7 @@ def test_r1_toda_clase_au_usada_existe_en_el_catalogo():
 def test_r1_las_utilidades_de_color_no_pintan_componentes():
     """Un componente toma su color de un tono del catálogo: un bg-*/text-* suelto encima rompe la unificación."""
     patron = re.compile(
-        r'class="[^"]*\bau-(?:progreso__barra|boton|insignia|aviso)\b[^"]*\b(?:bg|text|border)-(?:sky|emerald|amber|rose|red|indigo|cyan|purple|green|blue)-[0-9]{2,3}\b[^"]*"'
+        r'class="[^"]*\bau-(?:progreso|boton|insignia|aviso)\b[^"]*\b(?:bg|text|border)-(?:sky|emerald|amber|rose|red|indigo|cyan|purple|green|blue)-[0-9]{2,3}\b[^"]*"'
     )
     hallados = []
     for archivo in [INDEX, *(ESTATICO / "js").glob("*.js")]:
@@ -340,9 +340,11 @@ def _modales_manejados_con_la_clase_hidden(archivos: list[Path], ids: list[str])
 
 
 def test_r5_index_html_sin_manejadores_en_linea_ni_modales_viejos():
-    """072 T11: todo index.html migrado; un onclick nuevo o un modal-capa es marcado que volvió."""
+    """072 T11: todo index.html y mcp-remoto.js migrados; un onclick nuevo o un modal-capa es marcado que volvió."""
     html = INDEX.read_text(encoding="utf-8")
+    mcp = (ESTATICO / "mcp-remoto.js").read_text(encoding="utf-8")
     manejadores = re.findall(r"<[^>]*\son[a-z]+=\"[^\"]*\"", html)
+    manejadores += [f"mcp-remoto.js: {m}" for m in re.findall(r"\bon[a-z]+=", mcp)]
     assert not manejadores, manejadores[:5]
     assert "modal-capa" not in html and "modal-caja" not in html
 

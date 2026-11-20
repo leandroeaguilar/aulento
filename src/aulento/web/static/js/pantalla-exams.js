@@ -501,9 +501,7 @@ async function submitFeynmanEvaluation() {
                 <span class="font-bold text-slate-300">Claridad & Sencillez (Sin Jerga)</span>
                 <span class="font-mono text-sky-400 font-bold">${Number(data.clarity_score)}%</span>
               </div>
-              <div class="au-progreso" role="progressbar" aria-valuenow="${Number(data.clarity_score)}" aria-valuemin="0" aria-valuemax="100">
-                <div class="au-progreso__barra" style="width: ${Number(data.clarity_score)}%"></div>
-              </div>
+              ${Au.progreso({ valor: Number(data.clarity_score), maximo: 100, etiqueta: 'Claridad y sencillez' })}
             </div>
 
             <div class="au-tarjeta au-tarjeta--hundida">
@@ -511,9 +509,7 @@ async function submitFeynmanEvaluation() {
                 <span class="font-bold text-slate-300">Exactitud Técnica del Concepto</span>
                 <span class="font-mono text-emerald-400 font-bold">${Number(data.precision_score)}%</span>
               </div>
-              <div class="au-progreso au-progreso--exito" role="progressbar" aria-valuenow="${Number(data.precision_score)}" aria-valuemin="0" aria-valuemax="100">
-                <div class="au-progreso__barra" style="width: ${Number(data.precision_score)}%"></div>
-              </div>
+              ${Au.progreso({ valor: Number(data.precision_score), maximo: 100, tono: 'exito', etiqueta: 'Exactitud técnica' })}
             </div>
           </div>
 

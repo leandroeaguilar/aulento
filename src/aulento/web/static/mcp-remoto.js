@@ -42,14 +42,14 @@
       '<pre class="bg-slate-950 border border-slate-800 rounded-xl p-4 pr-24 text-xs text-sky-200 font-mono whitespace-pre-wrap break-all">' +
       escapeHtml(texto) +
       '</pre>' +
-      '<button type="button" onclick="window.copiarSnippetMcpRemoto(' +
+      '<button type="button" data-accion="mcp-copiar-snippet" data-indice="' +
       i +
-      ', this)" class="absolute top-2.5 right-2.5 px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold transition">Copiar</button>' +
+      '" class="absolute top-2.5 right-2.5 px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold transition">Copiar</button>' +
       '</div>'
     );
   }
 
-  window.copiarSnippetMcpRemoto = async function (i, boton) {
+  async function copiarSnippet(i, boton) {
     try {
       await navigator.clipboard.writeText(mcpRemoto.snippets[i]);
       if (boton) {
@@ -64,12 +64,12 @@
         window.showToast('No se pudo copiar: seleccioná el texto y copialo a mano.', 'warning');
       }
     }
-  };
+  }
 
-  window.elegirClienteMcpRemoto = function (cliente) {
+  function elegirCliente(cliente) {
     mcpRemoto.cliente = cliente;
     renderMcpRemoto();
-  };
+  }
 
   function pasosCliente(url, token) {
     var jsonConfig = JSON.stringify(
@@ -124,9 +124,9 @@
       : '<span class="text-emerald-300">Activo</span>';
     var accion = t.revocado_en
       ? ''
-      : '<button type="button" onclick="window.revocarTokenMcpRemoto(' +
-        t.id +
-        ')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-rose-900 text-rose-300 text-xs font-semibold transition">Revocar</button>';
+      : '<button type="button" data-accion="mcp-revocar-token" data-id="' +
+        Number(t.id) +
+        '" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-rose-900 text-rose-300 text-xs font-semibold transition">Revocar</button>';
 
     return (
       '<tr class="border-t border-slate-800">' +
@@ -149,7 +149,7 @@
     );
   }
 
-  window.crearTokenMcpRemoto = async function () {
+  async function crearToken() {
     var input = document.getElementById('mcp-remoto-token-nombre');
     var nombre = input ? input.value.trim() : '';
     try {
@@ -175,9 +175,9 @@
       if (window.showToast) window.showToast(e.message, 'error');
       else alert(e.message);
     }
-  };
+  }
 
-  window.revocarTokenMcpRemoto = async function (id) {
+  async function revocarToken(id) {
     try {
       var res = await fetch('/api/mcp/tokens/' + id, { method: 'DELETE' });
       if (!res.ok) throw new Error('Error al revocar el token.');
@@ -190,7 +190,7 @@
       if (window.showToast) window.showToast(e.message, 'error');
       else alert(e.message);
     }
-  };
+  }
 
   async function cargarTokens() {
     try {
@@ -218,9 +218,9 @@
     var pestana = function (id, texto) {
       var activo = mcpRemoto.cliente === id;
       return (
-        '<button type="button" onclick="window.elegirClienteMcpRemoto(\'' +
-        id +
-        '\')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ' +
+        '<button type="button" data-accion="mcp-elegir-cliente" data-cliente="' +
+        escapeHtml(id) +
+        '" class="px-3.5 py-2 rounded-xl text-xs font-bold transition ' +
         (activo
           ? 'bg-violet-600 text-white'
           : 'bg-slate-800 text-slate-300 hover:bg-slate-700') +
@@ -277,7 +277,7 @@
         '<div class="flex flex-col sm:flex-row gap-2">' +
         '<input id="mcp-remoto-token-nombre" type="text" maxlength="64" placeholder="Nombre del token (ej. Claude Code notebook)" ' +
         'class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-violet-500">' +
-        '<button type="button" onclick="window.crearTokenMcpRemoto()" class="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-sm font-bold transition">Crear token</button>' +
+        '<button type="button" data-accion="mcp-crear-token" class="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-sm font-bold transition">Crear token</button>' +
         '</div>' +
         nuevo +
         (mcpRemoto.tokens.length
@@ -324,7 +324,31 @@
       tarjetaEjemplos;
   }
 
+  var accionesRegistradas = false;
+  function registrarAcciones() {
+    if (accionesRegistradas) return;
+    if (!window.Au || !window.Au.acciones) return;
+    accionesRegistradas = true;
+    window.Au.acciones.registrar('mcp-copiar-snippet', function (el, ds) {
+      var indice = Number(ds.indice);
+      if (!Number.isFinite(indice)) return;
+      copiarSnippet(indice, el);
+    });
+    window.Au.acciones.registrar('mcp-revocar-token', function (el, ds) {
+      var id = Number(ds.id);
+      if (!Number.isFinite(id)) return;
+      revocarToken(id);
+    });
+    window.Au.acciones.registrar('mcp-elegir-cliente', function (el, ds) {
+      elegirCliente(ds.cliente);
+    });
+    window.Au.acciones.registrar('mcp-crear-token', function () {
+      crearToken();
+    });
+  }
+
   async function inicializar() {
+    registrarAcciones();
     if (window.seTiene && !window.seTiene('mcp_web')) {
       return;
     }

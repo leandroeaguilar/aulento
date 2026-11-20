@@ -42,6 +42,9 @@ Al revisar, la suite daba 2345 tests verdes y 3 rojos en Windows (los del punto 
 | M9 | Una marca de tiempo ilegible en la base hace responder 500 a todo el mapa de calor | Baja | ⏳ Pendiente | — |
 | M10 | Sin `zona_horaria`, el día se cuenta con el desfase fijo de la máquina (sin cambios de horario) | Baja | ⏳ Pendiente | — |
 | M11 | Revisión independiente (Gemini 4 Hydrogen) de la fase 2: se cortó por falta de memoria | Baja | ⏳ Pendiente | 2 |
+| W1 | Once contenedores se vacían con `innerHTML = ''` en lugar de `replaceChildren()` | Baja | ⏳ Pendiente | — |
+| W2 | Los modales `.au-modal` siguen siendo `div` con `inert` armado a mano en lugar de `<dialog>` con `showModal()` | Media | ⏳ Pendiente | — |
+| W3 | Qué mazo FSRS es de inglés se deduce del prefijo `roadmap_` de la categoría, no de un campo de idioma | Baja | ⏳ Pendiente | — |
 
 ## Fases de la rama `fix/revision-arquitectura`
 
@@ -73,6 +76,14 @@ fase 1 ──┘
   - Cursos en orden alta, media, baja; el `estado` del avance se respeta.
   - «Minutos de hoy» y la semana se cuentan en hora local (−03:00).
   - El mapa de calor marca hoy 30 páginas, lo avanzado, y no la página actual.
+
+## Revisión web (rama `fix/revision-web`)
+
+Revisión del frontend (`src/aulento/web/static`) del 2026-11-20 contra las guías de `modern-web-guidance`. Hallazgos, decisiones y verificación de cada fase: `odd/revision-web/plan.md` y `odd/revision-web/faseN.md`. Se arreglaron 23 hallazgos en 5 fases (carga y seguridad, accesibilidad, móvil y scrollbars, barras `<progress>`, semántica e higiene); W1 a W3 son lo que quedó para después.
+
+- Implementación: Antigravity con Gemini 3.8 Flash (High). Decisiones y revisión de cada fase: Gemini 4 Hydrogen (High), en modo de solo lectura; sus observaciones se corrigieron en todas las fases.
+- Suite completa: 2381 tests pasan, 10 omitidos. `ruff check .` limpio. `AULENTO_E2E=1 pytest tests/e2e --browser-channel chrome`: 33 pasan.
+- De punta a punta en Chrome con `aulento web start --port 8791` y datos temporales: las pruebas de cada fase, repetidas al final sobre el código completo.
 
 ## Detalle
 
@@ -149,3 +160,6 @@ El mapa de calor suma `pagina_actual` de los libros actualizados ese día: un li
 - **M9.** `ActivityTracker` convierte cada marca de tiempo con `datetime.fromisoformat` (`src/aulento/core/zona_horaria.py`). Una fila con una fecha que no se puede leer hace fallar todo el mapa de calor, cuando antes la agrupación por texto la toleraba. Conviene saltear la fila y anotarla en el log.
 - **M10.** Sin el ajuste `zona_horaria`, `zona_de_la_cuenta` usa `datetime.now().astimezone().tzinfo`, que es un desfase fijo. En zonas con horario de verano, la actividad histórica cercana a un cambio de hora puede caer en el día vecino. Resolverlo bien requiere el nombre IANA de la zona de la máquina.
 - **M11.** La revisión con Gemini 4 Hydrogen de la fase 2 se detuvo porque el sistema se quedó sin memoria; se revisó a mano (de ahí salen M9 y M10). Para repetirla, se le pide a Hydrogen que revise el diff de los archivos de la fase contra `odd/revision-arquitectura/fase2.md`.
+- **W1.** `pantalla-config.js`, `pantalla-dashboard.js`, `pantalla-fsrs.js` (3), `pantalla-notes.js` y `pantalla-roadmap.js` (5) vacían contenedores con `el.innerHTML = ''` antes de llenarlos por DOM. `el.replaceChildren()` evita el parseo de HTML y no choca con una CSP de Trusted Types. Se pospuso porque la CSP actual no exige Trusted Types y conviene hacerlo al tocar cada pantalla.
+- **W2.** `Au.modal` (`componentes.js`) pone `inert` al resto de la página mientras hay un modal abierto, pero los más de 40 `.au-modal` siguen siendo `div` con `role="dialog"`. Migrarlos a `<dialog>` con `showModal()` daría el aislamiento, la capa superior y el cierre con Esc del navegador; es un cambio grande que toca modales anidados y los tests de contrato de `test_componentes_estatico.py`.
+- **W3.** `renderCurrentCard` (`pantalla-fsrs.js`) pone `lang="en"` en el reverso cuando la categoría no empieza con `roadmap_`. Si alguna vez hay mazos de rutas en inglés o de inglés con otra categoría, el lector de pantalla los pronunciaría mal; lo robusto es que la API mande el idioma de cada tarjeta o mazo.

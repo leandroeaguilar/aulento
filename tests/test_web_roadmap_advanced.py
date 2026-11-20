@@ -254,20 +254,30 @@ def _seccion_visor(js: str) -> str:
     return js[js.index("// --- MODAL VISOR DE CLASE ---"):js.index("// --- MODAL COMPARADOR DE PDFS")]
 
 
-LIBRERIAS_DEL_VISOR = ["mermaid.min.js", "marked.min.js", "purify.min.js"]
-
-
 def test_html_carga_las_librerias_del_visor_desde_la_propia_app(client):
     html = client.get("/").text
 
-    for archivo in LIBRERIAS_DEL_VISOR:
-        assert f'<script src="/static/vendor/{archivo}"></script>' in html
+    for archivo in ["marked.min.js", "purify.min.js"]:
+        assert re.search(rf'<script\s+src="/static/vendor/{re.escape(archivo)}"\s+defer></script>', html)
         r = client.get(f"/static/vendor/{archivo}")
         assert r.status_code == 200
         assert len(r.content) > 10_000
+
+    assert "/static/vendor/mermaid.min.js" not in html
+    assert "mermaid.initialize" not in html
+
+    r_mermaid = client.get("/static/vendor/mermaid.min.js")
+    assert r_mermaid.status_code == 200
+    assert len(r_mermaid.content) > 10_000
+
+    sw = (COMPONENTES_JS.parent / "sw.js").read_text(encoding="utf-8")
+    assert "/static/vendor/mermaid.min.js" in sw
+
+    js_roadmap = (COMPONENTES_JS.parent / "js" / "pantalla-roadmap.js").read_text(encoding="utf-8")
+    assert "/static/vendor/mermaid.min.js" in js_roadmap
+
     # Las librerías deben estar cargadas antes que app.js.
     assert html.index("/static/vendor/purify.min.js") < html.index("/static/app.js?v=")
-    assert "securityLevel: 'strict'" in html
 
 
 def test_la_pagina_no_carga_scripts_que_su_csp_bloquea(client):
@@ -535,12 +545,10 @@ def test_html_del_grafo_tiene_diagrama_aviso_panel_y_leyenda(client):
 
 
 def test_mermaid_sigue_en_modo_estricto_y_sin_callbacks_propios(client):
-    html = client.get("/").text
-    assert "securityLevel: 'strict'" in html
-    assert "securityLevel: 'loose'" not in html
-
     js = _app_js(client)
-    assert "securityLevel" not in js
+    init_mermaid = _funcion_js(js, "inicializarMermaid")
+    assert "securityLevel: 'strict'" in init_mermaid
+    assert "securityLevel: 'loose'" not in js
     # Los clics se enganchan desde app.js sobre el SVG ya dibujado, no con callbacks de Mermaid.
     assert "el.addEventListener('click', () => selectDagNode(nodeId));" in _funcion_js(js, "renderDagDiagram")
 
@@ -561,7 +569,7 @@ def test_app_js_dibuja_el_grafo_con_mermaid_render_y_tiene_respaldo(client):
     assert "dag-nodes-board" not in dibujar
     # Un dibujo que llega tarde no pisa al de la carga más nueva.
     assert "const seq = ++dagRenderSeq;" in dibujar
-    assert dibujar.count("if (seq !== dagRenderSeq) return;") == 2
+    assert dibujar.count("if (seq !== dagRenderSeq) return;") == 3
 
     # Los nodos se enlazan por el id que Mermaid 10 les pone.
     assert r"/^flowchart-T_(\d+)-\d+$/" in _funcion_js(js, "dagNodeIdFromElement")
@@ -726,10 +734,10 @@ def test_app_js_pide_sugerencias_y_las_acepta_en_bloque(client):
 
 
 def test_mermaid_admite_rutas_grandes_y_el_error_de_validacion_es_legible(client):
-    html = client.get("/").text
-    assert "maxTextSize: 500000" in html and "maxEdges: 5000" in html
+    js = _app_js(client)
+    assert "maxTextSize: 500000" in js and "maxEdges: 5000" in js
 
-    detalle = _funcion_js(_app_js(client), "dagErrorDetail")
+    detalle = _funcion_js(js, "dagErrorDetail")
     assert "Array.isArray(body.detail)" in detalle
 
 

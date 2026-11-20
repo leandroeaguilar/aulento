@@ -114,10 +114,8 @@
 
   function progreso({ valor = 0, maximo = 100, tono: t, etiqueta } = {}) {
     const max = Number(maximo) > 0 ? Number(maximo) : 100;
-    const pct = Math.max(0, Math.min(100, (Number(valor) / max) * 100 || 0));
-    return `<div class="${clases('au-progreso', t === 'exito' && 'au-progreso--exito', t === 'alerta' && 'au-progreso--alerta')}"`
-      + ` role="progressbar" aria-valuemin="0" aria-valuemax="${escapar(max)}" aria-valuenow="${escapar(Number(valor) || 0)}"`
-      + `${atributos({ 'aria-label': etiqueta })}><div class="au-progreso__barra" style="width:${pct.toFixed(1)}%"></div></div>`;
+    const val = Math.max(0, Math.min(max, Number(valor) || 0));
+    return `<progress class="${clases('au-progreso', t === 'exito' && 'au-progreso--exito', t === 'alerta' && 'au-progreso--alerta', t === 'peligro' && 'au-progreso--peligro')}" value="${escapar(val)}" max="${escapar(max)}"${atributos({ 'aria-label': etiqueta })}></progress>`;
   }
 
   function vacio({ icono = '📭', titulo, texto, accionHtml = '' } = {}) {
@@ -236,6 +234,47 @@
    */
 
   const abiertos = []; // pila de {id, disparador}
+  const inertizados = new Set();
+
+  function sincronizarInert() {
+    if (!abiertos.length) {
+      for (const el of inertizados) {
+        el.inert = false;
+      }
+      inertizados.clear();
+      return;
+    }
+    const topId = abiertos[abiertos.length - 1].id;
+    const topEl = document.getElementById(topId);
+    if (!topEl) return;
+
+    const ancestros = new Set();
+    let curr = topEl;
+    while (curr && curr !== document.body) {
+      ancestros.add(curr);
+      curr = curr.parentElement;
+    }
+
+    for (const el of inertizados) {
+      if (ancestros.has(el)) {
+        el.inert = false;
+        inertizados.delete(el);
+      }
+    }
+
+    let actual = topEl;
+    while (actual && actual !== document.body && actual.parentElement) {
+      actual.inert = false;
+      inertizados.delete(actual);
+      for (const hermano of actual.parentElement.children) {
+        if (ancestros.has(hermano)) continue;
+        if (hermano.tagName === 'SCRIPT' || hermano.id === 'toast-container') continue;
+        hermano.inert = true;
+        inertizados.add(hermano);
+      }
+      actual = actual.parentElement;
+    }
+  }
 
   const modal = {
     abrir(id, disparador) {
@@ -251,6 +290,7 @@
       // Encima del anterior: con el mismo z-index mandaría el orden del DOM, y un modal abierto desde otro quedaba atrás
       el.style.zIndex = String(50 + abiertos.length);
       document.body.classList.add('au-modal-abierto');
+      sincronizarInert();
       const foco = el.querySelector('[autofocus]')
         || el.querySelector('input, select, textarea, button:not([data-accion="au-cerrar-modal"])')
         || el.querySelector('button, [href], [tabindex]');
@@ -264,6 +304,7 @@
       el.style.zIndex = '';
       const [{ disparador } = {}] = i >= 0 ? abiertos.splice(i, 1) : [];
       if (!abiertos.length) document.body.classList.remove('au-modal-abierto');
+      sincronizarInert();
       if (disparador && typeof disparador.focus === 'function' && document.contains(disparador)) disparador.focus();
       // Cierre por Esc, ✕, fondo o código: la limpieza de cada pantalla (resetear un form, cortar un audio) va acá
       el.dispatchEvent(new CustomEvent('au:cerrado'));

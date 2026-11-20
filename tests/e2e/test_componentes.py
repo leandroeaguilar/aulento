@@ -100,9 +100,9 @@ def test_campo_enlaza_etiqueta_ayuda_y_error(pagina: Page):
 
 def test_progreso_acota_y_anuncia(pagina: Page):
     _poner(pagina, "Au.progreso({valor: 150, maximo: 100, etiqueta: 'Avance'}) + Au.progreso({valor: -5})")
-    anchos = pagina.evaluate("Array.from(document.querySelectorAll('.au-progreso__barra')).map(b => b.style.width)")
-    assert anchos == ["100%", "0%"]
-    expect(pagina.get_by_role("progressbar", name="Avance")).to_have_attribute("aria-valuemax", "100")
+    valores = pagina.evaluate("Array.from(document.querySelectorAll('progress.au-progreso')).map(p => [p.value, p.max])")
+    assert valores == [[100, 100], [0, 100]]
+    expect(pagina.get_by_role("progressbar", name="Avance")).to_have_attribute("max", "100")
 
 
 # ---------- R3: acciones delegadas ----------
@@ -159,6 +159,58 @@ def test_r4_el_modal_abre_con_foco_y_esc_lo_cierra_devolviendo_el_foco(pagina: P
     expect(pagina.locator("#m")).to_be_hidden()
     assert pagina.evaluate("document.activeElement.id") == "abre"
     assert not pagina.evaluate("document.body.classList.contains('au-modal-abierto')")
+
+
+def test_r4_el_modal_aplica_inert_al_fondo_y_lo_restaura_al_cerrar(pagina: Page):
+    pagina.evaluate("""() => {
+        let t = document.getElementById('toast-container');
+        if (!t) {
+            t = document.createElement('div');
+            t.id = 'toast-container';
+            document.body.appendChild(t);
+        }
+    }""")
+    _modal(pagina)
+    assert not pagina.evaluate("document.getElementById('abre').inert")
+    assert not pagina.evaluate("document.getElementById('toast-container').inert")
+
+    pagina.get_by_role("button", name="Abrir").click()
+    expect(pagina.get_by_role("dialog", name="Título")).to_be_visible()
+    assert pagina.evaluate("document.getElementById('abre').inert")
+    assert not pagina.evaluate("document.getElementById('m').inert")
+    assert not pagina.evaluate("document.getElementById('toast-container').inert")
+    assert pagina.evaluate("document.activeElement.id") == "dentro"
+
+    # Segundo modal anidado/apilado
+    modal_anidado = (
+        "<div id='m2' class='au-modal' hidden role='dialog' aria-modal='true' aria-labelledby='m2-t'>"
+        "<div class='au-modal__caja'><div class='au-modal__cabecera'><h2 id='m2-t' class='au-modal__titulo'>Segundo</h2>"
+        "<button type='button' data-accion='au-cerrar-modal' aria-label='Cerrar'>✕</button></div>"
+        "<div class='au-modal__cuerpo'><input id='dentro2' aria-label='Dentro 2'></div></div></div>"
+    )
+    pagina.evaluate(f"document.getElementById('raiz').insertAdjacentHTML('beforeend', \"{modal_anidado}\")")
+    pagina.evaluate("Au.modal.abrir('m2', document.getElementById('dentro'))")
+    expect(pagina.get_by_role("dialog", name="Segundo")).to_be_visible()
+    assert pagina.evaluate("document.activeElement.id") == "dentro2"
+    assert not pagina.evaluate("document.getElementById('m2').inert")
+    assert pagina.evaluate("document.getElementById('m').inert")
+    assert pagina.evaluate("document.getElementById('abre').inert")
+    assert not pagina.evaluate("document.getElementById('toast-container').inert")
+
+    # Al cerrar el modal superior (m2), el inferior (m) deja de estar inert y recupera el foco
+    pagina.keyboard.press("Escape")
+    expect(pagina.locator("#m2")).to_be_hidden()
+    expect(pagina.get_by_role("dialog", name="Título")).to_be_visible()
+    assert not pagina.evaluate("document.getElementById('m').inert")
+    assert pagina.evaluate("document.activeElement.id") == "dentro"
+    assert pagina.evaluate("document.getElementById('abre').inert")
+    assert not pagina.evaluate("document.getElementById('toast-container').inert")
+
+    # Al cerrar el último modal, el fondo recupera interactividad y el foco
+    pagina.keyboard.press("Escape")
+    expect(pagina.locator("#m")).to_be_hidden()
+    assert not pagina.evaluate("document.getElementById('abre').inert")
+    assert pagina.evaluate("document.activeElement.id") == "abre"
 
 
 def test_r4_la_x_y_el_fondo_cierran_pero_la_caja_no(pagina: Page):

@@ -104,7 +104,7 @@ def test_google_libros_sigue_al_cliente_configurado(monkeypatch):
 def test_index_html_carga_capacidades_js_antes_de_app_js():
     """index.html debe incluir capacidades.js antes de app.js."""
     html = INDEX_HTML.read_text(encoding="utf-8")
-    assert '<script src="/static/capacidades.js"></script>' in html
+    assert '<script src="/static/capacidades.js" defer></script>' in html
     pos_cap = html.index("/static/capacidades.js")
     pos_app = html.index("/static/app.js")
     assert pos_cap < pos_app

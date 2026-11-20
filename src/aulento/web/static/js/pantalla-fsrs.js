@@ -468,8 +468,17 @@ function renderCurrentCard() {
   const catEl = document.getElementById('fsrs-card-category');
   if (catEl) catEl.innerText = categoryLabel;
 
+  const esMazoIngles = !String(card.categoria || '').startsWith('roadmap_');
+
   const backTextEl = document.getElementById('fsrs-back-text');
-  if (backTextEl) backTextEl.innerText = card.respuesta_esperada || '';
+  if (backTextEl) {
+    backTextEl.innerText = card.respuesta_esperada || '';
+    if (esMazoIngles) {
+      backTextEl.setAttribute('lang', 'en');
+    } else {
+      backTextEl.removeAttribute('lang');
+    }
+  }
 
   // Traducción técnica al español en pequeño
   const spanishTerm = extractSpanishTranslation(card.item_pregunta);
@@ -479,7 +488,14 @@ function renderCurrentCard() {
   }
 
   const backCtxEl = document.getElementById('fsrs-back-context');
-  if (backCtxEl) backCtxEl.innerText = card.contexto_uso ? `"${card.contexto_uso}"` : "Colocación profesional técnica.";
+  if (backCtxEl) {
+    backCtxEl.innerText = card.contexto_uso ? `"${card.contexto_uso}"` : "Colocación profesional técnica.";
+    if (esMazoIngles && card.contexto_uso) {
+      backCtxEl.setAttribute('lang', 'en');
+    } else {
+      backCtxEl.removeAttribute('lang');
+    }
+  }
 
   // Reset traducción opcional del ejemplo de uso
   const ctxEs = document.getElementById('fsrs-back-context-es');
@@ -542,8 +558,8 @@ function renderCurrentCard() {
   if (progressBar) {
     const total = state.fsrsCards.length || 1;
     const current = Math.min(state.currentCardIndex + 1, total);
-    const pct = Math.round((current / total) * 100);
-    progressBar.style.width = `${pct}%`;
+    const pct = Math.max(0, Math.min(100, Math.round((current / total) * 100)));
+    progressBar.value = pct;
   }
 
   // Actualizar cola de tarjetas en el companion sidebar

@@ -373,11 +373,10 @@ function renderBarraDeEspacio() {
   const texto = document.getElementById('materiales-espacio-texto');
   const barra = document.getElementById('materiales-espacio-barra');
   if (!uso || !texto || !barra) return;
-  const porcentaje = uso.tope > 0 ? Math.min(100, (uso.usado / uso.tope) * 100) : 0;
+  const porcentaje = uso.tope > 0 ? Math.max(0, Math.min(100, ((Number(uso.usado) || 0) / uso.tope) * 100)) : 0;
   texto.textContent = `${describirBytes(uso.usado)} de ${describirBytes(uso.tope)}`;
-  barra.style.width = `${porcentaje.toFixed(1)}%`;
-  // El tono va en el contenedor (au-progreso--*): la barra conserva su clase de componente
-  barra.parentElement.className = `au-progreso${porcentaje >= 90 ? ' au-progreso--peligro' : (porcentaje >= 70 ? ' au-progreso--alerta' : '')}`;
+  barra.value = Number(porcentaje.toFixed(1));
+  barra.className = `au-progreso${porcentaje >= 90 ? ' au-progreso--peligro' : (porcentaje >= 70 ? ' au-progreso--alerta' : '')}`;
 }
 
 function renderMisMateriales() {

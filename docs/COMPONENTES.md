@@ -100,7 +100,7 @@ Etiqueta (que se parte en dos líneas, nunca se trunca), valor, unidad y detalle
 
 ### Barra de progreso: `Au.progreso`, `.au-progreso`
 
-`valor` y `maximo`, acotados entre 0 y 100 %. Lleva `role="progressbar"` con sus `aria-value*`. Tonos: `exito`, `alerta` y `peligro` (en el contenedor: `au-progreso--*`).
+Renderiza un `<progress>` nativo (con semántica implícita `role="progressbar"`). `valor` y `maximo`, acotados entre 0 y `maximo` (por defecto 100). Accesible con `etiqueta` (`aria-label`). Tonos: `exito`, `alerta` y `peligro` (`au-progreso--exito`, `au-progreso--alerta`, `au-progreso--peligro`).
 
 ### Estado vacío: `Au.vacio`, `.au-vacio`
 
@@ -129,8 +129,8 @@ Un elemento de una lista lateral, como notas o materiales. Con `accion` es un bo
 </div>
 ```
 
-- `Au.modal.abrir(id, disparador)` lo muestra, pone el foco adentro (primero en el `[autofocus]`) y recuerda quién lo abrió. Lanza un error si al modal le falta `role="dialog"`, `aria-modal="true"` o un `aria-labelledby` que apunte a un elemento existente.
-- `Au.modal.cerrar(id)` lo oculta y le devuelve el foco a ese control.
+- `Au.modal.abrir(id, disparador)` lo muestra, pone el foco adentro (primero en el `[autofocus]`) y recuerda quién lo abrió. Lanza un error si al modal le falta `role="dialog"`, `aria-modal="true"` o un `aria-labelledby` que apunte a un elemento existente. Aplica `inert` al resto de los elementos de la página (hijos directos de `body`, salvo `#toast-container` y scripts) para aislar el fondo. En modales anidados, el modal inferior también pasa a ser `inert`.
+- `Au.modal.cerrar(id)` lo oculta, remueve el aislamiento `inert` (si no quedan más modales abiertos, o restaurando el modal anterior si era anidado) y le devuelve el foco a ese control.
 - Al cerrarse por cualquier vía (Esc, ✕, fondo o `Au.modal.cerrar`) el modal emite `au:cerrado`. La limpieza que hacía una función `closeX()` (resetear un formulario, cortar un audio) se engancha ahí, para que corra también con Esc y con el fondo:
   ```js
   document.getElementById('mi-modal').addEventListener('au:cerrado', limpiarMiModal);

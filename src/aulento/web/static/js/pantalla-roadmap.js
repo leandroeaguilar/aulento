@@ -290,7 +290,7 @@ async function loadRoadmapDetails(roadmapId) {
       loadRoadmapGraph();
     }
   } catch (err) {
-    container.innerHTML = `<div class="p-4 bg-red-950/40 border border-red-800 rounded-2xl text-red-300 text-xs">Error: ${err.message}</div>`;
+    container.innerHTML = `<div class="p-4 bg-red-950/40 border border-red-800 rounded-2xl text-red-300 text-xs">Error: ${escapeHtml(err && err.message ? err.message : 'Error inesperado')}</div>`;
   }
 }
 
@@ -314,7 +314,7 @@ function renderEmptyRoadmapState() {
   document.getElementById('roadmap-kpi-topics').textContent = "0 / 0";
   document.getElementById('roadmap-kpi-pct').textContent = "0%";
   document.getElementById('roadmap-kpi-bar-text').textContent = "0%";
-  document.getElementById('roadmap-progress-bar').style.width = "0%";
+  document.getElementById('roadmap-progress-bar').value = 0;
 
   container.innerHTML = `
     <div class="au-tarjeta text-center">
@@ -343,7 +343,7 @@ function renderRoadmap(detail) {
   document.getElementById('roadmap-kpi-topics').textContent = `${detail.temas_completados} / ${detail.total_temas}`;
   document.getElementById('roadmap-kpi-pct').textContent = `${detail.progreso_pct}%`;
   document.getElementById('roadmap-kpi-bar-text').textContent = `${detail.progreso_pct}%`;
-  document.getElementById('roadmap-progress-bar').style.width = `${detail.progreso_pct}%`;
+  document.getElementById('roadmap-progress-bar').value = Math.max(0, Math.min(100, Number(detail.progreso_pct) || 0));
 
   if (!detail.modulos || detail.modulos.length === 0) {
     container.innerHTML = '<div class="p-8 text-center text-slate-400 text-xs">Esta ruta no contiene módulos configurados.</div>';
@@ -1009,7 +1009,7 @@ async function loadRoadmapGraph() {
   } catch (err) {
     console.error("Error en loadRoadmapGraph:", err);
     if (nodesBoard) {
-      nodesBoard.innerHTML = `<div class="col-span-full p-4 bg-rose-950/40 border border-rose-800 rounded-xl text-rose-300 text-xs">Error: ${err.message}</div>`;
+      nodesBoard.innerHTML = `<div class="col-span-full p-4 bg-rose-950/40 border border-rose-800 rounded-xl text-rose-300 text-xs">Error: ${escapeHtml(err && err.message ? err.message : 'Error inesperado')}</div>`;
     }
   }
 }
@@ -1304,6 +1304,48 @@ function setDagDiagramNotice(message) {
   notice.classList.toggle('hidden', !message);
 }
 
+let mermaidPromise = null;
+let mermaidInicializado = false;
+
+function inicializarMermaid() {
+  if (mermaidInicializado) return;
+  if (window.mermaid && typeof window.mermaid.initialize === 'function') {
+    window.mermaid.initialize({
+      startOnLoad: false,
+      theme: 'dark',
+      securityLevel: 'strict',
+      maxTextSize: 500000,
+      maxEdges: 5000,
+    });
+    mermaidInicializado = true;
+  }
+}
+
+function ensureMermaidLoaded() {
+  if (window.mermaid) {
+    inicializarMermaid();
+    return Promise.resolve(window.mermaid);
+  }
+  if (mermaidPromise) return mermaidPromise;
+
+  mermaidPromise = new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.src = '/static/vendor/mermaid.min.js';
+    script.onload = () => {
+      inicializarMermaid();
+      if (!window.mermaid) mermaidPromise = null;
+      resolve(window.mermaid || null);
+    };
+    script.onerror = () => {
+      mermaidPromise = null;
+      resolve(null);
+    };
+    document.head.appendChild(script);
+  });
+
+  return mermaidPromise;
+}
+
 async function renderDagDiagram(graphData) {
   const container = document.getElementById('dag-diagram');
   if (!container) return;
@@ -1314,6 +1356,9 @@ async function renderDagDiagram(graphData) {
     setDagDiagramNotice('Esta ruta todavía no tiene temas para dibujar.');
     return;
   }
+  await ensureMermaidLoaded();
+  if (seq !== dagRenderSeq) return;
+
   if (!window.mermaid) {
     setDagDiagramNotice('No se pudo cargar Mermaid, así que el grafo no se dibuja. El tablero de tarjetas de más abajo sigue disponible.');
     return;
@@ -2177,7 +2222,7 @@ function namespaceLessonSvgIds(svg) {
  * Renderiza Markdown de una clase dentro de `container`. Todo el HTML pasa por DOMPurify;
  * si falta `marked` o `DOMPurify` se muestra texto plano escapado, nunca HTML.
  */
-function renderLessonMarkdown(markdown, container) {
+async function renderLessonMarkdown(markdown, container) {
   const body = extractFencedBlock(extractFencedBlock(markdown, 'cards-fsrs').rest, 'slides').rest;
 
   if (!lessonLibsReady()) {
@@ -2214,14 +2259,18 @@ function renderLessonMarkdown(markdown, container) {
   decorateLessonCallouts(container);
 
   const diagrams = container.querySelectorAll('.mermaid');
-  if (window.mermaid && diagrams.length > 0) {
-    try {
-      const rendering = mermaid.run({ nodes: diagrams });
-      if (rendering && typeof rendering.catch === 'function') {
-        rendering.catch((me) => console.warn("Mermaid render error:", me));
+  if (diagrams.length > 0) {
+    await ensureMermaidLoaded();
+    const conectados = Array.from(diagrams).filter((el) => el.isConnected);
+    if (window.mermaid && conectados.length > 0) {
+      try {
+        const rendering = mermaid.run({ nodes: conectados });
+        if (rendering && typeof rendering.catch === 'function') {
+          rendering.catch((me) => console.warn("Mermaid render error:", me));
+        }
+      } catch (me) {
+        console.warn("Mermaid render error:", me);
       }
-    } catch (me) {
-      console.warn("Mermaid render error:", me);
     }
   }
 }
