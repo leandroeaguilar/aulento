@@ -148,6 +148,7 @@ def test_au_icono_devuelve_marcado_accesible_y_valida_nombres() -> None:
         [node_bin, "-e", script, str(COMPONENTES_JS)],
         capture_output=True,
         text=True,
+        encoding="utf-8",
         check=True,
     )
     datos = json.loads(res.stdout)

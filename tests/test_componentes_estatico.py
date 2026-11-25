@@ -194,7 +194,7 @@ def _llamadas_au_invalidas(archivos: list[Path]) -> list[str]:
     malos = []
     for archivo in archivos:
         texto = archivo.read_text(encoding="utf-8")
-        for m in re.finditer(r"\bAu\.(?!escapar|atributos|clases|urlSegura|acciones|modal)([a-z]+)\(\s*([^{\s)])", texto):
+        for m in re.finditer(r"\bAu\.(?!escapar|atributos|clases|urlSegura|acciones|modal|icono)([a-z]+)\(\s*([^{\s)])", texto):
             malos.append(f"{archivo.name}: Au.{m.group(1)}( sin objeto")
         for v in re.findall(r"\bvariante:\s*'([a-z-]+)'", texto):
             if v not in variantes:

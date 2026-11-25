@@ -657,7 +657,7 @@ def test_html_del_grafo_tiene_interruptor_disponibles_y_modal_de_sugerencias(cli
     assert 'data-accion="ruta-aceptar-sugerencias-requisitos"' in modal
     assert _accion(js, "ruta-aceptar-sugerencias-requisitos") == "acceptPrerequisiteSuggestions()"
     assert re.search(r'<input type="checkbox" id="prereq-suggestions-disable-implicit"', modal)
-    assert "/static/app.js?v=2.23" in html
+    assert "/static/app.js?v=2.24" in html
 
 
 def test_app_js_edita_prelaciones_desde_el_panel_del_nodo(client):

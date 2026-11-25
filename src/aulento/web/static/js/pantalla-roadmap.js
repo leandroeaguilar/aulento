@@ -333,7 +333,7 @@ function renderEmptyRoadmapState() {
 }
 
 function renderRoadmap(detail) {
-  const _icono = (n, o) => (typeof Au.icono === 'function' ? _icono(n, o) : '');
+  const _icono = (n, o) => (typeof Au.icono === 'function' ? Au.icono(n, o) : '');
   const container = document.getElementById('roadmap-tree-container');
   if (!container) return;
 
