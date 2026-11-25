@@ -1,5 +1,5 @@
 // Service Worker para Aulento PWA (Local-First)
-const CACHE_NAME = 'aulento-v4';
+const CACHE_NAME = 'aulento-v5';
 // Todo lo que carga index.html (lo controla tests/test_componentes_estatico.py)
 const STATIC_ASSETS = [
   '/',
@@ -10,6 +10,8 @@ const STATIC_ASSETS = [
   '/static/vendor/mermaid.min.js',
   '/static/vendor/marked.min.js',
   '/static/vendor/purify.min.js',
+  '/static/js/tema.js',
+  '/static/css/paleta.css',
   '/static/css/tailwind.css',
   '/static/componentes.css',
   '/static/movil.css',

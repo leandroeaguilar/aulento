@@ -19,6 +19,7 @@
   ['config-abrir-onboarding', () => openOnboardingWizard()],
   ['config-seccion', (el, datos) => switchConfigSection(datos.seccion)],
   ['config-cambiar-proveedor-ia', (el) => changeActiveIAProvider(el.value)],
+  ['config-cambiar-tema', (el) => window.aulentoTema.guardar(el.value)],
   ['config-proveedor-tab', (el, datos) => switchProviderConfigTab(datos.proveedor)],
   ['config-alternar-visibilidad-clave', (el, datos) => toggleGeminiKeyVisibility(datos.input)],
   ['config-guardar-gemini', () => saveGeminiDualKeysConfig()],

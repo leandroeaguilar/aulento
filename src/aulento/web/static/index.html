@@ -28,9 +28,9 @@
     
     /* Scrollbar estándar con fallback WebKit */
     :root {
-      --au-sb-thumb: #64748b;
-      --au-sb-thumb-hover: #94a3b8;
-      --au-sb-track: #0f172a;
+      --au-sb-thumb: rgb(var(--au-slate-500));
+      --au-sb-thumb-hover: rgb(var(--au-slate-400));
+      --au-sb-track: rgb(var(--au-slate-900));
     }
     * {
       scrollbar-width: thin;
@@ -45,61 +45,61 @@
     }
 
     /* Clase renderizada desde Markdown (visor y diapositivas) */
-    .lesson-md { color: #cbd5e1; line-height: 1.65; overflow-wrap: anywhere; contain: paint; }
+    .lesson-md { color: rgb(var(--au-slate-300)); line-height: 1.65; overflow-wrap: anywhere; contain: paint; }
     .lesson-md > * + * { margin-top: 0.85rem; }
-    .lesson-md h1 { font-size: 1.35rem; font-weight: 800; color: #fff; padding-bottom: 0.5rem; border-bottom: 1px solid #1e293b; }
-    .lesson-md h2 { font-size: 1.15rem; font-weight: 700; color: #38bdf8; margin-top: 1.5rem; }
-    .lesson-md h3 { font-size: 1rem; font-weight: 700; color: #fff; margin-top: 1.25rem; }
-    .lesson-md h4, .lesson-md h5, .lesson-md h6 { font-size: 0.9rem; font-weight: 700; color: #e2e8f0; margin-top: 1rem; }
+    .lesson-md h1 { font-size: 1.35rem; font-weight: 800; color: rgb(var(--au-blanco)); padding-bottom: 0.5rem; border-bottom: 1px solid rgb(var(--au-slate-800)); }
+    .lesson-md h2 { font-size: 1.15rem; font-weight: 700; color: rgb(var(--au-sky-400)); margin-top: 1.5rem; }
+    .lesson-md h3 { font-size: 1rem; font-weight: 700; color: rgb(var(--au-blanco)); margin-top: 1.25rem; }
+    .lesson-md h4, .lesson-md h5, .lesson-md h6 { font-size: 0.9rem; font-weight: 700; color: rgb(var(--au-slate-200)); margin-top: 1rem; }
     .lesson-md ul { list-style: disc; padding-left: 1.4rem; }
     .lesson-md ol { list-style: decimal; padding-left: 1.4rem; }
     .lesson-md li + li, .lesson-md li > ul, .lesson-md li > ol { margin-top: 0.25rem; }
-    .lesson-md a { color: #38bdf8; text-decoration: underline; }
-    .lesson-md strong { color: #f1f5f9; font-weight: 700; }
-    .lesson-md hr { border-color: #1e293b; }
+    .lesson-md a { color: rgb(var(--au-sky-400)); text-decoration: underline; }
+    .lesson-md strong { color: rgb(var(--au-slate-100)); font-weight: 700; }
+    .lesson-md hr { border-color: rgb(var(--au-slate-800)); }
     .lesson-md table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; font-size: 0.8rem; }
-    .lesson-md th, .lesson-md td { border: 1px solid #334155; padding: 0.4rem 0.65rem; text-align: left; vertical-align: top; }
-    .lesson-md th { background: #0f172a; color: #e2e8f0; font-weight: 600; }
-    .lesson-md code { font-family: ui-monospace, monospace; font-size: 0.8rem; color: #7dd3fc; background: #020617; border: 1px solid #1e293b; border-radius: 0.35rem; padding: 0.1rem 0.3rem; }
-    .lesson-md pre { background: #020617; border: 1px solid #1e293b; border-radius: 0.75rem; padding: 0.75rem; overflow-x: auto; }
+    .lesson-md th, .lesson-md td { border: 1px solid rgb(var(--au-slate-700)); padding: 0.4rem 0.65rem; text-align: left; vertical-align: top; }
+    .lesson-md th { background: rgb(var(--au-slate-900)); color: rgb(var(--au-slate-200)); font-weight: 600; }
+    .lesson-md code { font-family: ui-monospace, monospace; font-size: 0.8rem; color: rgb(var(--au-sky-300)); background: rgb(var(--au-slate-950)); border: 1px solid rgb(var(--au-slate-800)); border-radius: 0.35rem; padding: 0.1rem 0.3rem; }
+    .lesson-md pre { background: rgb(var(--au-slate-950)); border: 1px solid rgb(var(--au-slate-800)); border-radius: 0.75rem; padding: 0.75rem; overflow-x: auto; }
     .lesson-md pre code { background: none; border: 0; padding: 0; }
     .lesson-md img, .lesson-md svg { max-width: 100%; height: auto; }
     .lesson-md .lesson-figure { display: flex; justify-content: center; background: #f8fafc; border-radius: 0.75rem; padding: 0.75rem; }
-    .lesson-md .mermaid { display: flex; justify-content: center; background: #020617; border: 1px solid #1e293b; border-radius: 1rem; padding: 1rem; overflow-x: auto; }
-    .lesson-md blockquote { border-left: 3px solid #334155; padding-left: 0.85rem; color: #94a3b8; }
+    .lesson-md .mermaid { display: flex; justify-content: center; background: rgb(var(--au-slate-950)); border: 1px solid rgb(var(--au-slate-800)); border-radius: 1rem; padding: 1rem; overflow-x: auto; }
+    .lesson-md blockquote { border-left: 3px solid rgb(var(--au-slate-700)); padding-left: 0.85rem; color: rgb(var(--au-slate-400)); }
     .lesson-md .lesson-callout { border: 1px solid; border-radius: 0.75rem; padding: 0.65rem 0.85rem; font-size: 0.8rem; }
     .lesson-md .lesson-callout-label { font-weight: 700; margin-bottom: 0.25rem; }
-    .lesson-md .lesson-callout-tip { background: rgba(2, 44, 34, 0.4); border-color: #065f46; color: #6ee7b7; }
-    .lesson-md .lesson-callout-warning { background: rgba(69, 26, 3, 0.4); border-color: #92400e; color: #fcd34d; }
-    .lesson-md .lesson-callout-note { background: rgba(8, 47, 73, 0.4); border-color: #075985; color: #7dd3fc; }
-    .lesson-plain { white-space: pre-wrap; overflow-wrap: anywhere; font-family: ui-monospace, monospace; font-size: 0.75rem; color: #cbd5e1; background: #020617; border: 1px solid #1e293b; border-radius: 0.75rem; padding: 0.75rem; }
-    .lesson-fallback-notice { font-size: 0.75rem; color: #fcd34d; background: rgba(69, 26, 3, 0.4); border: 1px solid #92400e; border-radius: 0.75rem; padding: 0.5rem 0.75rem; }
-    .lesson-slide { min-height: 18rem; font-size: 1rem; background: #020617; border: 1px solid #1e293b; border-radius: 1rem; padding: 1.5rem 2rem; }
+    .lesson-md .lesson-callout-tip { background: rgb(var(--au-emerald-950) / 0.4); border-color: rgb(var(--au-emerald-800)); color: rgb(var(--au-emerald-300)); }
+    .lesson-md .lesson-callout-warning { background: rgb(var(--au-amber-950) / 0.4); border-color: rgb(var(--au-amber-800)); color: rgb(var(--au-amber-300)); }
+    .lesson-md .lesson-callout-note { background: rgb(var(--au-sky-950) / 0.4); border-color: rgb(var(--au-sky-800)); color: rgb(var(--au-sky-300)); }
+    .lesson-plain { white-space: pre-wrap; overflow-wrap: anywhere; font-family: ui-monospace, monospace; font-size: 0.75rem; color: rgb(var(--au-slate-300)); background: rgb(var(--au-slate-950)); border: 1px solid rgb(var(--au-slate-800)); border-radius: 0.75rem; padding: 0.75rem; }
+    .lesson-fallback-notice { font-size: 0.75rem; color: rgb(var(--au-amber-300)); background: rgb(var(--au-amber-950) / 0.4); border: 1px solid rgb(var(--au-amber-800)); border-radius: 0.75rem; padding: 0.5rem 0.75rem; }
+    .lesson-slide { min-height: 18rem; font-size: 1rem; background: rgb(var(--au-slate-950)); border: 1px solid rgb(var(--au-slate-800)); border-radius: 1rem; padding: 1.5rem 2rem; }
     /* --- REDISEÑO ULTRA-MODERNO DEL GRAFO DE PRELACIONES (DAG) --- */
     #dag-diagram {
       max-width: 100%;
       overflow: auto;
-      background-color: #030712 !important;
+      background-color: rgb(var(--au-gray-950)) !important;
       background-image: 
-        radial-gradient(rgba(56, 189, 248, 0.14) 1.5px, transparent 1.5px),
-        linear-gradient(to bottom, rgba(15, 23, 42, 0.5) 0%, rgba(2, 6, 23, 0.95) 100%) !important;
+        radial-gradient(rgb(var(--au-sky-400) / 0.14) 1.5px, transparent 1.5px),
+        linear-gradient(to bottom, rgb(var(--au-slate-900) / 0.5) 0%, rgb(var(--au-slate-950) / 0.95) 100%) !important;
       background-size: 24px 24px, 100% 100% !important;
-      border: 1px solid rgba(56, 189, 248, 0.25) !important;
+      border: 1px solid rgb(var(--au-sky-400) / 0.25) !important;
       border-radius: 1.5rem !important;
-      box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.85), 0 10px 30px rgba(0, 0, 0, 0.6) !important;
+      box-shadow: inset 0 0 50px rgb(var(--au-negro) / 0.85), 0 10px 30px rgb(var(--au-negro) / 0.6) !important;
       position: relative;
     }
     #dag-canvas-card.dag-fullscreen {
       position: fixed !important;
       inset: 1.25rem !important;
       z-index: 60 !important;
-      background: #020617 !important;
+      background: rgb(var(--au-slate-950)) !important;
       padding: 1rem !important;
       border-radius: 1.5rem !important;
-      border: 1px solid rgba(56, 189, 248, 0.35) !important;
+      border: 1px solid rgb(var(--au-sky-400) / 0.35) !important;
       display: flex !important;
       flex-direction: column !important;
-      box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.85), 0 25px 50px -12px rgba(0, 0, 0, 0.95) !important;
+      box-shadow: 0 0 0 9999px rgb(var(--au-negro) / 0.85), 0 25px 50px -12px rgb(var(--au-negro) / 0.95) !important;
     }
     #dag-canvas-card.dag-fullscreen #dag-interactive-wrapper,
     #dag-canvas-card.dag-fullscreen #dag-interactive-frame,
@@ -118,7 +118,7 @@
       max-height: calc(100dvh - 3rem) !important;
       height: calc(100vh - 3rem) !important;
       height: calc(100dvh - 3rem) !important;
-      box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.8), 0 25px 50px -12px rgba(0, 0, 0, 0.9) !important;
+      box-shadow: 0 0 0 9999px rgb(var(--au-negro) / 0.8), 0 25px 50px -12px rgb(var(--au-negro) / 0.9) !important;
     }
     #dag-diagram svg {
       max-width: 100% !important;
@@ -129,13 +129,13 @@
     #dag-diagram .cluster rect {
       rx: 22px !important;
       ry: 22px !important;
-      fill: rgba(15, 23, 42, 0.7) !important;
-      stroke: rgba(56, 189, 248, 0.22) !important;
+      fill: rgb(var(--au-slate-900) / 0.7) !important;
+      stroke: rgb(var(--au-sky-400) / 0.22) !important;
       stroke-width: 1.5px !important;
-      filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.5)) !important;
+      filter: drop-shadow(0 8px 24px rgb(var(--au-negro) / 0.5)) !important;
     }
     #dag-diagram .cluster text {
-      fill: #38bdf8 !important;
+      fill: rgb(var(--au-sky-400)) !important;
       font-weight: 800 !important;
       font-size: 12px !important;
       letter-spacing: 0.08em !important;
@@ -150,62 +150,62 @@
       rx: 14px !important;
       ry: 14px !important;
       stroke-width: 1.8px !important;
-      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.65)) !important;
+      filter: drop-shadow(0 4px 12px rgb(var(--au-negro) / 0.65)) !important;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
     }
     #dag-diagram g.node .label {
-      color: #ffffff !important;
+      color: rgb(var(--au-blanco)) !important;
       font-size: 12px !important;
       font-weight: 600 !important;
       letter-spacing: -0.01em !important;
     }
     #dag-diagram g.node .label text {
-      fill: #ffffff !important;
+      fill: rgb(var(--au-blanco)) !important;
     }
     /* Hover Glow & Lift */
     #dag-diagram g.node:hover {
       transform: translateY(-2px);
     }
     #dag-diagram g.node:hover rect {
-      filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.7)) drop-shadow(0 6px 16px rgba(0, 0, 0, 0.8)) !important;
-      stroke: #38bdf8 !important;
+      filter: drop-shadow(0 0 20px rgb(var(--au-sky-400) / 0.7)) drop-shadow(0 6px 16px rgb(var(--au-negro) / 0.8)) !important;
+      stroke: rgb(var(--au-sky-400)) !important;
       stroke-width: 2.5px !important;
     }
     /* Conexiones y Flechas (Curved vectors) */
     #dag-diagram .edgePaths path {
-      stroke: #0284c7 !important;
+      stroke: rgb(var(--au-sky-600)) !important;
       stroke-width: 2.2px !important;
       stroke-linecap: round !important;
       stroke-linejoin: round !important;
-      filter: drop-shadow(0 1px 4px rgba(2, 132, 199, 0.35)) !important;
+      filter: drop-shadow(0 1px 4px rgb(var(--au-sky-600) / 0.35)) !important;
       opacity: 0.85;
       transition: stroke 0.2s, stroke-width 0.2s, opacity 0.2s;
     }
     #dag-diagram .edgePaths marker path {
-      fill: #0284c7 !important;
+      fill: rgb(var(--au-sky-600)) !important;
       stroke: none !important;
     }
     /* Selección reactiva de temas */
     #dag-diagram g.node:focus { outline: none; }
-    #dag-diagram g.node:focus-visible > rect, #dag-diagram g.node:focus-visible > polygon { stroke: #38bdf8 !important; stroke-width: 3px !important; filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.85)) !important; }
+    #dag-diagram g.node:focus-visible > rect, #dag-diagram g.node:focus-visible > polygon { stroke: rgb(var(--au-sky-400)) !important; stroke-width: 3px !important; filter: drop-shadow(0 0 14px rgb(var(--au-sky-400) / 0.85)) !important; }
     #dag-diagram g.node.dag-node-dimmed {
       opacity: 0.18 !important;
       filter: grayscale(85%) !important;
     }
     #dag-diagram g.node.dag-node-selected > rect {
-      stroke: #a5b4fc !important;
+      stroke: rgb(var(--au-indigo-300)) !important;
       stroke-width: 3.5px !important;
-      filter: drop-shadow(0 0 25px rgba(165, 180, 252, 0.85)) !important;
+      filter: drop-shadow(0 0 25px rgb(var(--au-indigo-300) / 0.85)) !important;
     }
     #dag-diagram g.node.dag-node-prereq > rect {
-      stroke: #f97316 !important;
+      stroke: rgb(var(--au-orange-500)) !important;
       stroke-width: 3px !important;
-      filter: drop-shadow(0 0 18px rgba(249, 115, 22, 0.7)) !important;
+      filter: drop-shadow(0 0 18px rgb(var(--au-orange-500) / 0.7)) !important;
     }
     #dag-diagram g.node.dag-node-dependent > rect {
-      stroke: #34d399 !important;
+      stroke: rgb(var(--au-emerald-400)) !important;
       stroke-width: 3px !important;
-      filter: drop-shadow(0 0 18px rgba(52, 211, 153, 0.7)) !important;
+      filter: drop-shadow(0 0 18px rgb(var(--au-emerald-400) / 0.7)) !important;
     }
     .dag-legend-line { display: inline-block; width: 1.75rem; border-top-width: 2px; }
     /* Estilos del Visor de Documentación y Manuales */
@@ -228,29 +228,29 @@
       gap: 0.4rem;
     }
     .doc-alert-note, .doc-alert-info {
-      background: rgba(14, 165, 233, 0.08);
-      border-color: #0ea5e9;
-      color: #bae6fd;
+      background: rgb(var(--au-sky-500) / 0.08);
+      border-color: rgb(var(--au-sky-500));
+      color: rgb(var(--au-sky-200));
     }
     .doc-alert-tip {
-      background: rgba(16, 185, 129, 0.08);
-      border-color: #10b981;
-      color: #a7f3d0;
+      background: rgb(var(--au-emerald-500) / 0.08);
+      border-color: rgb(var(--au-emerald-500));
+      color: rgb(var(--au-emerald-200));
     }
     .doc-alert-important {
-      background: rgba(99, 102, 241, 0.08);
-      border-color: #6366f1;
-      color: #c7d2fe;
+      background: rgb(var(--au-indigo-500) / 0.08);
+      border-color: rgb(var(--au-indigo-500));
+      color: rgb(var(--au-indigo-200));
     }
     .doc-alert-warning {
-      background: rgba(245, 158, 11, 0.08);
-      border-color: #f59e0b;
-      color: #fde68a;
+      background: rgb(var(--au-amber-500) / 0.08);
+      border-color: rgb(var(--au-amber-500));
+      color: rgb(var(--au-amber-200));
     }
     .doc-alert-caution {
-      background: rgba(244, 63, 94, 0.08);
-      border-color: #f43f5e;
-      color: #fecdd3;
+      background: rgb(var(--au-rose-500) / 0.08);
+      border-color: rgb(var(--au-rose-500));
+      color: rgb(var(--au-rose-200));
     }
     .doc-table {
       width: 100%;
@@ -259,19 +259,19 @@
       text-align: left;
     }
     .doc-table th {
-      background: #020617;
-      color: #e2e8f0;
+      background: rgb(var(--au-slate-950));
+      color: rgb(var(--au-slate-200));
       padding: 0.65rem 0.875rem;
       font-weight: 600;
-      border-bottom: 1px solid #334155;
+      border-bottom: 1px solid rgb(var(--au-slate-700));
     }
     .doc-table td {
       padding: 0.6rem 0.875rem;
-      border-bottom: 1px solid #1e293b;
-      color: #cbd5e1;
+      border-bottom: 1px solid rgb(var(--au-slate-800));
+      color: rgb(var(--au-slate-300));
     }
     .doc-table tr:hover td {
-      background: rgba(30, 41, 59, 0.4);
+      background: rgb(var(--au-slate-800) / 0.4);
     }
   </style>
   <link rel="manifest" href="/static/manifest.json">
@@ -282,9 +282,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Aulento">
-  <link rel="stylesheet" href="/static/componentes.css?v=2.21">
-  <link rel="stylesheet" href="/static/css/tailwind.css?v=2.21">
-  <link rel="stylesheet" href="/static/movil.css?v=2.21">
+  <script src="/static/js/tema.js?v=2.22"></script>
+  <link rel="stylesheet" href="/static/css/paleta.css?v=2.22">
+  <link rel="stylesheet" href="/static/componentes.css?v=2.22">
+  <link rel="stylesheet" href="/static/css/tailwind.css?v=2.22">
+  <link rel="stylesheet" href="/static/movil.css?v=2.22">
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex font-sans selection:bg-sky-500 selection:text-white overflow-x-hidden">
   <a href="#main-content" class="au-saltar-contenido">Saltar al contenido</a>
@@ -2517,6 +2519,20 @@
 
       <!-- SECCIÓN 5: SISTEMA & PRIVACIDAD (DISTRIBUCIÓN MEJORADA) -->
       <div id="cfg-sec-system" class="cfg-section hidden space-y-6">
+        <!-- Tema de la interfaz (js/tema.js; se guarda en este navegador) -->
+        <div class="au-tarjeta au-tarjeta--hundida flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="au-campo flex-1">
+            <label for="config-tema-select" class="au-campo__etiqueta">Tema de la interfaz</label>
+            <span class="au-campo__ayuda">Se guarda en este navegador</span>
+          </div>
+          <div class="w-full sm:w-auto">
+            <select id="config-tema-select" data-accion="config-cambiar-tema" class="au-campo__control au-campo__control--compacto">
+              <option value="oscuro">Oscuro</option>
+              <option value="claro">Claro</option>
+              <option value="sistema">Según el sistema</option>
+            </select>
+          </div>
+        </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <!-- TARJETA 1: ARQUITECTURA Y DATOS LOCALES -->
           <div class="au-tarjeta">
@@ -5343,25 +5359,25 @@
   </div>
 
   <!-- Script de Capacidades y Textos por Versión -->
-  <script src="/static/componentes.js?v=2.21" defer></script>
+  <script src="/static/componentes.js?v=2.22" defer></script>
   <script src="/static/capacidades.js" defer></script>
 
   <!-- Scripts modulares del cliente -->
-  <script src="/static/js/00-base.js?v=2.21" defer></script>
-  <script src="/static/js/comunes.js?v=2.21" defer></script>
-  <script src="/static/js/pantalla-courses.js?v=2.21" defer></script>
-  <script src="/static/js/pantalla-schedule.js?v=2.21" defer></script>
-  <script src="/static/js/pantalla-fsrs.js?v=2.21" defer></script>
-  <script src="/static/js/pantalla-brain.js?v=2.21" defer></script>
-  <script src="/static/js/pantalla-dashboard.js?v=2.21" defer></script>
-  <script src="/static/js/pantalla-exams.js?v=2.21" defer></script>
-  <script src="/static/js/pantalla-notes.js?v=2.21" defer></script>
-  <script src="/static/js/pantalla-roadmap.js?v=2.21" defer></script>
-  <script src="/static/js/pantalla-books.js?v=2.21" defer></script>
-  <script src="/static/js/pantalla-config.js?v=2.21" defer></script>
+  <script src="/static/js/00-base.js?v=2.22" defer></script>
+  <script src="/static/js/comunes.js?v=2.22" defer></script>
+  <script src="/static/js/pantalla-courses.js?v=2.22" defer></script>
+  <script src="/static/js/pantalla-schedule.js?v=2.22" defer></script>
+  <script src="/static/js/pantalla-fsrs.js?v=2.22" defer></script>
+  <script src="/static/js/pantalla-brain.js?v=2.22" defer></script>
+  <script src="/static/js/pantalla-dashboard.js?v=2.22" defer></script>
+  <script src="/static/js/pantalla-exams.js?v=2.22" defer></script>
+  <script src="/static/js/pantalla-notes.js?v=2.22" defer></script>
+  <script src="/static/js/pantalla-roadmap.js?v=2.22" defer></script>
+  <script src="/static/js/pantalla-books.js?v=2.22" defer></script>
+  <script src="/static/js/pantalla-config.js?v=2.22" defer></script>
 
   <!-- Script Cliente Reactivo -->
-  <script src="/static/app.js?v=2.21" defer></script>
+  <script src="/static/app.js?v=2.22" defer></script>
 
   <!-- Script MCP Remoto en la Web -->
   <script src="/static/mcp-remoto.js" defer></script>
