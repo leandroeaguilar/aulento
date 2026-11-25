@@ -55,24 +55,68 @@
     return TONOS.includes(valor) ? `${base}--${valor}` : '';
   }
 
+  // ---------- Íconos ----------
+
+  const ICONOS = Object.freeze([
+    'inicio', 'cursos', 'libros', 'lectura', 'agenda', 'rutas',
+    'repaso', 'cerebro', 'indice', 'tarjetas', 'notas', 'cuaderno',
+    'estadisticas', 'examen', 'objetivo', 'ajustes', 'cuenta', 'cuentas',
+    'plataforma', 'trabajo', 'brujula', 'grafo', 'modulo',
+    'cerrar', 'ok', 'agregar', 'quitar', 'guardar', 'borrar', 'editar',
+    'copiar', 'lista', 'descargar', 'importar', 'subir', 'buscar',
+    'recargar', 'ver', 'enlace', 'externo', 'siguiente', 'saltar',
+    'pausa', 'detener', 'ordenar', 'fijar', 'etiqueta', 'carpeta',
+    'documento', 'paquete', 'imagen', 'video', 'menu', 'atajos', 'ayuda',
+    'alerta', 'cargando', 'punto', 'bloqueado', 'desbloqueado', 'seguridad',
+    'salud', 'vacio', 'celebrar', 'logro', 'meta', 'idea',
+    'ia', 'generar', 'rapido', 'empezar', 'analizar', 'foco', 'reloj',
+    'pomodoro', 'descanso', 'racha', 'idioma', 'crecimiento', 'fruto',
+    'premium', 'pago',
+    'voz', 'audio', 'celular', 'computadora', 'web', 'nube',
+    'conexion', 'integracion', 'clave', 'apariencia',
+    'tema-oscuro', 'tema-claro', 'tema-sistema',
+  ]);
+  const ICONOS_SET = new Set(ICONOS);
+  const ICONO_SVG_RE = /^<svg class="au-icono(?: [a-z0-9_-]+)*" (?:aria-hidden="true"|role="img" aria-label="[^"<>]*") focusable="false"><use href="\/static\/icons\/aulento-iconos\.svg#i-([a-z-]+)"><\/use><\/svg>$/;
+
+  /** Devuelve el marcado SVG del ícono del sprite; si no existe en Au.ICONOS lanza Error. */
+  function icono(nombre, { etiqueta, clase } = {}) {
+    if (!ICONOS_SET.has(nombre)) throw new Error(`Ícono desconocido: ${nombre}`);
+    const claseFinal = escapar(clases('au-icono', clase));
+    const aria = etiqueta
+      ? `role="img" aria-label="${escapar(etiqueta)}"`
+      : 'aria-hidden="true"';
+    return `<svg class="${claseFinal}" ${aria} focusable="false"><use href="/static/icons/aulento-iconos.svg#i-${nombre}"></use></svg>`;
+  }
+
+  function renderIcono(valor) {
+    if (!valor) return '';
+    if (typeof valor === 'string' && ICONOS_SET.has(valor)) return icono(valor);
+    if (typeof valor === 'string') {
+      const m = ICONO_SVG_RE.exec(valor);
+      if (m && ICONOS_SET.has(m[1])) return valor;
+    }
+    return escapar(valor);
+  }
+
   // ---------- Componentes ----------
 
-  function insignia({ texto, tono: t, icono, mono = false, attrs } = {}) {
+  function insignia({ texto, tono: t, icono: ic, mono = false, attrs } = {}) {
     return `<span class="${clases('au-insignia', tono('au-insignia', t), mono && 'au-insignia--mono')}"${atributos(attrs)}>`
-      + `${icono ? `<span aria-hidden="true">${escapar(icono)}</span>` : ''}${escapar(texto)}</span>`;
+      + `${ic ? `<span aria-hidden="true">${renderIcono(ic)}</span>` : ''}${escapar(texto)}</span>`;
   }
 
   const VARIANTES_BOTON = ['primario', 'secundario', 'peligro', 'fantasma'];
 
-  function boton({ texto, variante = 'secundario', icono, soloIcono = false, etiqueta, chico = false, bloque = false,
+  function boton({ texto, variante = 'secundario', icono: ic, soloIcono = false, etiqueta, chico = false, bloque = false,
     accion, datos, tipo = 'button', deshabilitado = false, href, attrs } = {}) {
     if (!VARIANTES_BOTON.includes(variante)) throw new Error(`Variante de botón desconocida: ${variante}`);
     if (soloIcono && !etiqueta) throw new Error('Un botón de solo ícono necesita `etiqueta` (aria-label)');
     const clase = clases('au-boton', variante !== 'secundario' && `au-boton--${variante}`,
       soloIcono && 'au-boton--icono', chico && 'au-boton--chico', bloque && 'au-boton--bloque');
     const contenido = soloIcono
-      ? `<span aria-hidden="true">${escapar(icono)}</span>`
-      : `${icono ? `<span aria-hidden="true">${escapar(icono)}</span>` : ''}<span>${escapar(texto)}</span>`;
+      ? `<span aria-hidden="true">${renderIcono(ic)}</span>`
+      : `${ic ? `<span aria-hidden="true">${renderIcono(ic)}</span>` : ''}<span>${escapar(texto)}</span>`;
     const comunes = {
       ...atributosDeAccion(accion, datos),
       'aria-label': soloIcono ? etiqueta : null,
@@ -86,11 +130,11 @@
   }
 
   /** Cabecera de tarjeta. `accionesHtml` es una lista de HTML ya armado con Au.boton (confiable). */
-  function cabecera({ titulo, subtitulo, icono, insignias = [], accionesHtml = [], conLinea = false, nivel = 2, idTitulo } = {}) {
+  function cabecera({ titulo, subtitulo, icono: ic, insignias = [], accionesHtml = [], conLinea = false, nivel = 2, idTitulo } = {}) {
     const h = nivel === 3 ? 'h3' : 'h2';
     return `<div class="${clases('au-cabecera', conLinea && 'au-cabecera--con-linea')}">`
       + '<div class="au-cabecera__principal">'
-      + (icono ? `<span class="au-cabecera__icono" aria-hidden="true">${escapar(icono)}</span>` : '')
+      + (ic ? `<span class="au-cabecera__icono" aria-hidden="true">${renderIcono(ic)}</span>` : '')
       + '<div class="au-cabecera__textos">'
       + `<${h} class="au-cabecera__titulo"${atributos({ id: idTitulo })}><span>${escapar(titulo)}</span>${insignias.map((i) => insignia(i)).join('')}</${h}>`
       + (subtitulo ? `<p class="au-cabecera__subtitulo">${escapar(subtitulo)}</p>` : '')
@@ -118,19 +162,19 @@
     return `<progress class="${clases('au-progreso', t === 'exito' && 'au-progreso--exito', t === 'alerta' && 'au-progreso--alerta', t === 'peligro' && 'au-progreso--peligro')}" value="${escapar(val)}" max="${escapar(max)}"${atributos({ 'aria-label': etiqueta })}></progress>`;
   }
 
-  function vacio({ icono = '📭', titulo, texto, accionHtml = '' } = {}) {
+  function vacio({ icono: ic = 'vacio', titulo, texto, accionHtml = '' } = {}) {
     return '<div class="au-vacio">'
-      + `<span class="au-vacio__icono" aria-hidden="true">${escapar(icono)}</span>`
+      + `<span class="au-vacio__icono" aria-hidden="true">${renderIcono(ic)}</span>`
       + (titulo ? `<p class="au-vacio__titulo">${escapar(titulo)}</p>` : '')
       + (texto ? `<p class="au-vacio__texto">${escapar(texto)}</p>` : '')
       + accionHtml
       + '</div>';
   }
 
-  function aviso({ titulo, texto, tono: t, icono, rol } = {}) {
+  function aviso({ titulo, texto, tono: t, icono: ic, rol } = {}) {
     const role = rol || (t === 'peligro' || t === 'alerta' ? 'alert' : 'status');
     return `<div class="${clases('au-aviso', tono('au-aviso', t))}" role="${escapar(role)}">`
-      + (icono ? `<span class="au-aviso__icono" aria-hidden="true">${escapar(icono)}</span>` : '')
+      + (ic ? `<span class="au-aviso__icono" aria-hidden="true">${renderIcono(ic)}</span>` : '')
       + '<div class="au-aviso__contenido">'
       + (titulo ? `<strong class="au-aviso__titulo">${escapar(titulo)}</strong>` : '')
       + (texto ? `<span>${escapar(texto)}</span>` : '')
@@ -166,17 +210,17 @@
         const sel = String(it.valor) === String(activa);
         return `<button type="button" role="tab" class="au-pestanas__boton" aria-selected="${sel}"`
           + `${atributos(atributosDeAccion(accion, { valor: it.valor }))}>`
-          + `${it.icono ? `<span aria-hidden="true">${escapar(it.icono)}</span> ` : ''}${escapar(it.texto)}</button>`;
+          + `${it.icono ? `<span aria-hidden="true">${renderIcono(it.icono)}</span> ` : ''}${escapar(it.texto)}</button>`;
       }).join('')
       + '</div>';
   }
 
-  function fila({ titulo, detalle, icono, activa = false, accion, datos, accionesHtml = '', attrs } = {}) {
+  function fila({ titulo, detalle, icono: ic, activa = false, accion, datos, accionesHtml = '', attrs } = {}) {
     const etiqueta = accion ? 'button' : 'div';
     const tipo = accion ? ' type="button"' : '';
     return `<${etiqueta}${tipo} class="${clases('au-fila', activa && 'au-fila--activa')}"`
       + `${atributos({ ...atributosDeAccion(accion, datos), 'aria-current': activa ? 'true' : null, ...attrs })}>`
-      + (icono ? `<span aria-hidden="true">${escapar(icono)}</span>` : '')
+      + (ic ? `<span aria-hidden="true">${renderIcono(ic)}</span>` : '')
       + `<span class="au-fila__contenido"><span class="au-fila__titulo">${escapar(titulo)}</span>`
       + (detalle ? `<span class="au-fila__detalle">${escapar(detalle)}</span>` : '')
       + '</span>'
@@ -342,6 +386,7 @@
 
   window.Au = Object.freeze({
     escapar, atributos, clases, urlSegura,
+    ICONOS, icono,
     insignia, boton, cabecera, tarjeta, kpi, progreso, vacio, aviso, campo, pestanas, fila,
     acciones, modal,
   });

@@ -1,0 +1,1426 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catálogo de íconos — Aulento</title>
+  <link rel="stylesheet" href="../css/paleta.css">
+  <link rel="stylesheet" href="../componentes.css">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 2rem 1.5rem;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--au-fondo);
+      color: var(--au-texto);
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+    .catalogo__seccion {
+      padding: 1.5rem;
+      border-radius: var(--au-radio-tarjeta);
+      border: 1px solid var(--au-borde);
+      background: var(--au-superficie);
+    }
+    .catalogo__seccion--claro {
+      background: #f1f5f9;
+      color: #0f172a;
+      border-color: #cbd5e1;
+      --au-superficie-alta: #ffffff;
+      --au-borde: #cbd5e1;
+      --au-texto: #0f172a;
+      --au-texto-titulo: #020617;
+      --au-texto-suave: #475569;
+    }
+    .catalogo__titulo {
+      margin: 0 0 0.25rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--au-texto-titulo);
+    }
+    .catalogo__subtitulo {
+      margin: 0 0 1.25rem;
+      font-size: 0.875rem;
+      color: var(--au-texto-suave);
+    }
+    .catalogo__grilla {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+      gap: 0.75rem;
+    }
+    .catalogo__item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 0.5rem;
+      border-radius: var(--au-radio-control);
+      border: 1px solid var(--au-borde);
+      background: var(--au-superficie-alta);
+    }
+    .catalogo__muestras {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.625rem;
+      min-height: 2rem;
+    }
+    .catalogo__24 { font-size: 24px; line-height: 1; display: inline-flex; }
+    .catalogo__16 { font-size: 16px; line-height: 1; display: inline-flex; opacity: 0.9; }
+    .catalogo__nombre {
+      font-family: var(--au-fuente-mono);
+      font-size: 0.75rem;
+      color: var(--au-texto-suave);
+      text-align: center;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <section id="catalogo-oscuro" class="catalogo__seccion">
+    <h1 class="catalogo__titulo">Íconos de Aulento — Tema oscuro (95)</h1>
+    <p class="catalogo__subtitulo">Cada tarjeta muestra el ícono a 24 px (izquierda) y a 16 px (derecha), sin atributo data-tema.</p>
+    <div class="catalogo__grilla">
+      <div class="catalogo__item" data-nombre="inicio">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-inicio"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-inicio"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">inicio</span>
+      </div>
+      <div class="catalogo__item" data-nombre="cursos">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cursos"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cursos"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">cursos</span>
+      </div>
+      <div class="catalogo__item" data-nombre="libros">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-libros"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-libros"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">libros</span>
+      </div>
+      <div class="catalogo__item" data-nombre="lectura">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-lectura"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-lectura"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">lectura</span>
+      </div>
+      <div class="catalogo__item" data-nombre="agenda">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-agenda"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-agenda"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">agenda</span>
+      </div>
+      <div class="catalogo__item" data-nombre="rutas">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-rutas"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-rutas"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">rutas</span>
+      </div>
+      <div class="catalogo__item" data-nombre="repaso">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-repaso"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-repaso"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">repaso</span>
+      </div>
+      <div class="catalogo__item" data-nombre="cerebro">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cerebro"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cerebro"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">cerebro</span>
+      </div>
+      <div class="catalogo__item" data-nombre="indice">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-indice"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-indice"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">indice</span>
+      </div>
+      <div class="catalogo__item" data-nombre="tarjetas">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-tarjetas"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-tarjetas"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">tarjetas</span>
+      </div>
+      <div class="catalogo__item" data-nombre="notas">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-notas"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-notas"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">notas</span>
+      </div>
+      <div class="catalogo__item" data-nombre="cuaderno">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cuaderno"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cuaderno"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">cuaderno</span>
+      </div>
+      <div class="catalogo__item" data-nombre="estadisticas">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-estadisticas"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-estadisticas"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">estadisticas</span>
+      </div>
+      <div class="catalogo__item" data-nombre="examen">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-examen"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-examen"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">examen</span>
+      </div>
+      <div class="catalogo__item" data-nombre="objetivo">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-objetivo"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-objetivo"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">objetivo</span>
+      </div>
+      <div class="catalogo__item" data-nombre="ajustes">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ajustes"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ajustes"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">ajustes</span>
+      </div>
+      <div class="catalogo__item" data-nombre="cuenta">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cuenta"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cuenta"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">cuenta</span>
+      </div>
+      <div class="catalogo__item" data-nombre="cuentas">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cuentas"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cuentas"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">cuentas</span>
+      </div>
+      <div class="catalogo__item" data-nombre="plataforma">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-plataforma"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-plataforma"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">plataforma</span>
+      </div>
+      <div class="catalogo__item" data-nombre="trabajo">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-trabajo"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-trabajo"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">trabajo</span>
+      </div>
+      <div class="catalogo__item" data-nombre="brujula">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-brujula"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-brujula"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">brujula</span>
+      </div>
+      <div class="catalogo__item" data-nombre="grafo">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-grafo"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-grafo"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">grafo</span>
+      </div>
+      <div class="catalogo__item" data-nombre="modulo">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-modulo"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-modulo"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">modulo</span>
+      </div>
+      <div class="catalogo__item" data-nombre="cerrar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cerrar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cerrar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">cerrar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="ok">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ok"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ok"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">ok</span>
+      </div>
+      <div class="catalogo__item" data-nombre="agregar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-agregar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-agregar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">agregar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="quitar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-quitar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-quitar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">quitar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="guardar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-guardar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-guardar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">guardar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="borrar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-borrar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-borrar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">borrar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="editar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-editar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-editar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">editar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="copiar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-copiar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-copiar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">copiar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="lista">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-lista"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-lista"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">lista</span>
+      </div>
+      <div class="catalogo__item" data-nombre="descargar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-descargar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-descargar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">descargar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="importar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-importar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-importar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">importar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="subir">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-subir"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-subir"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">subir</span>
+      </div>
+      <div class="catalogo__item" data-nombre="buscar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-buscar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-buscar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">buscar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="recargar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-recargar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-recargar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">recargar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="ver">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ver"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ver"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">ver</span>
+      </div>
+      <div class="catalogo__item" data-nombre="enlace">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-enlace"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-enlace"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">enlace</span>
+      </div>
+      <div class="catalogo__item" data-nombre="externo">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-externo"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-externo"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">externo</span>
+      </div>
+      <div class="catalogo__item" data-nombre="siguiente">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-siguiente"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-siguiente"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">siguiente</span>
+      </div>
+      <div class="catalogo__item" data-nombre="saltar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-saltar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-saltar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">saltar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="pausa">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-pausa"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-pausa"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">pausa</span>
+      </div>
+      <div class="catalogo__item" data-nombre="detener">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-detener"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-detener"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">detener</span>
+      </div>
+      <div class="catalogo__item" data-nombre="ordenar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ordenar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ordenar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">ordenar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="fijar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-fijar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-fijar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">fijar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="etiqueta">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-etiqueta"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-etiqueta"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">etiqueta</span>
+      </div>
+      <div class="catalogo__item" data-nombre="carpeta">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-carpeta"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-carpeta"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">carpeta</span>
+      </div>
+      <div class="catalogo__item" data-nombre="documento">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-documento"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-documento"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">documento</span>
+      </div>
+      <div class="catalogo__item" data-nombre="paquete">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-paquete"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-paquete"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">paquete</span>
+      </div>
+      <div class="catalogo__item" data-nombre="imagen">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-imagen"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-imagen"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">imagen</span>
+      </div>
+      <div class="catalogo__item" data-nombre="video">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-video"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-video"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">video</span>
+      </div>
+      <div class="catalogo__item" data-nombre="menu">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-menu"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-menu"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">menu</span>
+      </div>
+      <div class="catalogo__item" data-nombre="atajos">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-atajos"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-atajos"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">atajos</span>
+      </div>
+      <div class="catalogo__item" data-nombre="ayuda">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ayuda"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ayuda"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">ayuda</span>
+      </div>
+      <div class="catalogo__item" data-nombre="alerta">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-alerta"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-alerta"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">alerta</span>
+      </div>
+      <div class="catalogo__item" data-nombre="cargando">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cargando"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono au-icono--girando" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cargando"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">cargando</span>
+      </div>
+      <div class="catalogo__item" data-nombre="punto">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-punto"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-punto"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">punto</span>
+      </div>
+      <div class="catalogo__item" data-nombre="bloqueado">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-bloqueado"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-bloqueado"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">bloqueado</span>
+      </div>
+      <div class="catalogo__item" data-nombre="desbloqueado">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-desbloqueado"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-desbloqueado"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">desbloqueado</span>
+      </div>
+      <div class="catalogo__item" data-nombre="seguridad">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-seguridad"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-seguridad"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">seguridad</span>
+      </div>
+      <div class="catalogo__item" data-nombre="salud">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-salud"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-salud"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">salud</span>
+      </div>
+      <div class="catalogo__item" data-nombre="vacio">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-vacio"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-vacio"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">vacio</span>
+      </div>
+      <div class="catalogo__item" data-nombre="celebrar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-celebrar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-celebrar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">celebrar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="logro">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-logro"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-logro"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">logro</span>
+      </div>
+      <div class="catalogo__item" data-nombre="meta">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-meta"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-meta"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">meta</span>
+      </div>
+      <div class="catalogo__item" data-nombre="idea">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-idea"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-idea"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">idea</span>
+      </div>
+      <div class="catalogo__item" data-nombre="ia">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ia"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ia"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">ia</span>
+      </div>
+      <div class="catalogo__item" data-nombre="generar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-generar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-generar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">generar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="rapido">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-rapido"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-rapido"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">rapido</span>
+      </div>
+      <div class="catalogo__item" data-nombre="empezar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-empezar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-empezar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">empezar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="analizar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-analizar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-analizar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">analizar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="foco">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-foco"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-foco"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">foco</span>
+      </div>
+      <div class="catalogo__item" data-nombre="reloj">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-reloj"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-reloj"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">reloj</span>
+      </div>
+      <div class="catalogo__item" data-nombre="pomodoro">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-pomodoro"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-pomodoro"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">pomodoro</span>
+      </div>
+      <div class="catalogo__item" data-nombre="descanso">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-descanso"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-descanso"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">descanso</span>
+      </div>
+      <div class="catalogo__item" data-nombre="racha">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-racha"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-racha"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">racha</span>
+      </div>
+      <div class="catalogo__item" data-nombre="idioma">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-idioma"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-idioma"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">idioma</span>
+      </div>
+      <div class="catalogo__item" data-nombre="crecimiento">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-crecimiento"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-crecimiento"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">crecimiento</span>
+      </div>
+      <div class="catalogo__item" data-nombre="fruto">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-fruto"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-fruto"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">fruto</span>
+      </div>
+      <div class="catalogo__item" data-nombre="premium">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-premium"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-premium"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">premium</span>
+      </div>
+      <div class="catalogo__item" data-nombre="pago">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-pago"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-pago"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">pago</span>
+      </div>
+      <div class="catalogo__item" data-nombre="voz">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-voz"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-voz"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">voz</span>
+      </div>
+      <div class="catalogo__item" data-nombre="audio">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-audio"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-audio"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">audio</span>
+      </div>
+      <div class="catalogo__item" data-nombre="celular">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-celular"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-celular"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">celular</span>
+      </div>
+      <div class="catalogo__item" data-nombre="computadora">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-computadora"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-computadora"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">computadora</span>
+      </div>
+      <div class="catalogo__item" data-nombre="web">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-web"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-web"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">web</span>
+      </div>
+      <div class="catalogo__item" data-nombre="nube">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-nube"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-nube"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">nube</span>
+      </div>
+      <div class="catalogo__item" data-nombre="conexion">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-conexion"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-conexion"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">conexion</span>
+      </div>
+      <div class="catalogo__item" data-nombre="integracion">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-integracion"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-integracion"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">integracion</span>
+      </div>
+      <div class="catalogo__item" data-nombre="clave">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-clave"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-clave"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">clave</span>
+      </div>
+      <div class="catalogo__item" data-nombre="apariencia">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-apariencia"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-apariencia"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">apariencia</span>
+      </div>
+      <div class="catalogo__item" data-nombre="tema-oscuro">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-tema-oscuro"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-tema-oscuro"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">tema-oscuro</span>
+      </div>
+      <div class="catalogo__item" data-nombre="tema-claro">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-tema-claro"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-tema-claro"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">tema-claro</span>
+      </div>
+      <div class="catalogo__item" data-nombre="tema-sistema">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-tema-sistema"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-tema-sistema"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">tema-sistema</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="catalogo-claro" class="catalogo__seccion catalogo__seccion--claro">
+    <h2 class="catalogo__titulo">Íconos de Aulento — Fondo claro (95)</h2>
+    <p class="catalogo__subtitulo">Misma grilla dentro de un contenedor con fondo claro y texto oscuro.</p>
+    <div class="catalogo__grilla">
+      <div class="catalogo__item" data-nombre="inicio">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-inicio"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-inicio"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">inicio</span>
+      </div>
+      <div class="catalogo__item" data-nombre="cursos">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cursos"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cursos"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">cursos</span>
+      </div>
+      <div class="catalogo__item" data-nombre="libros">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-libros"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-libros"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">libros</span>
+      </div>
+      <div class="catalogo__item" data-nombre="lectura">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-lectura"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-lectura"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">lectura</span>
+      </div>
+      <div class="catalogo__item" data-nombre="agenda">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-agenda"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-agenda"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">agenda</span>
+      </div>
+      <div class="catalogo__item" data-nombre="rutas">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-rutas"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-rutas"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">rutas</span>
+      </div>
+      <div class="catalogo__item" data-nombre="repaso">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-repaso"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-repaso"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">repaso</span>
+      </div>
+      <div class="catalogo__item" data-nombre="cerebro">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cerebro"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cerebro"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">cerebro</span>
+      </div>
+      <div class="catalogo__item" data-nombre="indice">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-indice"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-indice"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">indice</span>
+      </div>
+      <div class="catalogo__item" data-nombre="tarjetas">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-tarjetas"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-tarjetas"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">tarjetas</span>
+      </div>
+      <div class="catalogo__item" data-nombre="notas">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-notas"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-notas"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">notas</span>
+      </div>
+      <div class="catalogo__item" data-nombre="cuaderno">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cuaderno"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cuaderno"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">cuaderno</span>
+      </div>
+      <div class="catalogo__item" data-nombre="estadisticas">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-estadisticas"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-estadisticas"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">estadisticas</span>
+      </div>
+      <div class="catalogo__item" data-nombre="examen">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-examen"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-examen"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">examen</span>
+      </div>
+      <div class="catalogo__item" data-nombre="objetivo">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-objetivo"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-objetivo"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">objetivo</span>
+      </div>
+      <div class="catalogo__item" data-nombre="ajustes">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ajustes"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ajustes"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">ajustes</span>
+      </div>
+      <div class="catalogo__item" data-nombre="cuenta">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cuenta"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cuenta"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">cuenta</span>
+      </div>
+      <div class="catalogo__item" data-nombre="cuentas">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cuentas"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cuentas"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">cuentas</span>
+      </div>
+      <div class="catalogo__item" data-nombre="plataforma">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-plataforma"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-plataforma"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">plataforma</span>
+      </div>
+      <div class="catalogo__item" data-nombre="trabajo">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-trabajo"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-trabajo"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">trabajo</span>
+      </div>
+      <div class="catalogo__item" data-nombre="brujula">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-brujula"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-brujula"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">brujula</span>
+      </div>
+      <div class="catalogo__item" data-nombre="grafo">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-grafo"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-grafo"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">grafo</span>
+      </div>
+      <div class="catalogo__item" data-nombre="modulo">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-modulo"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-modulo"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">modulo</span>
+      </div>
+      <div class="catalogo__item" data-nombre="cerrar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cerrar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cerrar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">cerrar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="ok">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ok"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ok"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">ok</span>
+      </div>
+      <div class="catalogo__item" data-nombre="agregar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-agregar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-agregar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">agregar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="quitar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-quitar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-quitar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">quitar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="guardar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-guardar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-guardar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">guardar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="borrar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-borrar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-borrar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">borrar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="editar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-editar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-editar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">editar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="copiar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-copiar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-copiar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">copiar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="lista">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-lista"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-lista"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">lista</span>
+      </div>
+      <div class="catalogo__item" data-nombre="descargar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-descargar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-descargar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">descargar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="importar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-importar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-importar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">importar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="subir">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-subir"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-subir"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">subir</span>
+      </div>
+      <div class="catalogo__item" data-nombre="buscar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-buscar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-buscar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">buscar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="recargar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-recargar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-recargar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">recargar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="ver">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ver"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ver"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">ver</span>
+      </div>
+      <div class="catalogo__item" data-nombre="enlace">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-enlace"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-enlace"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">enlace</span>
+      </div>
+      <div class="catalogo__item" data-nombre="externo">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-externo"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-externo"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">externo</span>
+      </div>
+      <div class="catalogo__item" data-nombre="siguiente">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-siguiente"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-siguiente"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">siguiente</span>
+      </div>
+      <div class="catalogo__item" data-nombre="saltar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-saltar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-saltar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">saltar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="pausa">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-pausa"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-pausa"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">pausa</span>
+      </div>
+      <div class="catalogo__item" data-nombre="detener">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-detener"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-detener"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">detener</span>
+      </div>
+      <div class="catalogo__item" data-nombre="ordenar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ordenar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ordenar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">ordenar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="fijar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-fijar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-fijar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">fijar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="etiqueta">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-etiqueta"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-etiqueta"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">etiqueta</span>
+      </div>
+      <div class="catalogo__item" data-nombre="carpeta">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-carpeta"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-carpeta"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">carpeta</span>
+      </div>
+      <div class="catalogo__item" data-nombre="documento">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-documento"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-documento"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">documento</span>
+      </div>
+      <div class="catalogo__item" data-nombre="paquete">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-paquete"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-paquete"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">paquete</span>
+      </div>
+      <div class="catalogo__item" data-nombre="imagen">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-imagen"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-imagen"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">imagen</span>
+      </div>
+      <div class="catalogo__item" data-nombre="video">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-video"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-video"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">video</span>
+      </div>
+      <div class="catalogo__item" data-nombre="menu">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-menu"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-menu"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">menu</span>
+      </div>
+      <div class="catalogo__item" data-nombre="atajos">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-atajos"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-atajos"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">atajos</span>
+      </div>
+      <div class="catalogo__item" data-nombre="ayuda">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ayuda"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ayuda"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">ayuda</span>
+      </div>
+      <div class="catalogo__item" data-nombre="alerta">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-alerta"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-alerta"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">alerta</span>
+      </div>
+      <div class="catalogo__item" data-nombre="cargando">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cargando"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono au-icono--girando" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-cargando"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">cargando</span>
+      </div>
+      <div class="catalogo__item" data-nombre="punto">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-punto"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-punto"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">punto</span>
+      </div>
+      <div class="catalogo__item" data-nombre="bloqueado">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-bloqueado"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-bloqueado"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">bloqueado</span>
+      </div>
+      <div class="catalogo__item" data-nombre="desbloqueado">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-desbloqueado"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-desbloqueado"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">desbloqueado</span>
+      </div>
+      <div class="catalogo__item" data-nombre="seguridad">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-seguridad"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-seguridad"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">seguridad</span>
+      </div>
+      <div class="catalogo__item" data-nombre="salud">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-salud"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-salud"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">salud</span>
+      </div>
+      <div class="catalogo__item" data-nombre="vacio">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-vacio"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-vacio"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">vacio</span>
+      </div>
+      <div class="catalogo__item" data-nombre="celebrar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-celebrar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-celebrar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">celebrar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="logro">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-logro"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-logro"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">logro</span>
+      </div>
+      <div class="catalogo__item" data-nombre="meta">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-meta"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-meta"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">meta</span>
+      </div>
+      <div class="catalogo__item" data-nombre="idea">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-idea"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-idea"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">idea</span>
+      </div>
+      <div class="catalogo__item" data-nombre="ia">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ia"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-ia"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">ia</span>
+      </div>
+      <div class="catalogo__item" data-nombre="generar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-generar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-generar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">generar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="rapido">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-rapido"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-rapido"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">rapido</span>
+      </div>
+      <div class="catalogo__item" data-nombre="empezar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-empezar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-empezar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">empezar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="analizar">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-analizar"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-analizar"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">analizar</span>
+      </div>
+      <div class="catalogo__item" data-nombre="foco">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-foco"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-foco"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">foco</span>
+      </div>
+      <div class="catalogo__item" data-nombre="reloj">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-reloj"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-reloj"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">reloj</span>
+      </div>
+      <div class="catalogo__item" data-nombre="pomodoro">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-pomodoro"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-pomodoro"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">pomodoro</span>
+      </div>
+      <div class="catalogo__item" data-nombre="descanso">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-descanso"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-descanso"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">descanso</span>
+      </div>
+      <div class="catalogo__item" data-nombre="racha">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-racha"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-racha"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">racha</span>
+      </div>
+      <div class="catalogo__item" data-nombre="idioma">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-idioma"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-idioma"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">idioma</span>
+      </div>
+      <div class="catalogo__item" data-nombre="crecimiento">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-crecimiento"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-crecimiento"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">crecimiento</span>
+      </div>
+      <div class="catalogo__item" data-nombre="fruto">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-fruto"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-fruto"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">fruto</span>
+      </div>
+      <div class="catalogo__item" data-nombre="premium">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-premium"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-premium"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">premium</span>
+      </div>
+      <div class="catalogo__item" data-nombre="pago">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-pago"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-pago"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">pago</span>
+      </div>
+      <div class="catalogo__item" data-nombre="voz">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-voz"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-voz"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">voz</span>
+      </div>
+      <div class="catalogo__item" data-nombre="audio">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-audio"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-audio"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">audio</span>
+      </div>
+      <div class="catalogo__item" data-nombre="celular">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-celular"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-celular"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">celular</span>
+      </div>
+      <div class="catalogo__item" data-nombre="computadora">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-computadora"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-computadora"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">computadora</span>
+      </div>
+      <div class="catalogo__item" data-nombre="web">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-web"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-web"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">web</span>
+      </div>
+      <div class="catalogo__item" data-nombre="nube">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-nube"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-nube"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">nube</span>
+      </div>
+      <div class="catalogo__item" data-nombre="conexion">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-conexion"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-conexion"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">conexion</span>
+      </div>
+      <div class="catalogo__item" data-nombre="integracion">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-integracion"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-integracion"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">integracion</span>
+      </div>
+      <div class="catalogo__item" data-nombre="clave">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-clave"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-clave"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">clave</span>
+      </div>
+      <div class="catalogo__item" data-nombre="apariencia">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-apariencia"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-apariencia"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">apariencia</span>
+      </div>
+      <div class="catalogo__item" data-nombre="tema-oscuro">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-tema-oscuro"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-tema-oscuro"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">tema-oscuro</span>
+      </div>
+      <div class="catalogo__item" data-nombre="tema-claro">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-tema-claro"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-tema-claro"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">tema-claro</span>
+      </div>
+      <div class="catalogo__item" data-nombre="tema-sistema">
+        <div class="catalogo__muestras">
+          <span class="catalogo__24" title="24px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-tema-sistema"></use></svg></span>
+          <span class="catalogo__16" title="16px"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="aulento-iconos.svg#i-tema-sistema"></use></svg></span>
+        </div>
+        <span class="catalogo__nombre">tema-sistema</span>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

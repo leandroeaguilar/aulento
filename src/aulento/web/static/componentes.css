@@ -87,6 +87,7 @@
   /* Duraciones */
   --au-duracion-rapida: 0.15s;
   --au-duracion-media: 0.3s;
+  --au-duracion-giro: 1s;
 
   /* Capas */
   --au-capa-modal: 50;
@@ -497,6 +498,24 @@ body.au-modal-abierto { overflow: hidden; }
   color: var(--au-sobre-primario);
   outline: 2px solid var(--au-primario-texto);
   outline-offset: 2px;
+}
+
+/* ---------- Ícono ---------- */
+@keyframes au-girar {
+  to { transform: rotate(360deg); }
+}
+.au-icono {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  flex-shrink: 0;
+}
+.au-icono--chico { width: 0.875em; height: 0.875em; }
+.au-icono--grande { width: 1.25em; height: 1.25em; }
+.au-icono--girando { animation: au-girar var(--au-duracion-giro) linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .au-icono--girando { animation: none; }
 }
 
 /* ---------- Elementos semánticos HTML ---------- */
