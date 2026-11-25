@@ -46,35 +46,35 @@ const DIAS_SEMANA = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sáb
 const SCHEDULE_TYPE_META = {
   curso: {
     label: 'Curso',
-    icon: '🎓',
+    icon: 'cursos',
     borderClass: 'border-l-sky-500',
     badgeClass: 'bg-sky-950 text-sky-400 border border-sky-800/80',
     timeColor: 'text-sky-400',
   },
   ingles: {
     label: 'Inglés Técnico',
-    icon: '🇬🇧',
+    icon: 'idioma',
     borderClass: 'border-l-emerald-500',
     badgeClass: 'bg-emerald-950 text-emerald-400 border border-emerald-800/80',
     timeColor: 'text-emerald-400',
   },
   lectura: {
     label: 'Lectura',
-    icon: '📖',
+    icon: 'lectura',
     borderClass: 'border-l-purple-500',
     badgeClass: 'bg-purple-950 text-purple-400 border border-purple-800/80',
     timeColor: 'text-purple-400',
   },
   repaso: {
     label: 'Repaso',
-    icon: '🧠',
+    icon: 'repaso',
     borderClass: 'border-l-amber-500',
     badgeClass: 'bg-amber-950 text-amber-400 border border-amber-800/80',
     timeColor: 'text-amber-400',
   },
   otro: {
     label: 'Otro',
-    icon: '⚡',
+    icon: 'rapido',
     borderClass: 'border-l-slate-400',
     badgeClass: 'bg-slate-800 text-slate-300 border border-slate-700',
     timeColor: 'text-slate-300',
@@ -275,7 +275,7 @@ function renderSchedule() {
       : `bg-slate-900/70 border border-slate-800/80 hover:border-slate-700/80 rounded-2xl p-4 min-h-[300px] transition ${columnWidthClass} ${responsiveFlex}`;
 
     const botonAgregarDia = Au.boton({
-      icono: '+',
+      icono: 'agregar',
       soloIcono: true,
       variante: 'fantasma',
       chico: true,
@@ -306,7 +306,7 @@ function renderSchedule() {
           texto: dayBlocks.length === 0 ? 'Sin bloques agendados' : 'Sin coincidencia con filtro',
           accionHtml: Au.boton({
             texto: 'Agendar actividad',
-            icono: '➕',
+            icono: 'agregar',
             variante: 'fantasma',
             chico: true,
             accion: 'abrir-agendar-bloque',
@@ -321,7 +321,7 @@ function renderSchedule() {
               const isExpanded = (state.scheduleCardSize === 'expanded');
 
               const botonDetalle = Au.boton({
-                icono: '⤢',
+                icono: 'ver',
                 soloIcono: true,
                 variante: 'fantasma',
                 chico: true,
@@ -330,7 +330,7 @@ function renderSchedule() {
                 datos: { id: Number(b.id) }
               });
               const botonEditar = Au.boton({
-                icono: '✏️',
+                icono: 'editar',
                 soloIcono: true,
                 variante: 'fantasma',
                 chico: true,
@@ -339,7 +339,7 @@ function renderSchedule() {
                 datos: { id: Number(b.id) }
               });
               const botonGcal = Au.boton({
-                icono: '📅',
+                icono: 'agenda',
                 soloIcono: true,
                 variante: 'fantasma',
                 chico: true,
@@ -348,7 +348,7 @@ function renderSchedule() {
                 datos: { id: Number(b.id) }
               });
               const botonEliminar = Au.boton({
-                icono: '🗑️',
+                icono: 'borrar',
                 soloIcono: true,
                 variante: 'fantasma',
                 chico: true,
@@ -400,7 +400,7 @@ function renderSchedule() {
                         ${Au.boton({ texto: '+30m', variante: 'secundario', chico: true, etiqueta: 'Sumar 30 minutos', accion: 'ajustar-minutos-bloque', datos: { id: Number(b.id), minutos: 30 } })}
                         ${Au.boton({ texto: '-15m', variante: 'secundario', chico: true, etiqueta: 'Restar 15 minutos', accion: 'ajustar-minutos-bloque', datos: { id: Number(b.id), minutos: -15 } })}
                       </div>
-                      ${Au.boton({ texto: 'Detalle ⤢', variante: 'fantasma', chico: true, accion: 'detalle-bloque-agenda', datos: { id: Number(b.id) } })}
+                      ${Au.boton({ texto: 'Detalle', icono: 'ver', variante: 'fantasma', chico: true, accion: 'detalle-bloque-agenda', datos: { id: Number(b.id) } })}
                     </div>
                   ` : ''}
                 </div>
@@ -448,9 +448,9 @@ function confirmDeleteScheduleBlock(blockId, event) {
       <p class="text-slate-300 font-medium">${escapeHtml(block.descripcion)}</p>
       <div class="pt-1 flex items-center justify-between text-xs">
         <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs ${meta.badgeClass}">
-          <span>${meta.icon}</span> ${meta.label}
+          ${Au.icono(meta.icon)} <span>${meta.label}</span>
         </span>
-        ${block.url_acceso ? `<span class="text-slate-500 truncate max-w-[180px]">🔗 ${escapeHtml(block.url_acceso)}</span>` : ''}
+        ${block.url_acceso ? `<span class="text-slate-500 truncate max-w-[180px] inline-flex items-center gap-1">${Au.icono('enlace')} ${escapeHtml(block.url_acceso)}</span>` : ''}
       </div>
     `;
   }
@@ -472,7 +472,7 @@ async function executeDeleteScheduleBlock() {
   const btn = document.getElementById('btn-confirm-delete-schedule');
   if (btn) {
     btn.disabled = true;
-    btn.innerHTML = '<span>⏳</span> Eliminando...';
+    btn.innerHTML = `${Au.icono('cargando')} Eliminando...`;
   }
 
   try {
@@ -494,7 +494,7 @@ async function executeDeleteScheduleBlock() {
   } finally {
     if (btn) {
       btn.disabled = false;
-      btn.innerHTML = '<span>🗑️</span> Sí, eliminar bloque';
+      btn.innerHTML = `${Au.icono('borrar')} Sí, eliminar bloque`;
     }
   }
 }
@@ -575,17 +575,17 @@ function updateScheduleDurationBadge() {
   const start = document.getElementById('new-schedule-start')?.value;
   const end = document.getElementById('new-schedule-end')?.value;
   if (!start || !end) {
-    badge.innerText = '⏳ Definir horarios';
+    badge.innerHTML = `${Au.icono('cargando')} Definir horarios`;
     badge.className = 'au-insignia au-insignia--mono';
     return;
   }
 
   const dur = getDurationMinutes(start, end);
   if (dur <= 0) {
-    badge.innerText = '⚠️ Fin debe ser posterior a inicio';
+    badge.innerHTML = `${Au.icono('alerta')} Fin debe ser posterior a inicio`;
     badge.className = 'au-insignia au-insignia--peligro au-insignia--mono font-bold';
   } else {
-    badge.innerText = `⏳ Duración: ${formatDuration(dur)}`;
+    badge.innerHTML = `${Au.icono('cargando')} Duración: ${formatDuration(dur)}`;
     badge.className = 'au-insignia au-insignia--primario au-insignia--mono font-semibold';
   }
 }
@@ -600,7 +600,7 @@ function populateScheduleAutoFillSelect() {
   let html = '<option value="">-- Seleccionar curso o libro activo --</option>';
 
   if (allCourses.length > 0) {
-    html += '<optgroup label="🎓 Cursos">';
+    html += '<optgroup label="Cursos">';
     allCourses.forEach(c => {
       const dataPayload = JSON.stringify({
         tipo: 'curso',
@@ -613,7 +613,7 @@ function populateScheduleAutoFillSelect() {
   }
 
   if (activeBooks.length > 0) {
-    html += '<optgroup label="📖 Libros Técnicos">';
+    html += '<optgroup label="Libros Técnicos">';
     activeBooks.forEach(b => {
       const dataPayload = JSON.stringify({
         tipo: 'lectura',
@@ -626,9 +626,9 @@ function populateScheduleAutoFillSelect() {
   }
 
   // Presets especiales para inglés FSRS y Obsidian
-  html += '<optgroup label="🇬🇧 Inglés & Repaso">';
-  html += `<option value='${JSON.stringify({ tipo: 'ingles', desc: 'Inglés Técnico FSRS (Vocabulario & Collocations)', url: '' })}'>🇬🇧 Sesión Diaria Inglés FSRS</option>`;
-  html += `<option value='${JSON.stringify({ tipo: 'repaso', desc: 'Repaso y Conexión de Mis notas', url: '' })}'>🧠 Repaso de Notas / MOCs en Obsidian</option>`;
+  html += '<optgroup label="Inglés & Repaso">';
+  html += `<option value='${JSON.stringify({ tipo: 'ingles', desc: 'Inglés Técnico FSRS (Vocabulario & Collocations)', url: '' })}'>Sesión Diaria Inglés FSRS</option>`;
+  html += `<option value='${JSON.stringify({ tipo: 'repaso', desc: 'Repaso y Conexión de Mis notas', url: '' })}'>Repaso de Notas / MOCs en Obsidian</option>`;
   html += '</optgroup>';
 
   select.innerHTML = html;
@@ -676,7 +676,7 @@ async function handleCreateSchedule(event) {
   const btnSubmit = document.getElementById('btn-submit-schedule');
   if (btnSubmit) {
     btnSubmit.disabled = true;
-    btnSubmit.innerHTML = '<span>⏳</span> Guardando...';
+    btnSubmit.innerHTML = `${Au.icono('cargando')} Guardando...`;
   }
 
   try {
@@ -708,7 +708,7 @@ async function handleCreateSchedule(event) {
   } finally {
     if (btnSubmit) {
       btnSubmit.disabled = false;
-      btnSubmit.innerHTML = '<span>💾</span> Agendar Bloque';
+      btnSubmit.innerHTML = `${Au.icono('guardar')} Agendar Bloque`;
     }
   }
 }
@@ -789,17 +789,17 @@ function updateEditScheduleDurationBadge() {
   const start = document.getElementById('edit-schedule-start')?.value;
   const end = document.getElementById('edit-schedule-end')?.value;
   if (!start || !end) {
-    badge.innerText = '⏳ Definir horarios';
+    badge.innerHTML = `${Au.icono('cargando')} Definir horarios`;
     badge.className = 'au-insignia au-insignia--mono';
     return;
   }
 
   const dur = getDurationMinutes(start, end);
   if (dur <= 0) {
-    badge.innerText = '⚠️ Fin debe ser posterior a inicio';
+    badge.innerHTML = `${Au.icono('alerta')} Fin debe ser posterior a inicio`;
     badge.className = 'au-insignia au-insignia--peligro au-insignia--mono font-bold';
   } else {
-    badge.innerText = `⏳ Duración: ${formatDuration(dur)}`;
+    badge.innerHTML = `${Au.icono('cargando')} Duración: ${formatDuration(dur)}`;
     badge.className = 'au-insignia au-insignia--alerta au-insignia--mono font-semibold';
   }
 }
@@ -829,7 +829,7 @@ async function handleUpdateSchedule(event) {
   const btnSubmit = document.getElementById('btn-submit-edit-schedule');
   if (btnSubmit) {
     btnSubmit.disabled = true;
-    btnSubmit.innerHTML = '<span>⏳</span> Guardando...';
+    btnSubmit.innerHTML = `${Au.icono('cargando')} Guardando...`;
   }
 
   try {
@@ -866,7 +866,7 @@ async function handleUpdateSchedule(event) {
   } finally {
     if (btnSubmit) {
       btnSubmit.disabled = false;
-      btnSubmit.innerHTML = '<span>💾</span> Guardar Cambios';
+      btnSubmit.innerHTML = `${Au.icono('guardar')} Guardar Cambios`;
     }
   }
 }
@@ -897,12 +897,12 @@ function openScheduleCardDetailModal(blockId, event) {
   if (durEl) durEl.innerText = durStr;
 
   const iconContainer = document.getElementById('detail-schedule-icon-container');
-  if (iconContainer) iconContainer.innerText = meta.icon;
+  if (iconContainer) iconContainer.innerHTML = Au.icono(meta.icon);
 
   const badgeEl = document.getElementById('detail-schedule-badge');
   if (badgeEl) {
     badgeEl.className = `inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-semibold ${meta.badgeClass}`;
-    badgeEl.innerHTML = `<span>${meta.icon}</span> ${meta.label}`;
+    badgeEl.innerHTML = `${Au.icono(meta.icon)} <span>${meta.label}</span>`;
   }
 
   const urlWrap = document.getElementById('detail-schedule-url-wrap');
@@ -910,7 +910,7 @@ function openScheduleCardDetailModal(blockId, event) {
     if (block.url_acceso) {
       urlWrap.innerHTML = Au.boton({
         texto: 'Entrar al Aula ↗',
-        icono: '🚀',
+        icono: 'empezar',
         variante: 'primario',
         chico: true,
         href: block.url_acceso,
@@ -1079,7 +1079,7 @@ async function openGoogleCalendarModal() {
         <div class="flex items-center gap-2">
           ${Au.boton({
             texto: 'Abrir en GCal',
-            icono: '📅',
+            icono: 'agenda',
             variante: 'secundario',
             chico: true,
             href: b.gcal_url,
@@ -1127,9 +1127,9 @@ async function loadFocusStats() {
       const hdrFocus = document.getElementById('hdr-focus');
       if (hdrFocus) {
         if (stats.minutos_hoy >= 60) {
-          hdrFocus.innerText = `⏱️ ${stats.horas_hoy}h foco`;
+          hdrFocus.innerHTML = `${Au.icono('foco')} ${stats.horas_hoy}h foco`;
         } else {
-          hdrFocus.innerText = `⏱️ ${stats.minutos_hoy}m foco`;
+          hdrFocus.innerHTML = `${Au.icono('foco')} ${stats.minutos_hoy}m foco`;
         }
         hdrFocus.title = `Hoy: ${stats.minutos_hoy} min (${stats.horas_hoy} hrs) | Esta semana: ${stats.minutos_semana} min (${stats.horas_semana} hrs en ${stats.sesiones_semana} bloques)`;
       }
@@ -1200,7 +1200,7 @@ function updatePomodoroDisplay() {
   }
 
   if (hdrIcon) {
-    hdrIcon.innerText = state.focusTimer.isRunning ? '⏸' : '▶';
+    hdrIcon.innerHTML = state.focusTimer.isRunning ? Au.icono('pausa') : '▶';
   }
   if (hdrDot) {
     if (state.focusTimer.isRunning) {
@@ -1258,7 +1258,7 @@ function togglePomodoroTimer() {
     state.focusTimer.isRunning = true;
     if (toggleBtn && icon && text && badge) {
       toggleBtn.className = "au-boton au-boton--secundario flex-1";
-      icon.innerText = "⏸";
+      icon.innerHTML = Au.icono('pausa');
       text.innerText = "Pausar";
       badge.innerText = "Enfocado";
       badge.className = "au-insignia au-insignia--exito mt-2 animate-pulse";
@@ -1325,7 +1325,7 @@ async function finishPomodoroSession(minutesStudied) {
     });
 
     if (res.ok) {
-      alert(`🎉 ¡Excelente sesión de estudio!\nSe registraron ${minutesStudied} minutos de foco real vinculados a tu agenda y al Weekly Digest de Obsidian.`);
+      alert(`¡Excelente sesión de estudio!\nSe registraron ${minutesStudied} minutos de foco real vinculados a tu agenda y al Weekly Digest de Obsidian.`);
       if (notesInput) notesInput.value = '';
       resetPomodoroTimer();
       await loadFocusStats();

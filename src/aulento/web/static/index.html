@@ -865,13 +865,13 @@
         </div>
         <div class="au-cabecera__acciones">
           <button type="button" data-accion="abrir-webhook-cursos" class="au-boton au-boton--secundario" title="Configurar sincronización automática de cursos">
-            <span aria-hidden="true">📡</span><span>Sincronización Automática</span>
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-conexion"></use></svg><span>Sincronización Automática</span>
           </button>
           <button type="button" data-accion="abrir-nueva-plataforma" class="au-boton au-boton--secundario">
-            <span aria-hidden="true">🏛</span><span>Nueva Plataforma</span>
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-plataforma"></use></svg><span>Nueva Plataforma</span>
           </button>
           <button type="button" data-accion="abrir-agregar-curso" class="au-boton au-boton--primario">
-            <span aria-hidden="true">➕</span><span>Agregar Curso</span>
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agregar"></use></svg><span>Agregar Curso</span>
           </button>
         </div>
       </div>
@@ -881,7 +881,7 @@
         <search class="relative flex-1 max-w-md">
           <label for="course-search-input" class="sr-only">Buscar curso o plataforma</label>
           <input type="text" id="course-search-input" data-accion="buscar-cursos" data-al-escribir placeholder="Buscar curso o plataforma..." class="au-campo__control au-campo__control--con-icono">
-          <span class="au-campo__icono" aria-hidden="true">🔍</span>
+          <span class="au-campo__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-buscar"></use></svg></span>
         </search>
         <div class="au-pestanas" role="tablist" aria-label="Filtro de cursos">
           <button type="button" role="tab" data-accion="filtrar-cursos" data-valor="todos" id="btn-course-filter-todos" class="au-pestanas__boton" aria-selected="true">Todos</button>
@@ -906,13 +906,13 @@
         </div>
         <div class="au-cabecera__acciones">
           <button type="button" data-accion="sincronizar-google-libros" id="btn-sync-google-books" data-requiere="google_libros" class="au-boton au-boton--secundario" title="Sincronizar estanterías y avance de lectura con Google Play Libros">
-            <span aria-hidden="true">📚</span><span>Google Play Libros</span>
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-libros"></use></svg><span>Google Play Libros</span>
           </button>
           <button type="button" data-accion="abrir-atajos-apple" class="au-boton au-boton--secundario" title="Configurar sincronización con Atajos de Apple (iOS / macOS)">
-            <span aria-hidden="true">🍎</span><span>Atajos Apple</span>
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-fruto"></use></svg><span>Atajos Apple</span>
           </button>
           <button type="button" data-accion="abrir-registro-libro" class="au-boton au-boton--primario">
-            <span aria-hidden="true">➕</span><span>Registrar Libro</span>
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agregar"></use></svg><span>Registrar Libro</span>
           </button>
         </div>
       </div>
@@ -922,7 +922,7 @@
         <search class="relative flex-1 max-w-md">
           <label for="book-search-input" class="sr-only">Buscar libro por título o autor</label>
           <input type="text" id="book-search-input" data-accion="buscar-libros" data-al-escribir placeholder="Buscar por título o autor..." class="au-campo__control au-campo__control--con-icono">
-          <span class="au-campo__icono" aria-hidden="true">🔍</span>
+          <span class="au-campo__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-buscar"></use></svg></span>
         </search>
         <div class="au-pestanas" role="tablist" aria-label="Filtro de libros">
           <button type="button" role="tab" data-accion="filtrar-libros" data-valor="todos" id="btn-book-filter-todos" class="au-pestanas__boton" aria-selected="true">Todos</button>
@@ -942,7 +942,7 @@
       <div class="au-tarjeta">
         <div class="au-cabecera">
           <div class="au-cabecera__principal">
-            <span class="au-cabecera__icono" aria-hidden="true">📅</span>
+            <span class="au-cabecera__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agenda"></use></svg></span>
             <div class="au-cabecera__textos">
               <h2 class="au-cabecera__titulo">Cronograma Semanal de Estudio</h2>
               <p class="au-cabecera__subtitulo">
@@ -952,16 +952,16 @@
           </div>
           <div class="au-cabecera__acciones">
             <a href="/api/schedule/export/calendar.ics" download="cronograma-estudio.ics" class="au-boton au-boton--secundario" title="Descargar archivo .ics para Apple Calendar, Outlook u otros calendarios">
-              <span aria-hidden="true">📥</span><span>Exportar .ICS</span>
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-descargar"></use></svg><span>Exportar .ICS</span>
             </a>
             <button type="button" data-accion="abrir-google-calendar" class="au-boton au-boton--secundario" title="Exportar y agregar a Google Calendar">
-              <span aria-hidden="true">📅</span><span>Exportar a Google Calendar</span>
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agenda"></use></svg><span>Exportar a Google Calendar</span>
             </button>
             <button type="button" data-accion="abrir-planificador" class="au-boton au-boton--secundario" title="Generar plan adaptativo inteligente según minutos disponibles">
-              <span aria-hidden="true">🎯</span><span>Plan Inteligente</span>
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-objetivo"></use></svg><span>Plan Inteligente</span>
             </button>
             <button type="button" data-accion="abrir-agendar-bloque" class="au-boton au-boton--primario">
-              <span aria-hidden="true">➕</span><span>Agendar Bloque</span>
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agregar"></use></svg><span>Agendar Bloque</span>
             </button>
           </div>
         </div>
@@ -978,19 +978,19 @@
           <span class="au-kpi__valor"><span id="schedule-kpi-total" class="font-mono">0</span><span class="au-kpi__unidad">bloques</span></span>
         </div>
         <div class="au-kpi">
-          <span class="au-kpi__etiqueta">🎓 Cursos</span>
+          <span class="au-kpi__etiqueta"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cursos"></use></svg> Cursos</span>
           <span class="au-kpi__valor"><span id="schedule-kpi-cursos" class="font-mono">0.0</span><span class="au-kpi__unidad">hs</span></span>
         </div>
         <div class="au-kpi">
-          <span class="au-kpi__etiqueta">🇬🇧 Inglés Técnico</span>
+          <span class="au-kpi__etiqueta"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-idioma"></use></svg> Inglés Técnico</span>
           <span class="au-kpi__valor"><span id="schedule-kpi-ingles" class="font-mono">0.0</span><span class="au-kpi__unidad">hs</span></span>
         </div>
         <div class="au-kpi">
-          <span class="au-kpi__etiqueta">📖 Lectura</span>
+          <span class="au-kpi__etiqueta"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-lectura"></use></svg> Lectura</span>
           <span class="au-kpi__valor"><span id="schedule-kpi-lectura" class="font-mono">0.0</span><span class="au-kpi__unidad">hs</span></span>
         </div>
         <div class="au-kpi">
-          <span class="au-kpi__etiqueta">🧠 Repaso / Otro</span>
+          <span class="au-kpi__etiqueta"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-repaso"></use></svg> Repaso / Otro</span>
           <span class="au-kpi__valor"><span id="schedule-kpi-otros" class="font-mono">0.0</span><span class="au-kpi__unidad">hs</span></span>
         </div>
       </div>
@@ -1003,10 +1003,10 @@
             <span class="text-slate-400 font-medium mr-1">Filtrar:</span>
             <div class="au-pestanas flex-wrap" id="schedule-filter-bar" role="tablist">
               <button type="button" role="tab" data-accion="filtrar-agenda" data-filtro="todos" aria-selected="true" class="schedule-filter-pill au-pestanas__boton" data-filter="todos">Todos</button>
-              <button type="button" role="tab" data-accion="filtrar-agenda" data-filtro="curso" aria-selected="false" class="schedule-filter-pill au-pestanas__boton" data-filter="curso">🎓 Cursos</button>
-              <button type="button" role="tab" data-accion="filtrar-agenda" data-filtro="ingles" aria-selected="false" class="schedule-filter-pill au-pestanas__boton" data-filter="ingles">🇬🇧 Inglés</button>
-              <button type="button" role="tab" data-accion="filtrar-agenda" data-filtro="lectura" aria-selected="false" class="schedule-filter-pill au-pestanas__boton" data-filter="lectura">📖 Lectura</button>
-              <button type="button" role="tab" data-accion="filtrar-agenda" data-filtro="repaso" aria-selected="false" class="schedule-filter-pill au-pestanas__boton" data-filter="repaso">🧠 Repaso</button>
+              <button type="button" role="tab" data-accion="filtrar-agenda" data-filtro="curso" aria-selected="false" class="schedule-filter-pill au-pestanas__boton" data-filter="curso"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cursos"></use></svg> Cursos</button>
+              <button type="button" role="tab" data-accion="filtrar-agenda" data-filtro="ingles" aria-selected="false" class="schedule-filter-pill au-pestanas__boton" data-filter="ingles"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-idioma"></use></svg> Inglés</button>
+              <button type="button" role="tab" data-accion="filtrar-agenda" data-filtro="lectura" aria-selected="false" class="schedule-filter-pill au-pestanas__boton" data-filter="lectura"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-lectura"></use></svg> Lectura</button>
+              <button type="button" role="tab" data-accion="filtrar-agenda" data-filtro="repaso" aria-selected="false" class="schedule-filter-pill au-pestanas__boton" data-filter="repaso"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-repaso"></use></svg> Repaso</button>
             </div>
           </div>
         </div>
@@ -1015,26 +1015,26 @@
           <!-- Selector de Vista de Días (Descomprime columnas) -->
           <div class="au-pestanas flex-wrap" role="tablist">
             <button type="button" role="tab" data-accion="ver-dias-agenda" data-dias="7d" data-days-view="7d" aria-selected="true" class="schedule-days-view-pill au-pestanas__boton" title="Ver los 7 días de la semana (con scroll horizontal amplio)">
-              <span>📅</span> 7 Días
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agenda"></use></svg> 7 Días
             </button>
             <button type="button" role="tab" data-accion="ver-dias-agenda" data-dias="5d" data-days-view="5d" aria-selected="false" class="schedule-days-view-pill au-pestanas__boton" title="Semana laboral (Lunes a Viernes en columnas amplias)">
-              <span>💼</span> Lun-Vie
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-trabajo"></use></svg> Lun-Vie
             </button>
             <button type="button" role="tab" data-accion="ver-dias-agenda" data-dias="today" data-days-view="today" aria-selected="false" class="schedule-days-view-pill au-pestanas__boton" title="Enfoque total en el día de hoy">
-              <span>🎯</span> Hoy
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-objetivo"></use></svg> Hoy
             </button>
             <button type="button" role="tab" data-accion="ver-dias-agenda" data-dias="weekend" data-days-view="weekend" aria-selected="false" class="schedule-days-view-pill au-pestanas__boton" title="Fin de semana (Sábado y Domingo)">
-              <span>🌴</span> Fin de Sem.
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-crecimiento"></use></svg> Fin de Sem.
             </button>
           </div>
 
           <!-- Selector de Tamaño de Tarjetas -->
           <div class="au-pestanas" role="tablist">
             <button type="button" role="tab" id="btn-card-size-normal" data-accion="tamano-tarjetas-agenda" data-tamano="normal" aria-selected="true" class="au-pestanas__boton" title="Tarjetas en tamaño normal">
-              <span>◽</span> Normal
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-punto"></use></svg> Normal
             </button>
             <button type="button" role="tab" id="btn-card-size-expanded" data-accion="tamano-tarjetas-agenda" data-tamano="expanded" aria-selected="false" class="au-pestanas__boton" title="Tarjetas agrandadas con acciones y controles">
-              <span>⤢</span> Agrandadas
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-ver"></use></svg> Agrandadas
             </button>
           </div>
 
@@ -1048,7 +1048,7 @@
       <section id="schedule-empty-banner" class="au-tarjeta au-tarjeta--destacada hidden shadow-xl">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div class="flex items-start sm:items-center gap-3.5">
-            <span class="au-cabecera__icono" aria-hidden="true">📅</span>
+            <span class="au-cabecera__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agenda"></use></svg></span>
             <div class="space-y-1">
               <h3 class="text-sm sm:text-base font-bold text-white">Tu cronograma semanal aún no tiene bloques programados</h3>
               <p class="text-xs text-slate-400 max-w-xl">
@@ -1058,10 +1058,10 @@
           </div>
           <div class="flex flex-wrap items-center gap-2.5 shrink-0">
             <button type="button" data-accion="abrir-planificador" class="au-boton au-boton--primario">
-              <span aria-hidden="true">⚡</span><span>Autogenerar Plan con IA</span>
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rapido"></use></svg><span>Autogenerar Plan con IA</span>
             </button>
             <button type="button" data-accion="abrir-agendar-bloque" data-dia="1" class="au-boton au-boton--secundario">
-              <span aria-hidden="true">➕</span><span>Agregar Bloque Manual</span>
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agregar"></use></svg><span>Agregar Bloque Manual</span>
             </button>
           </div>
         </div>
@@ -3324,7 +3324,7 @@
     <div class="au-modal__caja max-h-[92vh] overflow-y-auto">
       <div class="au-modal__cabecera">
         <h2 id="add-course-modal-titulo" class="au-modal__titulo">Agregar Curso Externo</h2>
-        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar">✕</button>
+        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cerrar"></use></svg></button>
       </div>
       <form data-accion="modal-crear-curso">
         <div class="au-modal__cuerpo text-sm">
@@ -3361,18 +3361,18 @@
           <!-- Recursos y Anotaciones (Hub 360°) -->
           <div class="border-t border-slate-800 pt-3 space-y-3">
             <p class="text-xs font-semibold text-sky-400 flex items-center gap-1.5">
-              <span>🌐</span> Materiales y Apuntes (Opcionales)
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-web"></use></svg> Materiales y Apuntes (Opcionales)
             </p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div class="au-campo">
                 <label for="new-course-drive" class="au-campo__etiqueta flex items-center gap-1">
-                  <span>📁</span> Carpeta Google Drive / Nube
+                  <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-carpeta"></use></svg> Carpeta Google Drive / Nube
                 </label>
                 <input type="url" id="new-course-drive" placeholder="https://drive.google.com/..." class="au-campo__control">
               </div>
               <div class="au-campo" data-requiere="carpeta_local">
                 <label for="new-course-local" class="au-campo__etiqueta flex items-center gap-1">
-                  <span>💻</span> Carpeta Local en PC
+                  <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-computadora"></use></svg> Carpeta Local en PC
                 </label>
                 <input type="text" id="new-course-local" placeholder="C:\Users\...\proyecto" class="au-campo__control">
               </div>
@@ -3380,13 +3380,13 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div class="au-campo">
                 <label for="new-course-notion" class="au-campo__etiqueta flex items-center gap-1">
-                  <span>📓</span> Página en Notion
+                  <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cuaderno"></use></svg> Página en Notion
                 </label>
                 <input type="url" id="new-course-notion" placeholder="https://notion.so/..." class="au-campo__control">
               </div>
               <div class="au-campo">
                 <label for="new-course-obsidian" class="au-campo__etiqueta flex items-center gap-1">
-                  <span>💎</span> Nota en Mis notas
+                  <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-premium"></use></svg> Nota en Mis notas
                 </label>
                 <input type="text" id="new-course-obsidian" placeholder="04 Knowledge/Cursos/Curso.md" class="au-campo__control">
               </div>
@@ -3407,7 +3407,7 @@
     <div class="au-modal__caja">
       <div class="au-modal__cabecera">
         <h2 id="add-book-modal-titulo" class="au-modal__titulo">Registrar Libro Técnico</h2>
-        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar">✕</button>
+        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cerrar"></use></svg></button>
       </div>
       <form data-accion="modal-crear-libro">
         <div class="au-modal__cuerpo text-sm">
@@ -3502,10 +3502,10 @@
     <div class="au-modal__caja max-h-[92vh] overflow-y-auto">
       <div class="au-modal__cabecera">
         <div class="flex items-center gap-2">
-          <span class="text-xl">✏️</span>
+          <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-editar"></use></svg>
           <h2 id="edit-course-modal-titulo" class="au-modal__titulo">Editar Curso Externo</h2>
         </div>
-        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar">✕</button>
+        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cerrar"></use></svg></button>
       </div>
       <form data-accion="modal-editar-curso">
         
@@ -3544,18 +3544,18 @@
           <!-- Recursos y Anotaciones (Hub 360°) -->
           <div class="border-t border-slate-800 pt-3 space-y-3">
             <p class="text-xs font-semibold text-sky-400 flex items-center gap-1.5">
-              <span>🌐</span> Materiales y Apuntes (Opcionales)
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-web"></use></svg> Materiales y Apuntes (Opcionales)
             </p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div class="au-campo">
                 <label for="edit-course-drive" class="au-campo__etiqueta flex items-center gap-1">
-                  <span>📁</span> Carpeta Google Drive / Nube
+                  <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-carpeta"></use></svg> Carpeta Google Drive / Nube
                 </label>
                 <input type="url" id="edit-course-drive" placeholder="https://drive.google.com/..." class="au-campo__control">
               </div>
               <div class="au-campo" data-requiere="carpeta_local">
                 <label for="edit-course-local" class="au-campo__etiqueta flex items-center gap-1">
-                  <span>💻</span> Carpeta Local en PC
+                  <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-computadora"></use></svg> Carpeta Local en PC
                 </label>
                 <input type="text" id="edit-course-local" placeholder="C:\Users\...\proyecto" class="au-campo__control">
               </div>
@@ -3563,13 +3563,13 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div class="au-campo">
                 <label for="edit-course-notion" class="au-campo__etiqueta flex items-center gap-1">
-                  <span>📓</span> Página en Notion
+                  <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cuaderno"></use></svg> Página en Notion
                 </label>
                 <input type="url" id="edit-course-notion" placeholder="https://notion.so/..." class="au-campo__control">
               </div>
               <div class="au-campo">
                 <label for="edit-course-obsidian" class="au-campo__etiqueta flex items-center gap-1">
-                  <span>💎</span> Nota en Mis notas
+                  <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-premium"></use></svg> Nota en Mis notas
                 </label>
                 <input type="text" id="edit-course-obsidian" placeholder="04 Knowledge/Cursos/Curso.md" class="au-campo__control">
               </div>
@@ -3579,7 +3579,7 @@
 
         <div class="au-modal__pie flex justify-between items-center">
           <button type="button" data-accion="modal-eliminar-curso" class="au-boton au-boton--peligro">
-            <span>🗑️</span> Eliminar
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-borrar"></use></svg><span>Eliminar</span>
           </button>
           <div class="flex gap-2">
             <button type="button" class="au-boton au-boton--secundario" data-accion="au-cerrar-modal">Cancelar</button>
@@ -3596,10 +3596,10 @@
     <div class="au-modal__caja">
       <div class="au-modal__cabecera">
         <div class="flex items-center gap-2">
-          <span class="text-xl">✏️</span>
+          <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-editar"></use></svg>
           <h2 id="edit-book-modal-titulo" class="au-modal__titulo">Editar Libro Técnico</h2>
         </div>
-        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar">✕</button>
+        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cerrar"></use></svg></button>
       </div>
       <form data-accion="modal-editar-libro">
         
@@ -3643,7 +3643,7 @@
         </div>
         <div class="au-modal__pie flex justify-between items-center">
           <button type="button" data-accion="modal-eliminar-libro" class="au-boton au-boton--peligro">
-            <span>🗑️</span> Eliminar
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-borrar"></use></svg><span>Eliminar</span>
           </button>
           <div class="flex gap-2">
             <button type="button" class="au-boton au-boton--secundario" data-accion="au-cerrar-modal">Cancelar</button>
@@ -3661,14 +3661,14 @@
       <div class="au-modal__cabecera">
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-base shrink-0">
-            📅
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agenda"></use></svg>
           </div>
           <div>
             <h2 id="add-schedule-modal-titulo" class="au-modal__titulo">Agendar Bloque de Estudio</h2>
             <p class="text-xs text-slate-400">Planificá tus horarios recurrentes en el cronograma semanal.</p>
           </div>
         </div>
-        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar">✕</button>
+        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cerrar"></use></svg></button>
       </div>
 
       <form data-accion="modal-crear-bloque-agenda">
@@ -3694,19 +3694,19 @@
             
             <div class="grid grid-cols-2 sm:grid-cols-5 gap-1.5" id="schedule-type-chips">
               <button aria-pressed="true" type="button" data-accion="modal-elegir-tipo-agenda" data-tipo="curso" class="schedule-type-chip au-boton au-boton--chico">
-                <span>🎓</span> Curso
+                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cursos"></use></svg> Curso
               </button>
               <button aria-pressed="false" type="button" data-accion="modal-elegir-tipo-agenda" data-tipo="ingles" class="schedule-type-chip au-boton au-boton--chico">
-                <span>🇬🇧</span> Inglés
+                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-idioma"></use></svg> Inglés
               </button>
               <button aria-pressed="false" type="button" data-accion="modal-elegir-tipo-agenda" data-tipo="lectura" class="schedule-type-chip au-boton au-boton--chico">
-                <span>📖</span> Lectura
+                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-lectura"></use></svg> Lectura
               </button>
               <button aria-pressed="false" type="button" data-accion="modal-elegir-tipo-agenda" data-tipo="repaso" class="schedule-type-chip au-boton au-boton--chico">
-                <span>🧠</span> Repaso
+                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-repaso"></use></svg> Repaso
               </button>
               <button aria-pressed="false" type="button" data-accion="modal-elegir-tipo-agenda" data-tipo="otro" class="schedule-type-chip au-boton au-boton--chico col-span-2 sm:col-span-1">
-                <span>⚡</span> Otro
+                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rapido"></use></svg> Otro
               </button>
             </div>
           </div>
@@ -3715,7 +3715,7 @@
           <div class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-3 space-y-1.5">
             <div class="flex items-center justify-between">
               <label for="new-schedule-autofill" class="text-xs font-semibold text-slate-400 flex items-center gap-1">
-                <span>⚡</span> Autocompletar desde Cursos o Libros Registrados
+                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rapido"></use></svg> Autocompletar desde Cursos o Libros Registrados
               </label>
               <span class="text-xs text-slate-500">Opcional</span>
             </div>
@@ -3729,7 +3729,7 @@
             <div class="flex items-center justify-between">
               <label class="text-xs font-semibold text-slate-300">Horario de Estudio</label>
               <span id="new-schedule-duration-badge" class="text-xs font-mono font-medium text-sky-400 bg-sky-950/80 border border-sky-800/60 px-2 py-0.5 rounded-lg">
-                ⏳ Duración: 2h 00m
+                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cargando"></use></svg> Duración: 2h 00m
               </span>
             </div>
 
@@ -3778,7 +3778,7 @@
             Cancelar
           </button>
           <button type="submit" id="btn-submit-schedule" class="au-boton au-boton--primario">
-            <span>💾</span> Agendar Bloque
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-guardar"></use></svg><span>Agendar Bloque</span>
           </button>
         </div>
         
@@ -3794,14 +3794,14 @@
       <div class="au-modal__cabecera">
         <div class="flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 flex items-center justify-center text-lg font-bold shrink-0">
-            🗑️
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-borrar"></use></svg>
           </div>
           <div>
             <h2 id="delete-schedule-modal-titulo" class="au-modal__titulo">¿Eliminar bloque de estudio?</h2>
             <p class="text-xs text-slate-400">Esta acción quitará el horario del cronograma semanal.</p>
           </div>
         </div>
-        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar">✕</button>
+        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cerrar"></use></svg></button>
       </div>
 
       <!-- Tarjeta de vista previa del bloque a eliminar -->
@@ -3816,7 +3816,7 @@
           Cancelar
         </button>
         <button type="button" id="btn-confirm-delete-schedule" data-accion="modal-ejecutar-eliminar-agenda" class="au-boton au-boton--peligro">
-          <span>🗑️</span> Sí, eliminar bloque
+          <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-borrar"></use></svg><span>Sí, eliminar bloque</span>
         </button>
       </div>
     </div>
@@ -3828,14 +3828,14 @@
       <div class="au-modal__cabecera">
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-base shrink-0">
-            ✏️
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-editar"></use></svg>
           </div>
           <div>
             <h2 id="edit-schedule-modal-titulo" class="au-modal__titulo">Editar Bloque de Estudio</h2>
             <p class="text-xs text-slate-400">Modificá el horario, duración o contenido de este bloque.</p>
           </div>
         </div>
-        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar">✕</button>
+        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cerrar"></use></svg></button>
       </div>
 
       <form data-accion="modal-actualizar-bloque-agenda">
@@ -3863,19 +3863,19 @@
             
             <div class="grid grid-cols-2 sm:grid-cols-5 gap-1.5" id="edit-schedule-type-chips">
               <button aria-pressed="true" type="button" data-accion="modal-editar-tipo-agenda" data-tipo="curso" class="edit-schedule-type-chip au-boton au-boton--chico">
-                <span>🎓</span> Curso
+                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cursos"></use></svg> Curso
               </button>
               <button aria-pressed="false" type="button" data-accion="modal-editar-tipo-agenda" data-tipo="ingles" class="edit-schedule-type-chip au-boton au-boton--chico">
-                <span>🇬🇧</span> Inglés
+                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-idioma"></use></svg> Inglés
               </button>
               <button aria-pressed="false" type="button" data-accion="modal-editar-tipo-agenda" data-tipo="lectura" class="edit-schedule-type-chip au-boton au-boton--chico">
-                <span>📖</span> Lectura
+                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-lectura"></use></svg> Lectura
               </button>
               <button aria-pressed="false" type="button" data-accion="modal-editar-tipo-agenda" data-tipo="repaso" class="edit-schedule-type-chip au-boton au-boton--chico">
-                <span>🧠</span> Repaso
+                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-repaso"></use></svg> Repaso
               </button>
               <button aria-pressed="false" type="button" data-accion="modal-editar-tipo-agenda" data-tipo="otro" class="edit-schedule-type-chip au-boton au-boton--chico col-span-2 sm:col-span-1">
-                <span>⚡</span> Otro
+                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rapido"></use></svg> Otro
               </button>
             </div>
           </div>
@@ -3885,7 +3885,7 @@
             <div class="flex items-center justify-between">
               <label class="text-xs font-semibold text-slate-300">Horario de Estudio</label>
               <span id="edit-schedule-duration-badge" class="text-xs font-mono font-medium text-sky-400 bg-sky-950/80 border border-sky-800/60 px-2 py-0.5 rounded-lg">
-                ⏳ Duración: 2h 00m
+                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cargando"></use></svg> Duración: 2h 00m
               </span>
             </div>
 
@@ -3934,7 +3934,7 @@
             Cancelar
           </button>
           <button type="submit" id="btn-submit-edit-schedule" class="au-boton au-boton--primario">
-            <span>💾</span> Guardar Cambios
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-guardar"></use></svg><span>Guardar Cambios</span>
           </button>
         </div>
         
@@ -3951,14 +3951,14 @@
       <div class="au-modal__cabecera">
         <div class="flex items-center gap-2.5">
           <div id="detail-schedule-icon-container" class="w-10 h-10 rounded-2xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-xl font-bold shrink-0">
-            🎓
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cursos"></use></svg>
           </div>
           <div>
             <span id="detail-schedule-day" class="text-xs text-slate-400 font-medium">Jueves</span>
             <h2 id="detail-schedule-title" class="au-modal__titulo leading-snug">Tema de Estudio</h2>
           </div>
         </div>
-        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar">✕</button>
+        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cerrar"></use></svg></button>
       </div>
 
       <div class="au-modal__cuerpo text-sm">
@@ -3977,7 +3977,7 @@
 
           <div class="pt-2 border-t border-slate-900 flex items-center justify-between">
             <span id="detail-schedule-badge" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-semibold bg-sky-950 text-sky-300 border border-sky-800/80">
-              <span>🎓</span> Curso Oficial
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cursos"></use></svg><span>Curso Oficial</span>
             </span>
             <div id="detail-schedule-url-wrap">
               <!-- Botón de aula virtual dinámico -->
@@ -3989,19 +3989,19 @@
         <div class="p-3.5 bg-slate-950/60 rounded-2xl border border-slate-800 space-y-2">
           <div class="flex items-center justify-between text-xs">
             <span class="font-semibold text-slate-300 flex items-center gap-1.5">
-              <span>⏱️</span> Agrandar / Extender Horario
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-foco"></use></svg> Agrandar / Extender Horario
             </span>
             <span class="text-xs text-slate-500">Guarda automáticamente</span>
           </div>
           <div class="grid grid-cols-3 gap-2 text-xs">
             <button type="button" data-accion="modal-extender-detalle-bloque" data-minutos="15" class="au-boton au-boton--secundario au-boton--chico font-mono">
-              <span>➕</span> +15 min
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agregar"></use></svg> +15 min
             </button>
             <button type="button" data-accion="modal-extender-detalle-bloque" data-minutos="30" class="au-boton au-boton--secundario au-boton--chico font-mono">
-              <span>➕</span> +30 min
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agregar"></use></svg> +30 min
             </button>
             <button type="button" data-accion="modal-extender-detalle-bloque" data-minutos="-15" class="au-boton au-boton--fantasma au-boton--chico font-mono">
-              <span>➖</span> -15 min
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-quitar"></use></svg> -15 min
             </button>
           </div>
         </div>
@@ -4009,20 +4009,20 @@
         <!-- Acciones del Bloque -->
         <div class="space-y-2 pt-1">
           <button type="button" data-accion="modal-iniciar-foco-detalle" class="au-boton au-boton--primario au-boton--bloque">
-            <span>⏱️</span> Iniciar Sesión de Foco (Pomodoro) con este Bloque
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-foco"></use></svg><span>Iniciar Sesión de Foco (Pomodoro) con este Bloque</span>
           </button>
         </div>
       </div>
 
       <div class="au-modal__pie flex items-center gap-2">
         <button type="button" data-accion="modal-editar-desde-detalle" class="au-boton au-boton--secundario flex-1">
-          <span>✏️</span> Editar Todo
+          <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-editar"></use></svg><span>Editar Todo</span>
         </button>
         <button type="button" data-accion="modal-sincronizar-gcal-detalle" class="au-boton au-boton--secundario flex-1">
-          <span>📅</span> Google Cal
+          <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agenda"></use></svg><span>Google Cal</span>
         </button>
         <button type="button" data-accion="modal-eliminar-desde-detalle" class="au-boton au-boton--peligro au-boton--icono" aria-label="Eliminar bloque" title="Eliminar bloque">
-          <span>🗑️</span>
+          <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-borrar"></use></svg>
         </button>
       </div>
     </div>
@@ -4074,13 +4074,13 @@
     <div class="au-modal__caja au-modal__caja--ancha max-h-[90vh] flex flex-col">
       <div class="au-modal__cabecera">
         <div class="flex items-center gap-2">
-          <span class="text-xl">📝</span>
+          <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-notas"></use></svg>
           <div>
             <h2 id="course-note-modal-titulo" class="au-modal__titulo">Crear Apunte de Curso</h2>
             <p class="text-xs text-slate-400" id="course-note-coursename">Curso seleccionado</p>
           </div>
         </div>
-        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar">✕</button>
+        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cerrar"></use></svg></button>
       </div>
 
       <div class="au-modal__cuerpo flex-1 overflow-y-auto text-sm">
@@ -4107,10 +4107,10 @@
 
           <div class="flex justify-end gap-2 pt-1">
             <button type="submit" class="au-boton au-boton--secundario">
-              👁 Previsualizar Markdown
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-ver"></use></svg><span>Previsualizar Markdown</span>
             </button>
             <button type="button" data-accion="modal-guardar-apunte-curso-directo" class="au-boton au-boton--primario">
-              💾 Generar y Guardar en Mis notas
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-guardar"></use></svg><span>Generar y Guardar en Mis notas</span>
             </button>
           </div>
           <input type="hidden" id="course-note-id">
@@ -4125,10 +4125,10 @@
           <textarea id="course-note-preview-text" readonly class="au-campo__control font-mono resize-none leading-relaxed overflow-y-auto" rows="8"></textarea>
           <div class="flex justify-end gap-2">
             <button type="button" data-accion="modal-copiar-apunte-curso" class="au-boton au-boton--secundario">
-              📋 Copiar
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-copiar"></use></svg><span>Copiar</span>
             </button>
             <button type="button" data-accion="modal-guardar-apunte-curso-vault" class="au-boton au-boton--primario">
-              💾 Guardar en Mis notas (04 Knowledge/Cursos/)
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-guardar"></use></svg><span>Guardar en Mis notas (04 Knowledge/Cursos/)</span>
             </button>
           </div>
         </div>
@@ -5388,10 +5388,10 @@
     <div class="au-modal__caja">
       <div class="au-modal__cabecera">
         <div class="flex items-center gap-2">
-          <span class="text-xl">⚡</span>
+          <svg class="au-icono text-xl" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rapido"></use></svg>
           <h2 id="modal-course-webhook-title" class="au-modal__titulo text-base">Sincronización Automática de Cursos</h2>
         </div>
-        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar">✕</button>
+        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cerrar"></use></svg></button>
       </div>
       <div class="au-modal__cuerpo space-y-4">
         <p class="text-xs text-slate-300 leading-relaxed">
@@ -5515,7 +5515,7 @@
           <h2 id="book-ar-modal-title" class="au-modal__titulo">Repaso Activo</h2>
           <p id="book-ar-modal-subtitle" class="text-xs text-slate-400"></p>
         </div>
-        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar">✕</button>
+        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cerrar"></use></svg></button>
       </div>
 
       <!-- Body -->
@@ -5530,7 +5530,7 @@
             <input type="number" id="book-ar-count" min="1" max="5" value="3" class="au-campo__control w-16 text-center font-bold">
           </div>
           <button type="button" id="book-ar-btn-generate" data-accion="modal-generar-preguntas-repaso-libro" class="au-boton au-boton--primario au-boton--bloque">
-            <span>🧠</span> Generar Cuestionario con IA
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-repaso"></use></svg> Generar Cuestionario con IA
           </button>
         </div>
 
@@ -5544,7 +5544,7 @@
         <div id="book-ar-step-quiz" class="hidden space-y-4">
           <div id="book-ar-questions-container" class="space-y-4"></div>
           <button type="button" id="book-ar-btn-submit" data-accion="modal-evaluar-respuestas-repaso-libro" class="au-boton au-boton--primario au-boton--bloque">
-            <span>🎯</span> Evaluar Mis Respuestas
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-objetivo"></use></svg> Evaluar Mis Respuestas
           </button>
         </div>
 
@@ -5572,7 +5572,7 @@
           <h2 id="book-harvest-modal-title" class="au-modal__titulo">Cosechar Tarjetas de Vocabulario y Conceptos</h2>
           <p id="book-harvest-modal-subtitle" class="text-xs text-slate-400"></p>
         </div>
-        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar">✕</button>
+        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cerrar"></use></svg></button>
       </div>
 
       <!-- Body -->
@@ -5587,7 +5587,7 @@
             <input type="number" id="book-harvest-count" min="1" max="10" value="5" class="au-campo__control w-16 text-center font-bold">
           </div>
           <button type="button" id="book-harvest-btn-preview" data-accion="modal-previsualizar-tarjetas-libro" class="au-boton au-boton--primario au-boton--bloque">
-            <span>🃏</span> Extraer Términos con IA
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-tarjetas"></use></svg> Extraer Términos con IA
           </button>
         </div>
 
@@ -5605,7 +5605,7 @@
           </div>
           <div id="book-harvest-cards-container" class="space-y-2.5"></div>
           <button type="button" id="book-harvest-btn-commit" data-accion="modal-incorporar-tarjetas-libro" class="au-boton au-boton--primario au-boton--bloque">
-            <span>💾</span> Incorporar Seleccionadas a Mis Tarjetas
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-guardar"></use></svg> Incorporar Seleccionadas a Mis Tarjetas
           </button>
         </div>
 
@@ -5629,11 +5629,11 @@
       <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/50">
         <div>
           <h3 id="modal-study-planner-titulo" class="text-lg font-bold text-white flex items-center gap-2">
-            <span>🎯</span> Planificador Adaptativo de Estudio
+            <svg class="au-icono text-xl" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-objetivo"></use></svg> Planificador Adaptativo de Estudio
           </h3>
           <p class="text-xs text-slate-400">Balanceo de estudio diario: Repaso Espaciado, Bloque Principal y Lectura Activa.</p>
         </div>
-        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar">✕</button>
+        <button type="button" class="au-boton au-boton--fantasma au-boton--icono" data-accion="au-cerrar-modal" aria-label="Cerrar"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cerrar"></use></svg></button>
       </div>
 
       <!-- Body -->
@@ -5643,7 +5643,7 @@
           <div class="flex flex-wrap items-center justify-between gap-2">
             <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Estado Holístico de Hoy</span>
             <span id="planner-urgency-badge" class="au-insignia au-insignia--alerta">
-              ⚡ Urgencia: Calculando...
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rapido"></use></svg> Urgencia: Calculando...
             </span>
           </div>
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
@@ -5691,7 +5691,7 @@
               <span>Incluir descansos pomodoro</span>
             </label>
             <button type="button" data-accion="ruta-generar-plan-estudio" class="au-boton au-boton--primario ml-auto">
-              ⚡ Calcular Plan
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rapido"></use></svg> Calcular Plan
             </button>
           </div>
         </div>
@@ -5707,7 +5707,7 @@
           </div>
           <div class="pt-2 flex justify-end gap-2">
             <button type="button" data-accion="ruta-aplicar-plan-agenda" class="au-boton au-boton--primario">
-              <span>✔</span> Aplicar a mi Agenda de Hoy
+              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-ok"></use></svg> Aplicar a mi Agenda de Hoy
             </button>
           </div>
         </div>

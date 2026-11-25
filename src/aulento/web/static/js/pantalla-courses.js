@@ -45,13 +45,13 @@ function renderPlatforms() {
   if (state.platforms.length === 0) {
     container.innerHTML = `
       <div class="col-span-full">${Au.vacio({
-        icono: '🏛️',
+        icono: 'plataforma',
         titulo: 'Tu Hub Académico está listo',
         texto: 'Centralizá tus cursadas universitarias, plataformas online (Coursera, Digital House, Humai) y certificaciones en un solo panel con acceso directo al aula y tracking de avance.',
         accionHtml: `
           <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-            ${Au.boton({ texto: 'Registrar tu primera plataforma', variante: 'primario', icono: '➕', accion: 'abrir-nueva-plataforma' })}
-            ${Au.boton({ texto: 'Conectar Webhook Universal', variante: 'secundario', icono: '📡', accion: 'abrir-webhook-cursos' })}
+            ${Au.boton({ texto: 'Registrar tu primera plataforma', variante: 'primario', icono: 'agregar', accion: 'abrir-nueva-plataforma' })}
+            ${Au.boton({ texto: 'Conectar Webhook Universal', variante: 'secundario', icono: 'conexion', accion: 'abrir-webhook-cursos' })}
           </div>
         `,
       })}</div>
@@ -83,7 +83,7 @@ function renderPlatforms() {
   if (filteredPlatforms.length === 0 && state.platforms.length > 0) {
     container.innerHTML = `
       <div class="col-span-full">${Au.vacio({
-        icono: '🔍',
+        icono: 'buscar',
         titulo: 'No se encontraron cursos con el filtro aplicado.',
         accionHtml: Au.boton({ texto: 'Restablecer filtros', variante: 'fantasma', chico: true, accion: 'restablecer-filtros-cursos' }),
       })}</div>
@@ -102,8 +102,8 @@ function renderPlatforms() {
         </div>
         <div class="au-cabecera__acciones">
           ${p.url_acceso ? Au.boton({ texto: 'Entrar ↗', variante: 'secundario', chico: true, href: p.url_acceso, attrs: { target: '_blank', rel: 'noopener noreferrer' } }) : ''}
-          ${Au.boton({ icono: '✏️', soloIcono: true, etiqueta: 'Editar plataforma', variante: 'secundario', chico: true, accion: 'editar-plataforma', datos: { id: p.id } })}
-          ${Au.boton({ icono: '🗑️', soloIcono: true, etiqueta: 'Eliminar plataforma', variante: 'peligro', chico: true, accion: 'eliminar-plataforma', datos: { id: p.id, nombre: p.nombre } })}
+          ${Au.boton({ icono: 'editar', soloIcono: true, etiqueta: 'Editar plataforma', variante: 'secundario', chico: true, accion: 'editar-plataforma', datos: { id: p.id } })}
+          ${Au.boton({ icono: 'borrar', soloIcono: true, etiqueta: 'Eliminar plataforma', variante: 'peligro', chico: true, accion: 'eliminar-plataforma', datos: { id: p.id, nombre: p.nombre } })}
         </div>
       </div>
 
@@ -115,7 +115,7 @@ function renderPlatforms() {
             <div class="flex items-center justify-between text-xs">
               <span class="font-semibold text-slate-200">${Au.escapar(c.nombre_curso)}</span>
               <div class="flex items-center gap-1.5">
-                ${c.fuente_sincronizacion && c.fuente_sincronizacion !== 'manual' ? Au.insignia({ texto: `🔄 ${c.fuente_sincronizacion}`, mono: true, attrs: { title: `Última sincronización: ${c.ultima_sincronizacion || ''}` } }) : ''}
+                ${c.fuente_sincronizacion && c.fuente_sincronizacion !== 'manual' ? Au.insignia({ texto: c.fuente_sincronizacion, icono: 'recargar', mono: true, attrs: { title: `Última sincronización: ${c.ultima_sincronizacion || ''}` } }) : ''}
                 ${Au.insignia({ texto: c.estado, tono: c.estado === 'completado' ? 'exito' : 'primario' })}
               </div>
             </div>
@@ -132,18 +132,18 @@ function renderPlatforms() {
             <!-- Botones de Acción y Recursos 360° -->
             <div class="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-slate-800/80">
               <div class="flex flex-wrap items-center gap-1.5">
-                ${c.url_aula ? Au.boton({ texto: 'Aula', icono: '🚀', chico: true, href: c.url_aula, attrs: { target: '_blank', rel: 'noopener noreferrer', title: 'Abrir Aula Virtual del curso' } }) : ''}
-                ${c.url_drive ? Au.boton({ texto: 'Drive', icono: '📁', chico: true, href: c.url_drive, attrs: { target: '_blank', rel: 'noopener noreferrer', title: 'Abrir carpeta en Google Drive / Nube' } }) : ''}
-                ${c.ruta_local ? Au.boton({ texto: 'Local', icono: '💻', chico: true, accion: 'abrir-carpeta-local-curso', datos: { courseId: c.id, rutaLocal: c.ruta_local }, attrs: { title: 'Abrir carpeta local / Copiar ruta en PC' } }) : ''}
-                ${c.url_notion ? Au.boton({ texto: 'Notion', icono: '📓', chico: true, href: c.url_notion, attrs: { target: '_blank', rel: 'noopener noreferrer', title: 'Abrir notas en Notion' } }) : ''}
-                ${c.ruta_obsidian ? `<a href="${formatObsidianUri(c.ruta_obsidian)}" class="au-boton au-boton--secundario au-boton--chico" title="Abrir apunte en Obsidian"><span aria-hidden="true">💎</span><span>Obsidian</span></a>` : ''}
+                ${c.url_aula ? Au.boton({ texto: 'Aula', icono: 'empezar', chico: true, href: c.url_aula, attrs: { target: '_blank', rel: 'noopener noreferrer', title: 'Abrir Aula Virtual del curso' } }) : ''}
+                ${c.url_drive ? Au.boton({ texto: 'Drive', icono: 'carpeta', chico: true, href: c.url_drive, attrs: { target: '_blank', rel: 'noopener noreferrer', title: 'Abrir carpeta en Google Drive / Nube' } }) : ''}
+                ${c.ruta_local ? Au.boton({ texto: 'Local', icono: 'computadora', chico: true, accion: 'abrir-carpeta-local-curso', datos: { courseId: c.id, rutaLocal: c.ruta_local }, attrs: { title: 'Abrir carpeta local / Copiar ruta en PC' } }) : ''}
+                ${c.url_notion ? Au.boton({ texto: 'Notion', icono: 'cuaderno', chico: true, href: c.url_notion, attrs: { target: '_blank', rel: 'noopener noreferrer', title: 'Abrir notas en Notion' } }) : ''}
+                ${c.ruta_obsidian ? `<a href="${formatObsidianUri(c.ruta_obsidian)}" class="au-boton au-boton--secundario au-boton--chico" title="Abrir apunte en Obsidian">${Au.icono('premium')}<span>Obsidian</span></a>` : ''}
               </div>
               <div class="flex flex-wrap items-center gap-1">
-                ${Au.boton({ texto: 'Indexar', icono: '⚡', chico: true, accion: 'indexar-curso', datos: { id: c.id }, attrs: { title: 'Indexar este curso en el índice de búsqueda' } })}
-                ${Au.boton({ texto: 'Sync', icono: '🔄', chico: true, accion: 'sincronizar-avance-curso', datos: { id: c.id }, attrs: { title: 'Sincronizar avance del curso' } })}
-                ${Au.boton({ texto: 'SOP', icono: '📝', chico: true, accion: 'apunte-sop-curso', datos: { id: c.id }, attrs: { title: 'Crear apunte estructurado SOP en Obsidian' } })}
-                ${Au.boton({ icono: '✏️', soloIcono: true, etiqueta: 'Editar curso', variante: 'secundario', chico: true, accion: 'editar-curso', datos: { id: c.id } })}
-                ${Au.boton({ icono: '🗑️', soloIcono: true, etiqueta: 'Eliminar curso', variante: 'peligro', chico: true, accion: 'eliminar-curso', datos: { id: c.id, nombre: c.nombre_curso } })}
+                ${Au.boton({ texto: 'Indexar', icono: 'rapido', chico: true, accion: 'indexar-curso', datos: { id: c.id }, attrs: { title: 'Indexar este curso en el índice de búsqueda' } })}
+                ${Au.boton({ texto: 'Sync', icono: 'recargar', chico: true, accion: 'sincronizar-avance-curso', datos: { id: c.id }, attrs: { title: 'Sincronizar avance del curso' } })}
+                ${Au.boton({ texto: 'SOP', icono: 'notas', chico: true, accion: 'apunte-sop-curso', datos: { id: c.id }, attrs: { title: 'Crear apunte estructurado SOP en Obsidian' } })}
+                ${Au.boton({ icono: 'editar', soloIcono: true, etiqueta: 'Editar curso', variante: 'secundario', chico: true, accion: 'editar-curso', datos: { id: c.id } })}
+                ${Au.boton({ icono: 'borrar', soloIcono: true, etiqueta: 'Eliminar curso', variante: 'peligro', chico: true, accion: 'eliminar-curso', datos: { id: c.id, nombre: c.nombre_curso } })}
               </div>
             </div>
           </div>
@@ -175,14 +175,14 @@ async function openCourseLocalFolder(courseId, localPath) {
   }
   if (navigator.clipboard && navigator.clipboard.writeText) {
     await navigator.clipboard.writeText(localPath);
-    showToast(`📋 Ruta copiada al portapapeles: ${localPath}`, 'success');
+    showToast(`Ruta copiada al portapapeles: ${localPath}`, 'success');
   } else {
     await showPromptDialog({
       title: 'Ruta local del curso',
       message: 'Copiá la ruta a continuación:',
       defaultValue: localPath,
       confirmText: 'Cerrar',
-      icon: '📁'
+      icon: 'carpeta'
     });
   }
 }
@@ -194,7 +194,7 @@ async function updateCourseProgressPrompt(courseId, currentPct) {
     defaultValue: String(currentPct != null ? currentPct : 0),
     placeholder: 'Ej. 45',
     confirmText: 'Guardar Avance',
-    icon: '📊'
+    icon: 'estadisticas'
   });
   if (newPct === null || newPct.trim() === '') return;
   const num = parseFloat(newPct.trim());
@@ -230,7 +230,7 @@ function populatePlatformSelect(selectedId = null) {
   if (state.platforms.length === 0) {
     select.innerHTML = `
       <option value="" disabled selected class="bg-slate-900 text-slate-400">-- No hay plataformas aún --</option>
-      <option value="__new__" class="bg-slate-900 text-sky-400 font-bold">➕ Registrar nueva plataforma...</option>
+      <option value="__new__" class="bg-slate-900 text-sky-400 font-bold">+ Registrar nueva plataforma...</option>
     `;
     return;
   }
@@ -242,7 +242,7 @@ function populatePlatformSelect(selectedId = null) {
   select.innerHTML = `
     <option value="" disabled ${!selectedId ? 'selected' : ''} class="bg-slate-900 text-slate-400">-- Seleccioná una plataforma --</option>
     ${options}
-    <option value="__new__" class="bg-slate-900 text-sky-400 font-bold">➕ Registrar otra plataforma...</option>
+    <option value="__new__" class="bg-slate-900 text-sky-400 font-bold">+ Registrar otra plataforma...</option>
   `;
 }
 
@@ -392,7 +392,7 @@ async function deletePlatform(id, name) {
     message: `¿Estás seguro de eliminar la plataforma "${name}"?\nSe eliminarán también todos los cursos asociados a ella de forma permanente.`,
     confirmText: 'Eliminar Plataforma',
     cancelText: 'Cancelar',
-    icon: '🗑️',
+    icon: 'borrar',
     danger: true
   });
   if (!confirmed) return;
@@ -495,7 +495,7 @@ async function deleteCourse(id, name) {
     message: `¿Estás seguro de eliminar el curso "${name}"?`,
     confirmText: 'Eliminar Curso',
     cancelText: 'Cancelar',
-    icon: '🗑️',
+    icon: 'borrar',
     danger: true
   });
   if (!confirmed) return;
