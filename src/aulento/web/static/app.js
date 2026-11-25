@@ -98,23 +98,30 @@ function switchTab(tabId) {
 
   // Actualizar título dinámico en el topbar si existe
   const titleMap = {
-    dashboard: '🏠 Dashboard',
-    schedule: '📅 Cronograma Semanal',
-    courses: '🎓 Aulas y Cursos',
-    books: '📖 Biblioteca de Libros',
-    roadmap: '🗺️ Rutas de Aprendizaje',
-    notes: '📝 Mis notas',
-    fsrs: '🇬🇧 Inglés Técnico',
-    brain: '🧠 Cerebro & Tutor IA',
-    exams: '📝 Repaso Activo',
-    config: '⚙️ Configuración'
+    dashboard: { icono: 'inicio', texto: 'Dashboard' },
+    schedule: { icono: 'agenda', texto: 'Cronograma Semanal' },
+    courses: { icono: 'cursos', texto: 'Aulas y Cursos' },
+    books: { icono: 'libros', texto: 'Biblioteca de Libros' },
+    roadmap: { icono: 'rutas', texto: 'Rutas de Aprendizaje' },
+    notes: { icono: 'notas', texto: 'Mis notas' },
+    fsrs: { icono: 'repaso', texto: 'Inglés Técnico' },
+    brain: { icono: 'cerebro', texto: 'Cerebro & Tutor IA' },
+    exams: { icono: 'examen', texto: 'Repaso Activo' },
+    config: { icono: 'ajustes', texto: 'Configuración' }
   };
   const activeBtn = document.getElementById(`tab-btn-${tabId}`);
-  // Una pestaña que suma una extensión trae su título en el botón
-  const titulo = titleMap[tabId] || (activeBtn && activeBtn.dataset.titulo);
+  const info = titleMap[tabId];
   const topbarTitle = document.getElementById('topbar-section-title');
-  if (topbarTitle && titulo) {
-    topbarTitle.textContent = titulo;
+  if (topbarTitle) {
+    if (info) {
+      if (typeof Au !== 'undefined' && Au.icono) {
+        topbarTitle.innerHTML = `${Au.icono(info.icono)} <span>${info.texto}</span>`;
+      } else {
+        topbarTitle.innerHTML = `<svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-${info.icono}"></use></svg> <span>${info.texto}</span>`;
+      }
+    } else if (activeBtn && activeBtn.dataset.titulo) {
+      topbarTitle.textContent = activeBtn.dataset.titulo;
+    }
   }
 
   // Actualizar botones de pestaña en el Sidebar
