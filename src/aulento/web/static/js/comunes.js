@@ -16,6 +16,19 @@ function toggleSystemHealthPopover() {
   if (!pop.classList.contains('hidden')) renderSystemHealth();
 }
 
+function obtenerEstadoDuolingoSalud() {
+  if (state.duolingoProfile) {
+    const xpFormatted = (state.duolingoProfile.total_xp || 0).toLocaleString();
+    return `${state.duolingoProfile.streak}d (${xpFormatted} XP)`;
+  }
+  return state.duolingoUsername ? 'Sin datos' : 'Conectar';
+}
+
+function obtenerEstadoVectorSalud() {
+  if (state.vectorTexto) return state.vectorTexto;
+  return state.vectorOnline ? 'Activo' : 'Apagado';
+}
+
 // Estado real de cada servicio: lo que no está encendido se muestra así, nunca como "conectado"
 async function renderSystemHealth() {
   const lista = document.getElementById('system-health-list');
@@ -39,20 +52,42 @@ async function renderSystemHealth() {
       estado: activo && activo.tiene_clave ? 'Con clave' : 'Sin clave',
     },
     {
-      icono: '🔎', nombre: 'Índice de apuntes',
+      id: 'salud-duolingo',
+      idEstado: 'salud-duolingo-estado',
+      icono: '🦉', nombre: 'Duolingo',
+      encendido: !!state.duolingoProfile,
+      estado: obtenerEstadoDuolingoSalud(),
+      accion: 'sincronizar-duolingo-cabecera',
+      titulo: state.duolingoProfile
+        ? `Duolingo (${escapeHtml(state.duolingoProfile.name)}): ${state.duolingoProfile.streak} días de racha. Clic para sincronizar.`
+        : (state.duolingoUsername ? `Duolingo (@${state.duolingoUsername}): todavía no se pudo leer el perfil. Clic para revisarlo.` : 'Duolingo: clic para conectar tu usuario y ver la racha.'),
+    },
+    {
+      id: 'salud-vector',
+      idEstado: 'salud-vector-estado',
+      icono: '📚', nombre: 'Índice de apuntes',
       encendido: !!state.vectorOnline,
-      estado: state.vectorOnline ? 'Activo' : 'Apagado',
+      estado: obtenerEstadoVectorSalud(),
+      accion: 'ir-a-seccion-vectores',
+      titulo: 'Índice de apuntes que usa el tutor. Clic para ir a la sección.',
     },
   ];
   const encendidos = servicios.filter(s => s.encendido).length;
 
   if (lista) {
-    lista.innerHTML = servicios.map(s => `
-      <div class="flex items-center justify-between p-2 rounded-xl bg-slate-950/70 border border-slate-800/60">
+    lista.innerHTML = servicios.map(s => {
+      const interactivo = s.accion ? ' cursor-pointer hover:bg-slate-900 transition' : '';
+      const dataAccion = s.accion ? ` data-accion="${s.accion}"` : '';
+      const titulo = s.titulo ? ` title="${escapeHtml(s.titulo)}"` : '';
+      const idAttr = s.id ? ` id="${s.id}"` : '';
+      const idEstado = s.idEstado ? ` id="${s.idEstado}"` : '';
+      return `
+      <div${idAttr}${dataAccion}${titulo} class="flex items-center justify-between p-2 rounded-xl bg-slate-950/70 border border-slate-800/60${interactivo}">
         <span class="text-slate-300 flex items-center gap-1.5"><span>${s.icono}</span> ${escapeHtml(s.nombre)}</span>
-        <span class="${s.encendido ? 'text-emerald-400' : 'text-slate-500'} font-bold text-xs sm:text-[11px]">${escapeHtml(s.estado)}</span>
+        <span${idEstado} class="${s.encendido ? 'text-emerald-400' : 'text-slate-500'} font-bold text-xs">${escapeHtml(s.estado)}</span>
       </div>
-    `).join('') + '<p class="text-xs sm:text-[10px] text-slate-500">La IA y el índice son opcionales: sin ellos la app funciona igual.</p>';
+    `;
+    }).join('') + '<p class="text-xs text-slate-500">La IA, Duolingo y el índice son opcionales: sin ellos la app funciona igual.</p>';
   }
   const contador = document.getElementById('system-health-count');
   if (contador) contador.innerText = `${encendidos}/${servicios.length} encendidos`;

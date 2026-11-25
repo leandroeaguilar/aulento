@@ -35,10 +35,14 @@ async function loadDuolingoStatus() {
       updateDuolingoKpis();
     } else {
       state.duolingoProfile = null;
-      const hdrDuo = document.getElementById('hdr-duolingo');
-      if (hdrDuo) {
-        hdrDuo.innerText = state.duolingoUsername ? '🦉 Duo: sin datos' : '🦉 Duo: conectar';
-        hdrDuo.title = state.duolingoUsername
+      const saludDuo = document.getElementById('salud-duolingo-estado');
+      if (saludDuo) {
+        saludDuo.innerText = state.duolingoUsername ? 'Sin datos' : 'Conectar';
+        saludDuo.className = 'text-slate-500 font-bold text-xs';
+      }
+      const saludFila = document.getElementById('salud-duolingo');
+      if (saludFila) {
+        saludFila.title = state.duolingoUsername
           ? `Duolingo (@${state.duolingoUsername}): todavía no se pudo leer el perfil. Clic para revisarlo.`
           : 'Duolingo: clic para conectar tu usuario y ver la racha.';
       }
@@ -52,10 +56,16 @@ async function loadDuolingoStatus() {
 function updateDuolingoKpis() {
   const p = state.duolingoProfile;
   if (!p) return;
-  const hdrDuo = document.getElementById('hdr-duolingo');
-    const xpFormatted = (p.total_xp || 0).toLocaleString();
-    hdrDuo.innerText = `🦉 Duo: ${p.streak}d (${xpFormatted} XP)`;
-    hdrDuo.title = `Duolingo (${escapeHtml(p.name)}): ${p.streak} días de racha • ${xpFormatted} XP acumulados. Clic para sincronizar.`;
+  const saludDuo = document.getElementById('salud-duolingo-estado');
+  const xpFormatted = (p.total_xp || 0).toLocaleString();
+  if (saludDuo) {
+    saludDuo.innerText = `${p.streak}d (${xpFormatted} XP)`;
+    saludDuo.className = 'text-emerald-400 font-bold text-xs';
+  }
+  const saludFila = document.getElementById('salud-duolingo');
+  if (saludFila) {
+    saludFila.title = `Duolingo (${escapeHtml(p.name)}): ${p.streak} días de racha • ${xpFormatted} XP acumulados. Clic para sincronizar.`;
+  }
 }
 
 // Sin usuario o sin perfil leído, la cabecera abre el modal; con perfil, sincroniza
@@ -64,8 +74,8 @@ async function syncDuolingoFromHeader() {
     openDuolingoModal();
     return;
   }
-  const hdrDuo = document.getElementById('hdr-duolingo');
-  if (hdrDuo) hdrDuo.innerText = '🦉 Sincronizando...';
+  const saludDuo = document.getElementById('salud-duolingo-estado');
+  if (saludDuo) saludDuo.innerText = 'Sincronizando...';
   const result = await syncDuolingoNow();
   if (result && result.status === 'error') {
     showToast(result.message || 'No se pudo sincronizar Duolingo.', 'error');
@@ -292,7 +302,7 @@ function updateFsrsKpis() {
 
   // Header
   document.getElementById('hdr-streak').innerText = `🔥 ${streak} días`;
-  document.getElementById('hdr-due').innerText = `🧠 ${due} para hoy`;
+  document.getElementById('hdr-due').innerText = `🃏 ${due} para hoy`;
   document.getElementById('hdr-retention').innerText = `🎯 ${retention.toFixed(0)}% retención`;
   document.getElementById('tab-fsrs-badge').innerText = due;
 

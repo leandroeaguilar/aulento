@@ -10,6 +10,7 @@
   ['verificar-conexiones-salud', () => { refreshBrainStatus(); toggleSystemHealthPopover(); }],
   ['abrir-atajos-teclado', () => openKeyboardShortcutsModal()],
   ['recargar-pagina', () => reloadApp()],
+  ['alternar-tema', () => window.aulentoTema.alternar()],
   ['alternar-menu-usuario', () => toggleUserDropdown()],
   ['abrir-onboarding-desde-menu', () => { openOnboardingWizard(); closeUserDropdown(); }],
   ['abrir-atajos-desde-menu', () => { openKeyboardShortcutsModal(); closeUserDropdown(); }],

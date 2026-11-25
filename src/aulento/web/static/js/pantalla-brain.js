@@ -997,7 +997,7 @@ async function checkVectorStatus() {
   const tabStatusBadge = document.getElementById('vector-tab-status-badge');
   const tabBadge = document.getElementById('tab-brain-badge') || document.getElementById('tab-vectors-badge');
   const dashPill = document.getElementById('dash-vector-pill');
-  const hdrVector = document.getElementById('hdr-vector');
+  const saludVector = document.getElementById('salud-vector-estado');
   const kpiConn = document.getElementById('vector-kpi-connected');
   const kpiExt = document.getElementById('vector-kpi-extension');
   const kpiEmb = document.getElementById('vector-kpi-embeddings');
@@ -1033,9 +1033,10 @@ async function checkVectorStatus() {
         dashPill.className = 'au-insignia au-insignia--exito au-insignia--mono';
         dashPill.innerText = `${nombreAlmacen} activo (${data.total_embeddings} fragmentos)`;
       }
-      if (hdrVector) {
-        hdrVector.className = 'au-insignia au-insignia--primario cursor-pointer';
-        hdrVector.innerText = `🧠 ${nombreAlmacen}: ${data.total_embeddings} fragmentos`;
+      state.vectorTexto = `${nombreAlmacen}: ${data.total_embeddings} fragmentos`;
+      if (saludVector) {
+        saludVector.className = 'text-emerald-400 font-bold text-xs';
+        saludVector.innerText = state.vectorTexto;
       }
       if (kpiConn) {
         kpiConn.innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Encendido';
@@ -1062,9 +1063,10 @@ async function checkVectorStatus() {
         dashPill.className = 'au-insignia au-insignia--mono';
         dashPill.innerText = `${nombreAlmacen} apagado`;
       }
-      if (hdrVector) {
-        hdrVector.className = 'au-insignia cursor-pointer';
-        hdrVector.innerText = `🧠 ${nombreAlmacen}: apagado`;
+      state.vectorTexto = `${nombreAlmacen}: apagado`;
+      if (saludVector) {
+        saludVector.className = 'text-slate-500 font-bold text-xs';
+        saludVector.innerText = state.vectorTexto;
       }
       if (kpiConn) {
         kpiConn.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Apagado: ${motivoEscapado}`;
@@ -1078,9 +1080,10 @@ async function checkVectorStatus() {
       badge.className = 'au-insignia au-insignia--peligro';
       badge.innerText = '⚠️ Desconectado';
     }
-    if (hdrVector) {
-      hdrVector.className = 'au-insignia au-insignia--peligro';
-      hdrVector.innerText = '🧠 Índice: sin conexión';
+    state.vectorTexto = 'Índice: sin conexión';
+    if (saludVector) {
+      saludVector.className = 'text-rose-400 font-bold text-xs';
+      saludVector.innerText = state.vectorTexto;
     }
     state.vectorOnline = false;
   }
@@ -1095,7 +1098,7 @@ function actualizarAvisoTutorDemo() {
   const aviso = document.getElementById('demo-tutor-aviso');
   // Sin base vectorial o sin clave de IA, el tutor de la demo no puede responder
   if (aviso) aviso.classList.toggle('hidden', !(apagado || esDemoSinIA()));
-  ['hdr-vector', 'dash-vector-pill', 'tab-brain-badge'].forEach((id) => {
+  ['salud-vector', 'dash-vector-pill', 'tab-brain-badge'].forEach((id) => {
     const el = document.getElementById(id);
     if (el) el.classList.toggle('hidden', apagado);
   });

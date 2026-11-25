@@ -282,11 +282,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Aulento">
-  <script src="/static/js/tema.js?v=2.22"></script>
-  <link rel="stylesheet" href="/static/css/paleta.css?v=2.22">
-  <link rel="stylesheet" href="/static/componentes.css?v=2.22">
-  <link rel="stylesheet" href="/static/css/tailwind.css?v=2.22">
-  <link rel="stylesheet" href="/static/movil.css?v=2.22">
+  <script src="/static/js/tema.js?v=2.23"></script>
+  <link rel="stylesheet" href="/static/css/paleta.css?v=2.23">
+  <link rel="stylesheet" href="/static/componentes.css?v=2.23">
+  <link rel="stylesheet" href="/static/css/tailwind.css?v=2.23">
+  <link rel="stylesheet" href="/static/movil.css?v=2.23">
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex font-sans selection:bg-sky-500 selection:text-white overflow-x-hidden">
   <a href="#main-content" class="au-saltar-contenido">Saltar al contenido</a>
@@ -420,12 +420,10 @@
           <!-- Métricas esenciales agrupadas limpiamente -->
           <div class="hidden md:flex items-center gap-1.5 text-xs text-slate-300 bg-slate-950/60 p-1 rounded-xl border border-slate-800/90 shadow-inner">
             <span class="text-amber-400 font-bold px-2 py-0.5 rounded-lg bg-amber-950/60 border border-amber-800/50 flex items-center gap-1" id="hdr-streak" title="Racha consecutiva de estudio">🔥 0 días</span>
-            <span class="text-sky-400 font-bold px-2 py-0.5 rounded-lg bg-sky-950/60 border border-sky-800/50 flex items-center gap-1 cursor-pointer hover:underline" id="hdr-due" data-accion="ir-a-pestana" data-pestana="fsrs" title="Tarjetas de repaso pendientes hoy">🧠 0 para hoy</span>
+            <span class="text-sky-400 font-bold px-2 py-0.5 rounded-lg bg-sky-950/60 border border-sky-800/50 flex items-center gap-1 cursor-pointer hover:underline" id="hdr-due" data-accion="ir-a-pestana" data-pestana="fsrs" title="Tarjetas de repaso pendientes hoy">🃏 0 para hoy</span>
+            <span class="text-purple-400 font-medium cursor-pointer hover:underline px-1.5 py-0.5 rounded" id="hdr-focus" data-accion="ir-a-pestana" data-pestana="dashboard" title="Minutos de foco hoy">⏱️ 0m</span>
             <div class="hidden 2xl:flex items-center gap-1.5 pl-1 border-l border-slate-800 text-xs">
-              <span class="text-emerald-400 font-medium cursor-pointer hover:underline px-1.5 py-0.5 rounded" id="hdr-duolingo" data-accion="sincronizar-duolingo-cabecera" title="Duolingo: Clic para sincronizar">🦉 Duo: 1d</span>
               <span class="text-emerald-400 font-medium px-1.5 py-0.5 rounded" id="hdr-retention" title="Retención histórica de memoria">🎯 0%</span>
-              <span class="text-purple-400 font-medium cursor-pointer hover:underline px-1.5 py-0.5 rounded" id="hdr-focus" data-accion="ir-a-pestana" data-pestana="dashboard" title="Minutos de foco hoy">⏱️ 0m</span>
-              <span class="text-cyan-400 font-medium cursor-pointer hover:underline px-1.5 py-0.5 rounded" id="hdr-vector" data-accion="ir-a-seccion-vectores" title="Índice de apuntes que usa el tutor">🧠 Índice de apuntes</span>
             </div>
           </div>
 
@@ -461,20 +459,17 @@
             </div>
           </div>
 
-          <!-- Botón Atajos de Teclado -->
-          <button type="button" data-accion="abrir-atajos-teclado" class="solo-teclado toque w-9 h-9 flex items-center justify-center shrink-0 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/80 transition shadow-sm cursor-pointer" title="Atajos de teclado [Presioná ?]">
-            <span class="text-xs">⌨️</span>
-          </button>
-
-          <!-- Botón Refrescar -->
-          <button data-accion="recargar-pagina" class="toque w-9 h-9 hidden sm:flex items-center justify-center shrink-0 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/80 transition shadow-sm" title="Refrescar aplicación">
-            <span class="text-xs">🔄</span>
+          <!-- Botón de Tema (Oscuro / Claro / Sistema) -->
+          <button type="button" id="btn-tema" data-accion="alternar-tema" class="toque w-9 h-9 flex items-center justify-center shrink-0 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/80 transition shadow-sm cursor-pointer" aria-label="Tema: oscuro. Cambiar a claro" title="Tema: oscuro. Cambiar a claro">
+            <span id="btn-tema-icono" class="text-xs">🌙</span>
           </button>
 
           <!-- Cuenta de la sesión: Menú Dropdown Limpio y Elegante -->
-          <div id="hdr-account" class="hidden relative">
+          <div id="hdr-account" class="relative">
             <button type="button" data-accion="alternar-menu-usuario" id="btn-user-menu" class="toque h-9 px-3 bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700/80 rounded-xl text-xs font-semibold transition flex items-center gap-2 shadow-sm focus:outline-none focus:border-sky-500">
-              <span class="w-5 h-5 rounded-md bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-xs text-white font-bold">👤</span>
+              <span id="hdr-user-avatar" class="hidden w-5 h-5 rounded-md bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-xs text-white font-bold">👤</span>
+              <span id="hdr-menu-icono" class="text-xs">☰</span>
+              <span id="hdr-user-label" class="font-bold text-white">Menú</span>
               <span id="hdr-user" class="hidden sm:inline font-bold text-white max-w-[7rem] sm:max-w-[10rem] truncate"></span>
               <span class="text-slate-400 text-xs ml-0.5">▼</span>
             </button>
@@ -482,7 +477,7 @@
             <!-- Menú Desplegable Flotante -->
             <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-1.5 z-50 space-y-1 backdrop-blur-md">
               <div class="px-3 py-2 border-b border-slate-800/80 mb-1">
-                <span class="text-xs uppercase font-bold text-slate-400 tracking-wider">Mi Cuenta</span>
+                <span id="menu-cuenta-titulo" class="text-xs uppercase font-bold text-slate-400 tracking-wider">Opciones</span>
               </div>
               <div id="menu-cuenta-ranura-arriba" class="space-y-1"></div>
               <button type="button" data-accion="abrir-onboarding-desde-menu" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold text-sky-400 hover:text-sky-300 hover:bg-slate-800 flex items-center gap-2 transition">
@@ -490,6 +485,9 @@
               </button>
               <button type="button" data-accion="abrir-atajos-desde-menu" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-2 transition cursor-pointer">
                 <span>⌨️</span> Atajos de teclado <span class="ml-auto text-xs font-mono text-slate-500">[?]</span>
+              </button>
+              <button type="button" data-accion="recargar-pagina" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-2 transition cursor-pointer">
+                <span>🔄</span> Recargar
               </button>
               <div id="menu-cuenta-ranura-abajo" class="space-y-1"></div>
             </div>
@@ -5359,25 +5357,25 @@
   </div>
 
   <!-- Script de Capacidades y Textos por Versión -->
-  <script src="/static/componentes.js?v=2.22" defer></script>
+  <script src="/static/componentes.js?v=2.23" defer></script>
   <script src="/static/capacidades.js" defer></script>
 
   <!-- Scripts modulares del cliente -->
-  <script src="/static/js/00-base.js?v=2.22" defer></script>
-  <script src="/static/js/comunes.js?v=2.22" defer></script>
-  <script src="/static/js/pantalla-courses.js?v=2.22" defer></script>
-  <script src="/static/js/pantalla-schedule.js?v=2.22" defer></script>
-  <script src="/static/js/pantalla-fsrs.js?v=2.22" defer></script>
-  <script src="/static/js/pantalla-brain.js?v=2.22" defer></script>
-  <script src="/static/js/pantalla-dashboard.js?v=2.22" defer></script>
-  <script src="/static/js/pantalla-exams.js?v=2.22" defer></script>
-  <script src="/static/js/pantalla-notes.js?v=2.22" defer></script>
-  <script src="/static/js/pantalla-roadmap.js?v=2.22" defer></script>
-  <script src="/static/js/pantalla-books.js?v=2.22" defer></script>
-  <script src="/static/js/pantalla-config.js?v=2.22" defer></script>
+  <script src="/static/js/00-base.js?v=2.23" defer></script>
+  <script src="/static/js/comunes.js?v=2.23" defer></script>
+  <script src="/static/js/pantalla-courses.js?v=2.23" defer></script>
+  <script src="/static/js/pantalla-schedule.js?v=2.23" defer></script>
+  <script src="/static/js/pantalla-fsrs.js?v=2.23" defer></script>
+  <script src="/static/js/pantalla-brain.js?v=2.23" defer></script>
+  <script src="/static/js/pantalla-dashboard.js?v=2.23" defer></script>
+  <script src="/static/js/pantalla-exams.js?v=2.23" defer></script>
+  <script src="/static/js/pantalla-notes.js?v=2.23" defer></script>
+  <script src="/static/js/pantalla-roadmap.js?v=2.23" defer></script>
+  <script src="/static/js/pantalla-books.js?v=2.23" defer></script>
+  <script src="/static/js/pantalla-config.js?v=2.23" defer></script>
 
   <!-- Script Cliente Reactivo -->
-  <script src="/static/app.js?v=2.22" defer></script>
+  <script src="/static/app.js?v=2.23" defer></script>
 
   <!-- Script MCP Remoto en la Web -->
   <script src="/static/mcp-remoto.js" defer></script>

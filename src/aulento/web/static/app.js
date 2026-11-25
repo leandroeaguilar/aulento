@@ -2,26 +2,70 @@
 document.addEventListener('DOMContentLoaded', () => {
   setupKeyboardShortcuts();
   actualizarBarraInferiorPestana();
+  actualizarBotonMenuCuenta();
   loadCurrentUser();
   loadAllData();
   initPdfGapDropzone();
 });
 
+document.addEventListener('capacidades-listas', () => {
+  actualizarBotonMenuCuenta();
+});
+
+function actualizarBotonMenuCuenta() {
+  const modo = (window.SE_CAPACIDADES && window.SE_CAPACIDADES.modo) ||
+               (document.body && document.body.dataset && document.body.dataset.modo) ||
+               'local';
+  const esLocal = modo === 'local';
+  const hdrAccount = document.getElementById('hdr-account');
+  if (hdrAccount) hdrAccount.classList.remove('hidden');
+
+  const avatar = document.getElementById('hdr-user-avatar');
+  const iconoMenu = document.getElementById('hdr-menu-icono');
+  const labelMenu = document.getElementById('hdr-user-label');
+  const hdrUser = document.getElementById('hdr-user');
+  const tituloMenu = document.getElementById('menu-cuenta-titulo');
+
+  if (esLocal || !state.currentUser) {
+    if (avatar) avatar.classList.add('hidden');
+    if (iconoMenu) iconoMenu.classList.remove('hidden');
+    if (labelMenu) labelMenu.classList.remove('hidden');
+    if (hdrUser) {
+      hdrUser.textContent = '';
+      hdrUser.classList.add('hidden');
+    }
+    if (tituloMenu) tituloMenu.textContent = 'Opciones';
+  } else {
+    if (avatar) avatar.classList.remove('hidden');
+    if (iconoMenu) iconoMenu.classList.add('hidden');
+    if (labelMenu) labelMenu.classList.add('hidden');
+    if (hdrUser) {
+      hdrUser.textContent = state.currentUser.nombre_usuario;
+      hdrUser.classList.remove('hidden');
+    }
+    if (tituloMenu) tituloMenu.textContent = 'Mi Cuenta';
+  }
+}
+
 // Muestra en la cabecera quién ingresó; sin sesión vigente vuelve a la pantalla de ingreso
 async function loadCurrentUser() {
+  actualizarBotonMenuCuenta();
   try {
     const response = await fetch('/api/auth/me');
     if (response.status === 401) {
       window.location.assign(LOGIN_PATH);
       return;
     }
-    if (!response.ok) return;
-    state.currentUser = await response.json();
-    document.getElementById('hdr-user').textContent = state.currentUser.nombre_usuario;
-    document.getElementById('hdr-account').classList.remove('hidden');
+    if (response.ok) {
+      state.currentUser = await response.json();
+    }
 
-    // Las extensiones (las cuentas de la nube) suman lo suyo al menú y a la barra lateral con la cuenta ya leída
-    document.dispatchEvent(new CustomEvent('aulento:cuenta', { detail: state.currentUser }));
+    actualizarBotonMenuCuenta();
+
+    if (state.currentUser) {
+      // Las extensiones (las cuentas de la nube) suman lo suyo al menú y a la barra lateral con la cuenta ya leída
+      document.dispatchEvent(new CustomEvent('aulento:cuenta', { detail: state.currentUser }));
+    }
 
     actualizarAvisoTutorDemo();
 
