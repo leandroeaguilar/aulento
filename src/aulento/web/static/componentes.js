@@ -335,9 +335,13 @@
       el.style.zIndex = String(50 + abiertos.length);
       document.body.classList.add('au-modal-abierto');
       sincronizarInert();
-      const foco = el.querySelector('[autofocus]')
-        || el.querySelector('input, select, textarea, button:not([data-accion="au-cerrar-modal"])')
-        || el.querySelector('button, [href], [tabindex]');
+      // El primero que se ve: un botón dentro de un bloque oculto no recibe el foco y lo dejaba fuera del modal.
+      // `a[href]` y no `[href]`: el <use href> de los íconos también tiene href y tampoco se puede enfocar.
+      const visible = (nodo) => nodo.getClientRects().length > 0;
+      const primero = (selector) => Array.from(el.querySelectorAll(selector)).find(visible);
+      const foco = primero('[autofocus]')
+        || primero('input, select, textarea, button:not([data-accion="au-cerrar-modal"])')
+        || primero('button, a[href], [tabindex]:not([tabindex="-1"])');
       if (foco) foco.focus();
     },
     cerrar(id) {

@@ -250,3 +250,17 @@ def test_catalogo_html_muestra_todos_los_iconos_sin_js_externo() -> None:
     assert "data-tema=" not in html
     for nombre in _nombres_sprite():
         assert f"#i-{nombre}" in html
+
+
+def test_el_modal_no_le_da_el_foco_al_use_de_un_icono() -> None:
+    """Un selector `[href]` también encuentra el `<use href>` de los íconos, que no recibe el foco.
+
+    En un modal sin campos (`material-texto-modal`) el foco quedaba afuera; lo vio `test_modales.py` de la nube.
+    """
+    js = COMPONENTES_JS.read_text(encoding="utf-8")
+    literales = re.findall(r"'([^'\n]*\[href\][^'\n]*)'", js)
+    sueltos = [s for s in literales if re.search(r"(^|[\s,(])\[href\]", s)]
+    assert not sueltos, f"selectores con [href] sin etiqueta (usar a[href]): {sueltos}"
+    # Y el foco va al primer candidato que se ve: uno dentro de un bloque oculto no lo recibe
+    modal = js[js.index("abrir(id") : js.index("cerrar(id")]
+    assert "getClientRects().length > 0" in modal
