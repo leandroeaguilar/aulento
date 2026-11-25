@@ -178,10 +178,10 @@ function showToast(message, type = 'info', duration = 3500) {
   }
 
   const icons = {
-    success: '✅',
-    error: '❌',
-    warning: '⚠️',
-    info: 'ℹ️'
+    success: 'ok',
+    error: 'cerrar',
+    warning: 'alerta',
+    info: 'ayuda'
   };
   const borders = {
     success: 'border-emerald-600/60 bg-slate-900/95 text-emerald-300 shadow-emerald-950/40',
@@ -190,12 +190,13 @@ function showToast(message, type = 'info', duration = 3500) {
     info: 'border-sky-600/60 bg-slate-900/95 text-sky-300 shadow-sky-950/40'
   };
 
+  const iconoNombre = icons[type] || 'ayuda';
   const toast = document.createElement('div');
   toast.className = `pointer-events-auto flex items-center gap-3 p-3.5 rounded-2xl border backdrop-blur-md shadow-xl text-xs font-medium transition-all duration-300 transform translate-y-2 opacity-0 ${borders[type] || borders.info}`;
   toast.innerHTML = `
-    <span class="text-base shrink-0" aria-hidden="true">${icons[type] || 'ℹ️'}</span>
+    <span class="text-base shrink-0" aria-hidden="true">${Au.icono(iconoNombre)}</span>
     <span class="flex-1 text-slate-200 leading-snug">${escapeHtml(message)}</span>
-    <button type="button" aria-label="Cerrar notificación" class="text-slate-400 hover:text-white text-base leading-none shrink-0">&times;</button>
+    <button type="button" aria-label="Cerrar notificación" class="text-slate-400 hover:text-white text-base leading-none shrink-0">${Au.icono('cerrar')}</button>
   `;
 
   const closeBtn = toast.querySelector('button');
@@ -259,7 +260,7 @@ function mostrarAvisoDemoDestacado() {
     + 'bg-gradient-to-r from-amber-950 to-slate-900 border-2 border-amber-500/70 rounded-2xl shadow-2xl shadow-amber-950/60 '
     + 'p-5 flex items-start gap-4 transition-all duration-300 opacity-0 -translate-y-3';
   panel.innerHTML = `
-    <span class="text-3xl leading-none shrink-0">🔒</span>
+    <span class="text-3xl leading-none shrink-0" aria-hidden="true">${Au.icono('bloqueado', { clase: 'au-icono--grande' })}</span>
     <div class="flex-1 min-w-0">
       <p class="text-base font-bold text-amber-200">Esta cuenta es compartida</p>
       <p class="text-sm text-amber-100/90 mt-1 leading-relaxed">${escapeHtml(MENSAJE_DEMO_BLOQUEADA)}</p>
@@ -283,7 +284,7 @@ function pintarErrorEnFeedback(feedback, mensaje) {
   feedback.classList.remove('hidden');
   if (esDeLaDemo) {
     feedback.className = 'block text-sm p-3.5 rounded-xl bg-amber-950/60 border-2 border-amber-500/70 text-amber-100';
-    feedback.innerHTML = `<p class="font-bold text-amber-200">🔒 Esta cuenta es compartida</p>
+    feedback.innerHTML = `<p class="font-bold text-amber-200 flex items-center gap-1.5">${Au.icono('bloqueado')} <span>Esta cuenta es compartida</span></p>
       <p class="mt-1 text-amber-100/90">${escapeHtml(MENSAJE_DEMO_BLOQUEADA)}</p>`;
   } else {
     feedback.className = 'text-xs p-2.5 rounded-xl bg-rose-950/60 border border-rose-800 text-rose-300 block';
@@ -309,7 +310,7 @@ function aplicarAvisosDemo() {
     if (!contenido || aviso) return;
     aviso = document.createElement('div');
     aviso.className = 'aviso-demo bg-amber-950/40 border border-amber-700/50 rounded-2xl px-4 py-3 text-sm text-amber-200';
-    aviso.innerHTML = `<p class="font-semibold">🔒 ${escapeHtml(contenido.titulo)}</p>
+    aviso.innerHTML = `<p class="font-semibold flex items-center gap-1.5">${Au.icono('bloqueado')} <span>${escapeHtml(contenido.titulo)}</span></p>
       <p class="text-amber-200/80 text-xs mt-1">${escapeHtml(contenido.texto)}</p>`;
     zona.prepend(aviso);
   });
@@ -325,7 +326,7 @@ function showConfirmDialog({
   message = '',
   confirmText = 'Aceptar',
   cancelText = 'Cancelar',
-  icon = '❓',
+  icon = 'ayuda',
   danger = false
 } = {}) {
   return new Promise(resolve => {
@@ -344,7 +345,9 @@ function showConfirmDialog({
 
     titleEl.textContent = title;
     msgEl.textContent = message;
-    if (iconEl) iconEl.textContent = icon;
+    if (iconEl) {
+      iconEl.innerHTML = Au.icono(icon);
+    }
     btnOk.textContent = confirmText;
     btnCancel.textContent = cancelText;
 
@@ -379,7 +382,7 @@ function showAlertDialog({
   title = 'Información',
   message = '',
   buttonText = 'Entendido',
-  icon = 'ℹ️'
+  icon = 'ayuda'
 } = {}) {
   return showConfirmDialog({
     title,
@@ -399,7 +402,7 @@ function showPromptDialog({
   placeholder = '',
   confirmText = 'Aceptar',
   cancelText = 'Cancelar',
-  icon = '✏️'
+  icon = 'editar'
 } = {}) {
   return new Promise(resolve => {
     const modal = document.getElementById('modal-system-prompt');
@@ -417,7 +420,9 @@ function showPromptDialog({
 
     titleEl.textContent = title;
     if (msgEl) msgEl.textContent = message;
-    if (iconEl) iconEl.textContent = icon;
+    if (iconEl) {
+      iconEl.innerHTML = Au.icono(icon);
+    }
     inputEl.value = defaultValue || '';
     inputEl.placeholder = placeholder || '';
     btnOk.textContent = confirmText;
@@ -478,7 +483,7 @@ function apiErrorText(data, fallback) {
 function copyToClipboard(text, successMsg = 'Copiado al portapapeles.') {
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      alert(`📋 ${successMsg}`);
+      alert(successMsg);
     }).catch(() => {
       prompt('Copiá manualmente este valor:', text);
     });

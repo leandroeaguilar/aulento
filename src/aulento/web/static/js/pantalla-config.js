@@ -150,7 +150,7 @@ async function copiarSnippetMcp(i, boton) {
   try {
     await navigator.clipboard.writeText(mcpConnect.snippets[i]);
     if (boton) {
-      boton.textContent = '✓ Copiado';
+      boton.innerHTML = `${Au.icono('ok')} Copiado`;
       setTimeout(() => { boton.textContent = 'Copiar'; }, 1800);
     }
   } catch (e) {
@@ -235,7 +235,7 @@ async function renderMcpConnect() {
 
   if (esCuentaCompartida()) {
     cuerpo.innerHTML = `<div class="bg-amber-950/40 border border-amber-700/50 rounded-2xl px-5 py-4 text-sm text-amber-200">
-        <p class="font-semibold">🔒 Esta cuenta es compartida: acá no se conecta ningún asistente.</p>
+        <p class="font-semibold flex items-center gap-1.5">${Au.icono('bloqueado')} <span>Esta cuenta es compartida: acá no se conecta ningún asistente.</span></p>
         <p class="text-amber-200/80 text-xs mt-1">La usan varias personas. En tu propia instalación, esta pantalla te da la configuración lista para copiar
         en Claude Desktop, Claude Code o Cursor, y tu asistente genera las clases con tu suscripción, sin clave de API.</p>
       </div>`;
@@ -346,7 +346,7 @@ async function revocarTokenMcp(id) {
     title: 'Revocar el token',
     message: 'El asistente que lo use deja de poder conectarse. Esto no se puede deshacer.',
     confirmText: 'Revocar',
-    icon: '🔑',
+    icon: 'clave',
     danger: true,
   });
   if (!ok) return;
@@ -368,11 +368,11 @@ async function loadGeminiTutorStatus() {
       const modelBadge = document.getElementById('fsrs-voice-eval-model');
       if (modelBadge) {
         if (data.configured) {
-          modelBadge.innerHTML = '<span>✨</span> Gemini 1.5 Flash';
+          modelBadge.innerHTML = `${Au.icono('generar')} Gemini 1.5 Flash`;
           modelBadge.className = "au-insignia au-insignia--primario cursor-pointer";
           modelBadge.title = "Gemini 1.5 Flash activo (Google AI Studio Free Tier). Clic para cambiar clave.";
         } else {
-          modelBadge.innerHTML = '<span>⚡</span> Fallback Local';
+          modelBadge.innerHTML = `${Au.icono('rapido')} Fallback Local`;
           modelBadge.className = "au-insignia au-insignia--alerta cursor-pointer";
           modelBadge.title = "Modo heurístico local activo. Clic para activar Gemini 1.5 Flash con tu API Key.";
         }
@@ -382,10 +382,10 @@ async function loadGeminiTutorStatus() {
       const configBadge = document.getElementById('config-gemini-status-badge');
       if (configBadge) {
         if (data.configured) {
-          configBadge.innerHTML = '🟢 Conectado';
+          configBadge.innerHTML = `${Au.icono('punto')} Conectado`;
           configBadge.className = "au-insignia au-insignia--exito";
         } else {
-          configBadge.innerHTML = '⚪ Fallback Local Activo';
+          configBadge.innerHTML = `${Au.icono('punto')} Fallback Local Activo`;
           configBadge.className = "au-insignia au-insignia--alerta";
         }
       }
@@ -394,11 +394,11 @@ async function loadGeminiTutorStatus() {
       const harvesterBadge = document.getElementById('harvester-gemini-badge');
       if (harvesterBadge) {
         if (data.configured) {
-          harvesterBadge.innerHTML = '<span>✨</span> Gemini Enriquecido';
+          harvesterBadge.innerHTML = `${Au.icono('generar')} Gemini Enriquecido`;
           harvesterBadge.className = "au-insignia au-insignia--primario";
           harvesterBadge.title = "Google Gemini 1.5 Flash genera y enriquece tarjetas en tiempo real.";
         } else {
-          harvesterBadge.innerHTML = '<span>⚡</span> Modo Local Heurístico';
+          harvesterBadge.innerHTML = `${Au.icono('rapido')} Modo Local Heurístico`;
           harvesterBadge.className = "au-insignia";
           harvesterBadge.title = "Configura tu API Key en el panel de Configuración para activar Gemini.";
         }
@@ -455,7 +455,7 @@ async function saveGeminiKeyFromConfig() {
     if (res.ok) {
       if (feedback) {
         feedback.className = "au-aviso au-aviso--exito block";
-        feedback.innerText = "✔ Configuración guardada correctamente (clave y modelo activo).";
+        feedback.innerText = "Configuración guardada correctamente (clave y modelo activo).";
       }
       input.value = "";
       await loadGeminiTutorStatus();
@@ -470,7 +470,7 @@ async function saveGeminiKeyFromConfig() {
     }
   } finally {
     btn.disabled = false;
-    btn.innerHTML = "<span>💾</span> Guardar Clave";
+    btn.innerHTML = `${Au.icono('guardar')} Guardar Clave`;
   }
 }
 
@@ -500,23 +500,23 @@ async function testGeminiConnection() {
     if (data.ok) {
       if (feedback) {
         feedback.className = "au-aviso au-aviso--exito block";
-        feedback.innerText = `✔ Conexión exitosa con Google AI Studio. Modelo: ${data.model} (Status: 200 OK)`;
+        feedback.innerText = `Conexión exitosa con Google AI Studio. Modelo: ${data.model} (Status: 200 OK)`;
       }
       await loadGeminiTutorStatus();
     } else {
       if (feedback) {
         feedback.className = "au-aviso au-aviso--peligro block";
-        feedback.innerText = `✖ Error de conexión: ${data.error || 'Verificá tu API key o conexión a internet.'}`;
+        feedback.innerText = `Error de conexión: ${data.error || 'Verificá tu API key o conexión a internet.'}`;
       }
     }
   } catch (err) {
     if (feedback) {
       feedback.className = "au-aviso au-aviso--peligro block";
-      feedback.innerText = `✖ ${err.message || 'Error de red al realizar el test.'}`;
+      feedback.innerText = err.message || 'Error de red al realizar el test.';
     }
   } finally {
     btn.disabled = false;
-    btn.innerHTML = "<span>⚡</span> Probar Conexión";
+    btn.innerHTML = `${Au.icono('rapido')} Probar Conexión`;
   }
 }
 
@@ -541,11 +541,11 @@ async function loadGeminiDualKeysConfig() {
       const data = await res.json();
       if (freeBadge) {
         freeBadge.className = data.free_key_error ? "text-xs text-rose-400 font-bold" : (data.has_free_key ? "text-xs text-emerald-400 font-bold" : "text-xs text-slate-500");
-        freeBadge.textContent = data.free_key_error || (data.has_free_key ? `✔ Configurada (${data.free_key_masked})` : "No configurada");
+        freeBadge.textContent = data.free_key_error || (data.has_free_key ? `Configurada (${data.free_key_masked})` : "No configurada");
       }
       if (paidBadge) {
         paidBadge.className = data.paid_key_error ? "text-xs text-rose-400 font-bold" : (data.has_paid_key ? "text-xs text-emerald-400 font-bold" : "text-xs text-slate-500");
-        paidBadge.textContent = data.paid_key_error || (data.has_paid_key ? `✔ Configurada (${data.paid_key_masked})` : "No configurada");
+        paidBadge.textContent = data.paid_key_error || (data.has_paid_key ? `Configurada (${data.paid_key_masked})` : "No configurada");
       }
       if (tierBadge) {
         tierBadge.textContent = `Modo: ${String(data.active_tier).toUpperCase()}`;
@@ -556,7 +556,7 @@ async function loadGeminiDualKeysConfig() {
       if (statusBadge) {
         if (data.has_free_key || data.has_paid_key) {
           statusBadge.className = "au-insignia au-insignia--exito";
-          statusBadge.textContent = `● Listo (${data.active_tier})`;
+          statusBadge.innerHTML = `${Au.icono('punto')} Listo (${data.active_tier})`;
         } else {
           statusBadge.className = "au-insignia";
           statusBadge.textContent = "Sin Clave";
@@ -601,7 +601,7 @@ async function saveGeminiDualKeysConfig() {
     if (res.ok) {
       if (feedback) {
         feedback.className = "au-aviso au-aviso--exito block";
-        feedback.innerText = "✔ Infraestructura de claves Gemini actualizada con éxito.";
+        feedback.innerText = "Infraestructura de claves Gemini actualizada con éxito.";
       }
       if (freeKeyInput) freeKeyInput.value = '';
       if (paidKeyInput) paidKeyInput.value = '';
@@ -618,7 +618,7 @@ async function saveGeminiDualKeysConfig() {
     }
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '<span>💾</span> Guardar Configuración';
+    btn.innerHTML = `${Au.icono('guardar')} Guardar Configuración`;
   }
 }
 
@@ -667,11 +667,11 @@ async function loadIAConfig() {
     const antModelInput = document.getElementById('config-anthropic-model-input');
     if (antBadge) {
       antBadge.className = ant.tiene_clave ? "au-insignia au-insignia--exito" : "au-insignia";
-      antBadge.textContent = ant.tiene_clave ? "● Configurada" : "Sin Clave";
+      antBadge.innerHTML = ant.tiene_clave ? `${Au.icono('punto')} Configurada` : "Sin Clave";
     }
     if (antStatus) {
       antStatus.className = ant.tiene_clave ? "text-xs text-emerald-400 font-bold" : "text-xs text-slate-500";
-      antStatus.textContent = ant.tiene_clave ? `✔ Configurada (${ant.clave || 'activa'})` : "No configurada";
+      antStatus.textContent = ant.tiene_clave ? `Configurada (${ant.clave || 'activa'})` : "No configurada";
     }
     if (antModelInput && ant.modelo) {
       antModelInput.value = ant.modelo;
@@ -684,11 +684,11 @@ async function loadIAConfig() {
     const oaModelInput = document.getElementById('config-openai-model-input');
     if (oaBadge) {
       oaBadge.className = oa.tiene_clave ? "au-insignia au-insignia--exito" : "au-insignia";
-      oaBadge.textContent = oa.tiene_clave ? "● Configurada" : "Sin Clave";
+      oaBadge.innerHTML = oa.tiene_clave ? `${Au.icono('punto')} Configurada` : "Sin Clave";
     }
     if (oaStatus) {
       oaStatus.className = oa.tiene_clave ? "text-xs text-emerald-400 font-bold" : "text-xs text-slate-500";
-      oaStatus.textContent = oa.tiene_clave ? `✔ Configurada (${oa.clave || 'activa'})` : "No configurada";
+      oaStatus.textContent = oa.tiene_clave ? `Configurada (${oa.clave || 'activa'})` : "No configurada";
     }
     if (oaModelInput && oa.modelo) {
       oaModelInput.value = oa.modelo;
@@ -747,7 +747,7 @@ async function saveAnthropicKeyUI() {
     }
     if (feedback) {
       feedback.className = "au-aviso au-aviso--exito block";
-      feedback.innerText = "✔ Configuración de Anthropic actualizada con éxito.";
+      feedback.innerText = "Configuración de Anthropic actualizada con éxito.";
     }
     await loadIAConfig();
     actualizarBotonesDeProveedor('anthropic', true);
@@ -785,7 +785,7 @@ async function saveOpenAIKeyUI() {
     }
     if (feedback) {
       feedback.className = "au-aviso au-aviso--exito block";
-      feedback.innerText = "✔ Configuración de OpenAI actualizada con éxito.";
+      feedback.innerText = "Configuración de OpenAI actualizada con éxito.";
     }
     await loadIAConfig();
   } catch (err) {
@@ -812,7 +812,7 @@ async function fetchProviderModelsUI(provider) {
   const originalHtml = btn ? btn.innerHTML : '';
   if (btn) {
     btn.disabled = true;
-    btn.innerHTML = '<span>⏳</span> Consultando...';
+    btn.innerHTML = `${Au.icono('cargando', { clase: 'au-icono--girando' })} Consultando...`;
   }
 
   try {
@@ -880,12 +880,12 @@ async function testProviderConnectionUI(provider) {
     if (data.ok) {
       if (feedback) {
         feedback.className = "au-aviso au-aviso--exito block";
-        feedback.innerText = `✔ ${data.mensaje} (Latencia: ${data.latencia_ms || 0} ms)`;
+        feedback.innerText = `${data.mensaje} (Latencia: ${data.latencia_ms || 0} ms)`;
       }
     } else {
       if (feedback) {
         feedback.className = "au-aviso au-aviso--peligro block";
-        feedback.innerText = `✖ Error de conexión: ${data.mensaje}`;
+        feedback.innerText = `Error de conexión: ${data.mensaje}`;
       }
     }
   } catch (err) {
@@ -939,7 +939,7 @@ async function saveActiveSystemPrompt() {
   const btn = document.getElementById('btn-save-prompts');
 
   btn.disabled = true;
-  btn.innerHTML = '<span>💾</span> Guardando...';
+  btn.innerHTML = `${Au.icono('cargando', { clase: 'au-icono--girando' })} Guardando...`;
 
   try {
     const payload = {};
@@ -954,7 +954,7 @@ async function saveActiveSystemPrompt() {
 
     if (res.ok) {
       if (feedback) {
-        feedback.textContent = "✔ Guardado exitosamente";
+        feedback.textContent = "Guardado exitosamente";
         feedback.classList.remove('hidden');
         setTimeout(() => feedback.classList.add('hidden'), 3500);
       }
@@ -965,7 +965,7 @@ async function saveActiveSystemPrompt() {
     alert("Error de conexión al guardar prompt: " + err.message);
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '<span>💾</span> Guardar Prompt';
+    btn.innerHTML = `${Au.icono('guardar')} Guardar Prompt`;
   }
 }
 
@@ -975,7 +975,7 @@ async function resetActiveSystemPrompt() {
     message: '¿Deseas restaurar los System Prompts a sus valores predeterminados (Backward Design y Taxonomía de Bloom)?',
     confirmText: 'Restaurar Defaults',
     cancelText: 'Cancelar',
-    icon: '↺'
+    icon: 'recargar'
   });
   if (!confirmed) {
     return;
@@ -988,7 +988,7 @@ async function resetActiveSystemPrompt() {
     });
     if (res.ok) {
       await loadSystemPrompts();
-      alert("✔ System Prompts restaurados a las directivas pedagógicas oficiales.");
+      alert("System Prompts restaurados a las directivas pedagógicas oficiales.");
     }
   } catch (err) {
     alert("Error al restaurar prompts: " + err.message);
@@ -1106,7 +1106,7 @@ function toggleConsultingVoiceDictation() {
     }
     if (btn && icon && txt) {
       btn.setAttribute('aria-pressed', 'false');
-      icon.innerText = "🎙️";
+      icon.innerHTML = Au.icono('voz');
       txt.innerText = "Dictar";
     }
     state.voiceRecognition.isListening = false;
@@ -1122,7 +1122,7 @@ function toggleConsultingVoiceDictation() {
 
   if (btn && icon && txt) {
     btn.setAttribute('aria-pressed', 'true');
-    icon.innerText = "🔴";
+    icon.innerHTML = Au.icono('punto');
     txt.innerText = "Escuchando...";
   }
 
@@ -1142,7 +1142,7 @@ function toggleConsultingVoiceDictation() {
   rec.onerror = () => {
     if (btn && icon && txt) {
       btn.setAttribute('aria-pressed', 'false');
-      icon.innerText = "🎙️";
+      icon.innerHTML = Au.icono('voz');
       txt.innerText = "Dictar";
     }
     state.voiceRecognition.isListening = false;
@@ -1152,7 +1152,7 @@ function toggleConsultingVoiceDictation() {
   rec.onend = () => {
     if (btn && icon && txt) {
       btn.setAttribute('aria-pressed', 'false');
-      icon.innerText = "🎙️";
+      icon.innerHTML = Au.icono('voz');
       txt.innerText = "Dictar";
     }
     state.voiceRecognition.isListening = false;
@@ -1217,7 +1217,7 @@ function renderEvolutionDiagnosis(data) {
   }
 
   if (btnApply) {
-    btnApply.innerHTML = `<span>🎯</span> Aplicar Nivel: ${data.cefr_rating}`;
+    btnApply.innerHTML = `${Au.icono('objetivo')} Aplicar Nivel: ${data.cefr_rating}`;
   }
 
   const strengthsList = document.getElementById('evo-strengths-list');
@@ -1351,7 +1351,7 @@ async function handleEvaluateConsulting(e) {
   const btn = document.getElementById('btn-eval-consulting');
   const originalText = btn.innerHTML;
   btn.disabled = true;
-  btn.innerHTML = `<span>⏳</span> Evaluando...`;
+  btn.innerHTML = `${Au.icono('cargando', { clase: 'au-icono--girando' })} Evaluando...`;
 
   try {
     const res = await fetch('/api/fsrs/consulting/evaluate', {
@@ -1548,9 +1548,9 @@ function selectWizardProvider(prov) {
     openai: 'sk-... (Se guarda automáticamente al pulsar Siguiente)',
   };
   const helpUrls = {
-    gemini: { url: 'https://aistudio.google.com/apikey', text: 'Obtener clave gratis en Google AI Studio ↗' },
-    anthropic: { url: 'https://console.anthropic.com/settings/keys', text: 'Obtener clave en Anthropic Console ↗' },
-    openai: { url: 'https://platform.openai.com/api-keys', text: 'Obtener clave en OpenAI Platform ↗' },
+    gemini: { url: 'https://aistudio.google.com/apikey', text: 'Obtener clave gratis en Google AI Studio' },
+    anthropic: { url: 'https://console.anthropic.com/settings/keys', text: 'Obtener clave en Anthropic Console' },
+    openai: { url: 'https://platform.openai.com/api-keys', text: 'Obtener clave en OpenAI Platform' },
   };
 
   if (label) label.textContent = nombres[prov] || `API Key de ${prov}`;
@@ -1560,7 +1560,7 @@ function selectWizardProvider(prov) {
   }
   if (helpLink && helpUrls[prov]) {
     helpLink.href = helpUrls[prov].url;
-    helpLink.innerHTML = `<span>🔑</span> ${helpUrls[prov].text}`;
+    helpLink.innerHTML = `${Au.icono('clave')} ${helpUrls[prov].text}`;
   }
   if (tierBlock) tierBlock.classList.toggle('hidden', prov !== 'gemini');
   if (feedback) {
@@ -1627,7 +1627,7 @@ async function wizardSaveAiKey() {
     });
 
     if (feedback) {
-      feedback.textContent = `✅ Clave de ${prov.toUpperCase()} guardada y activada correctamente.`;
+      feedback.textContent = `Clave de ${prov.toUpperCase()} guardada y activada correctamente.`;
       feedback.className = 'text-xs text-emerald-400 font-semibold';
     }
     if (input) input.value = '';
@@ -1656,13 +1656,13 @@ async function wizardTestAiKey() {
     if (!res.ok || !data.ok) throw new Error(data.error || data.detail || 'Fallo de autenticación o cuota.');
 
     if (feedback) {
-      feedback.textContent = `✅ Conexión exitosa: modelo '${data.modelo || 'predeterminado'}' respondió correctamente.`;
+      feedback.textContent = `Conexión exitosa: modelo '${data.modelo || 'predeterminado'}' respondió correctamente.`;
       feedback.className = 'text-xs text-emerald-400 font-semibold';
     }
     await refreshWizardStatus();
   } catch (err) {
     if (feedback) {
-      feedback.textContent = `❌ Error de conexión: ${err.message}`;
+      feedback.textContent = `Error de conexión: ${err.message}`;
       feedback.className = 'text-xs text-rose-400 font-semibold';
     }
   }
@@ -1673,14 +1673,14 @@ async function wizardSeedDeck() {
   const origHtml = btn ? btn.innerHTML : '';
   if (btn) {
     btn.disabled = true;
-    btn.innerHTML = '<span>⏳</span> Sembrando tarjetas...';
+    btn.innerHTML = `${Au.icono('cargando', { clase: 'au-icono--girando' })} Sembrando tarjetas...`;
   }
 
   try {
     const res = await fetch('/api/fsrs/seed', { method: 'POST' });
     const data = await res.json();
     if (res.ok) {
-      alert(`🎉 ¡Mazo incorporado con éxito! Se cargaron ${data.tarjetas_sembradas || 159} tarjetas de inglés técnico.`);
+      alert(`¡Mazo incorporado con éxito! Se cargaron ${data.tarjetas_sembradas || 159} tarjetas de inglés técnico.`);
       await loadFsrsStatus();
       await refreshWizardStatus();
     } else {
@@ -1714,7 +1714,7 @@ async function refreshWizardStatus() {
     // Resumen en el último paso
     const sumAi = document.getElementById('wizard-summary-ai');
     if (sumAi) {
-      sumAi.textContent = ai.ready ? `✅ ${String(ai.proveedor_activo || 'IA').toUpperCase()}` : '⚠️ No configurada (Opcional)';
+      sumAi.textContent = ai.ready ? String(ai.proveedor_activo || 'IA').toUpperCase() : 'No configurada (Opcional)';
       sumAi.className = ai.ready ? 'font-bold text-emerald-400' : 'font-semibold text-amber-400';
     }
 
@@ -1777,18 +1777,18 @@ async function wizardQuickStart(action) {
     if (typeof generateDailyPlan === 'function') {
       generateDailyPlan();
     }
-    showToast('🗓️ Generando tu Plan de Estudio de hoy...', 'info');
+    showToast('Generando tu Plan de Estudio de hoy...', 'info');
   } else if (action === 'fsrs') {
     switchTab('fsrs');
     await loadAllData();
     if (typeof startFsrsSession === 'function') {
       startFsrsSession();
     }
-    showToast('🧠 Iniciando sesión de práctica de inglés...', 'success');
+    showToast('Iniciando sesión de práctica de inglés...', 'success');
   } else if (action === 'roadmap') {
     switchTab('roadmap');
     await loadAllData();
-    showToast('🗺️ Explorá tu Ruta de Aprendizaje y el Mapa Interactivo.', 'info');
+    showToast('Explorá tu Ruta de Aprendizaje y el Mapa Interactivo.', 'info');
   }
 }
 
@@ -1804,7 +1804,7 @@ async function completeOnboardingWizard() {
       throw new Error(err.detail || 'No se pudo guardar la finalización.');
     }
     closeOnboardingWizard();
-    showToast('🎉 ¡Configuración inicial lista! Bienvenido a tu entorno de estudio.', 'success');
+    showToast('¡Configuración inicial lista! Bienvenido a tu entorno de estudio.', 'success');
     switchTab('dashboard');
     loadAllData();
   } catch (err) {
@@ -1979,7 +1979,7 @@ async function switchDocTab(docType) {
     if (container) {
       container.innerHTML = `
         <div class="flex flex-col items-center justify-center py-20 text-slate-400 space-y-3 animate-pulse">
-          <span class="text-3xl">📖</span>
+          <span class="text-3xl">${Au.icono('lectura', { clase: 'au-icono--grande' })}</span>
           <span class="text-xs font-semibold">Cargando documento...</span>
         </div>`;
     }
@@ -2017,7 +2017,7 @@ function updateReadingTime(text) {
   if (!indicator) return;
   const wordCount = (text || '').split(/\s+/).filter(Boolean).length;
   const minutes = Math.max(1, Math.ceil(wordCount / 180));
-  indicator.textContent = `⏱️ ~${minutes} min de lectura (${wordCount.toLocaleString()} palabras)`;
+  indicator.innerHTML = `${Au.icono('reloj')} ~${minutes} min de lectura (${wordCount.toLocaleString()} palabras)`;
 }
 
 function parseMarkdownAlerts(text) {
@@ -2029,16 +2029,16 @@ function parseMarkdownAlerts(text) {
       const t = type.toUpperCase();
       const body = content.replace(/^>\s?/gm, '').trim();
       const meta = {
-        NOTE: { icon: 'ℹ️', title: 'Nota', cls: 'doc-alert-note' },
-        INFO: { icon: 'ℹ️', title: 'Información', cls: 'doc-alert-info' },
-        TIP: { icon: '💡', title: 'Consejo Práctico', cls: 'doc-alert-tip' },
-        IMPORTANT: { icon: '📌', title: 'Importante', cls: 'doc-alert-important' },
-        WARNING: { icon: '⚠️', title: 'Advertencia', cls: 'doc-alert-warning' },
-        CAUTION: { icon: '🛑', title: 'Precaución', cls: 'doc-alert-caution' },
-      }[t] || { icon: 'ℹ️', title: 'Nota', cls: 'doc-alert-note' };
+        NOTE: { icon: 'ayuda', title: 'Nota', cls: 'doc-alert-note' },
+        INFO: { icon: 'ayuda', title: 'Información', cls: 'doc-alert-info' },
+        TIP: { icon: 'idea', title: 'Consejo Práctico', cls: 'doc-alert-tip' },
+        IMPORTANT: { icon: 'fijar', title: 'Importante', cls: 'doc-alert-important' },
+        WARNING: { icon: 'alerta', title: 'Advertencia', cls: 'doc-alert-warning' },
+        CAUTION: { icon: 'detener', title: 'Precaución', cls: 'doc-alert-caution' },
+      }[t] || { icon: 'ayuda', title: 'Nota', cls: 'doc-alert-note' };
 
       return `\n\n<div class="doc-alert ${meta.cls}">` +
-             `<div class="doc-alert-header"><span>${meta.icon}</span> <span>${meta.title}</span></div>` +
+             `<div class="doc-alert-header"><span aria-hidden="true">${Au.icono(meta.icon)}</span> <span>${meta.title}</span></div>` +
              // marked no procesa Markdown dentro de un bloque HTML: el cuerpo se convierte acá
              `<div class="doc-alert-body">${marked.parse(body)}</div></div>\n\n`;
     }
@@ -2112,13 +2112,13 @@ function renderManualMarkdown(mdText) {
       const copyBtn = document.createElement('button');
       copyBtn.type = 'button';
       copyBtn.className = "absolute right-2.5 top-2.5 au-boton au-boton--secundario au-boton--chico opacity-0 group-hover:opacity-100 transition shadow";
-      copyBtn.innerHTML = '<span>📋</span> <span>Copiar</span>';
+      copyBtn.innerHTML = `${Au.icono('copiar')} <span>Copiar</span>`;
       copyBtn.onclick = () => {
         const codeText = el.querySelector('code')?.innerText || el.innerText;
         navigator.clipboard.writeText(codeText).then(() => {
-          copyBtn.innerHTML = '<span>✓</span> <span class="text-emerald-300">Copiado</span>';
+          copyBtn.innerHTML = `${Au.icono('ok')} <span class="text-emerald-300">Copiado</span>`;
           setTimeout(() => {
-            copyBtn.innerHTML = '<span>📋</span> <span>Copiar</span>';
+            copyBtn.innerHTML = `${Au.icono('copiar')} <span>Copiar</span>`;
           }, 2000);
         });
       };
@@ -2161,28 +2161,28 @@ function buildManualTOC(items) {
 
     // Asignar icono semántico según nombre del capítulo
     const icon = getSectionIcon(item.title);
-    btn.innerHTML = `<span class="shrink-0 text-slate-400 group-hover:text-sky-400 transition">${icon}</span> <span class="truncate">${escapeHtml(item.title)}</span>`;
+    btn.innerHTML = `<span class="shrink-0 text-slate-400 group-hover:text-sky-400 transition" aria-hidden="true">${Au.icono(icon)}</span> <span class="truncate">${escapeHtml(item.title)}</span>`;
     tocContainer.appendChild(btn);
   });
 }
 
 function getSectionIcon(title) {
   const t = title.toLowerCase();
-  if (t.includes('dashboard') || t.includes('principal')) return '🏠';
-  if (t.includes('cronograma') || t.includes('agenda')) return '📅';
-  if (t.includes('curso') || t.includes('hub')) return '🎓';
-  if (t.includes('libro') || t.includes('lectura')) return '📖';
-  if (t.includes('ruta') || t.includes('roadmap') || t.includes('dag')) return '🗺️';
-  if (t.includes('inglés') || t.includes('ingles') || t.includes('fsrs')) return '🇬🇧';
-  if (t.includes('cerebro') || t.includes('ia') || t.includes('tutor') || t.includes('gemini')) return '🧠';
-  if (t.includes('recall') || t.includes('quiz') || t.includes('examen')) return '📝';
-  if (t.includes('config') || t.includes('ajuste')) return '⚙️';
-  if (t.includes('admin') || t.includes('usuario')) return '👥';
-  if (t.includes('onboarding') || t.includes('inicio') || t.includes('primer')) return '🚀';
-  if (t.includes('api') || t.includes('endpoint')) return '⚡';
-  if (t.includes('mcp') || t.includes('conector')) return '☁️';
-  if (t.includes('cli') || t.includes('comando')) return '💻';
-  return '📌';
+  if (t.includes('dashboard') || t.includes('principal')) return 'inicio';
+  if (t.includes('cronograma') || t.includes('agenda')) return 'agenda';
+  if (t.includes('curso') || t.includes('hub')) return 'cursos';
+  if (t.includes('libro') || t.includes('lectura')) return 'lectura';
+  if (t.includes('ruta') || t.includes('roadmap') || t.includes('dag')) return 'rutas';
+  if (t.includes('inglés') || t.includes('ingles') || t.includes('fsrs')) return 'repaso';
+  if (t.includes('cerebro') || t.includes('ia') || t.includes('tutor') || t.includes('gemini')) return 'cerebro';
+  if (t.includes('recall') || t.includes('quiz') || t.includes('examen')) return 'examen';
+  if (t.includes('config') || t.includes('ajuste')) return 'ajustes';
+  if (t.includes('admin') || t.includes('usuario')) return 'cuentas';
+  if (t.includes('onboarding') || t.includes('inicio') || t.includes('primer')) return 'empezar';
+  if (t.includes('api') || t.includes('endpoint')) return 'rapido';
+  if (t.includes('mcp') || t.includes('conector')) return 'nube';
+  if (t.includes('cli') || t.includes('comando')) return 'computadora';
+  return 'fijar';
 }
 
 function filterManualContent(query) {
@@ -2226,7 +2226,7 @@ function filterManualContent(query) {
     if (container) {
       container.innerHTML = `
         <div class="text-center py-16 text-slate-400 space-y-3">
-          <span class="text-3xl block">🔍</span>
+          <span class="text-3xl block">${Au.icono('buscar', { clase: 'au-icono--grande' })}</span>
           <p>No se encontraron resultados para <strong class="text-white">"${escapeHtml(q)}"</strong> en este documento.</p>
           <button type="button" data-accion="config-limpiar-busqueda-manual" class="au-boton au-boton--secundario au-boton--chico">
             Limpiar búsqueda

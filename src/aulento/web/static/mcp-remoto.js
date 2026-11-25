@@ -53,10 +53,10 @@
     try {
       await navigator.clipboard.writeText(mcpRemoto.snippets[i]);
       if (boton) {
-        var textoOriginal = boton.textContent;
-        boton.textContent = '✓ Copiado';
+        var contenidoOriginal = boton.innerHTML;
+        boton.innerHTML = `${Au.icono('ok')} Copiado`;
         setTimeout(function () {
-          boton.textContent = textoOriginal;
+          boton.innerHTML = contenidoOriginal;
         }, 1800);
       }
     } catch (e) {
@@ -230,7 +230,7 @@
 
     var avisoOAuth =
       '<div class="bg-amber-950/30 border border-amber-700/50 rounded-2xl p-4 flex items-start gap-3">' +
-      '<span class="text-amber-400 text-lg shrink-0">ℹ️</span>' +
+      '<span class="text-amber-400 shrink-0" aria-hidden="true">' + Au.icono('alerta') + '</span>' +
       '<div class="text-xs text-amber-200/90 leading-relaxed space-y-1">' +
       '<p class="font-bold text-amber-200">Conectores web y OAuth</p>' +
       '<p>Los conectores web que piden OAuth (como claude.ai o ChatGPT) todavía no están soportados. Podés conectar clientes de escritorio y terminal que aceptan encabezados HTTP Bearer (Claude Desktop, Claude Code, Cursor).</p>' +
@@ -248,7 +248,7 @@
 
     var avisoDemo =
       '<div class="bg-amber-950/40 border border-amber-700/50 rounded-2xl px-5 py-4 text-sm text-amber-200">' +
-      '<p class="font-semibold">🔒 Esta cuenta es compartida: acá no se pueden crear tokens MCP.</p>' +
+      '<p class="font-semibold flex items-center gap-1.5">' + Au.icono('bloqueado') + ' <span>Esta cuenta es compartida: acá no se pueden crear tokens MCP.</span></p>' +
       '<p class="text-amber-200/80 text-xs mt-1">La usan varias personas. En tu propia cuenta podés crear tokens personales y conectar tu asistente.</p>' +
       '</div>';
 

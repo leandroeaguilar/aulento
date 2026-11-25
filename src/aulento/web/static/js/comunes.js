@@ -44,17 +44,17 @@ async function renderSystemHealth() {
   const nombreIA = ia ? (nombresIA[ia.proveedor_activo] || ia.proveedor_activo) : 'IA';
 
   const servicios = [
-    { icono: '💾', nombre: 'Base local', encendido: true, estado: 'Lista' },
-    { icono: '🧠', nombre: 'Motor de repaso', encendido: true, estado: 'Activo' },
+    { icono: 'guardar', nombre: 'Base local', encendido: true, estado: 'Lista' },
+    { icono: 'repaso', nombre: 'Motor de repaso', encendido: true, estado: 'Activo' },
     {
-      icono: '🤖', nombre: `IA (${nombreIA})`,
+      icono: 'ia', nombre: `IA (${nombreIA})`,
       encendido: !!(activo && activo.tiene_clave),
       estado: activo && activo.tiene_clave ? 'Con clave' : 'Sin clave',
     },
     {
       id: 'salud-duolingo',
       idEstado: 'salud-duolingo-estado',
-      icono: '🦉', nombre: 'Duolingo',
+      icono: 'idioma', nombre: 'Duolingo',
       encendido: !!state.duolingoProfile,
       estado: obtenerEstadoDuolingoSalud(),
       accion: 'sincronizar-duolingo-cabecera',
@@ -65,7 +65,7 @@ async function renderSystemHealth() {
     {
       id: 'salud-vector',
       idEstado: 'salud-vector-estado',
-      icono: '📚', nombre: 'Índice de apuntes',
+      icono: 'indice', nombre: 'Índice de apuntes',
       encendido: !!state.vectorOnline,
       estado: obtenerEstadoVectorSalud(),
       accion: 'ir-a-seccion-vectores',
@@ -83,7 +83,7 @@ async function renderSystemHealth() {
       const idEstado = s.idEstado ? ` id="${s.idEstado}"` : '';
       return `
       <div${idAttr}${dataAccion}${titulo} class="flex items-center justify-between p-2 rounded-xl bg-slate-950/70 border border-slate-800/60${interactivo}">
-        <span class="text-slate-300 flex items-center gap-1.5"><span>${s.icono}</span> ${escapeHtml(s.nombre)}</span>
+        <span class="text-slate-300 flex items-center gap-1.5"><span aria-hidden="true">${Au.icono(s.icono)}</span> ${escapeHtml(s.nombre)}</span>
         <span${idEstado} class="${s.encendido ? 'text-emerald-400' : 'text-slate-500'} font-bold text-xs">${escapeHtml(s.estado)}</span>
       </div>
     `;
@@ -332,7 +332,7 @@ async function copiarReporteDiagnostico() {
     await navigator.clipboard.writeText(md);
     if (btn) {
       const originalText = btn.innerHTML;
-      btn.innerHTML = '<span>✅</span> ¡Copiado al Portapapeles!';
+      btn.innerHTML = `${Au.icono('ok')} ¡Copiado al Portapapeles!`;
       setTimeout(() => { btn.innerHTML = originalText; }, 2500);
     }
   } catch (err) {

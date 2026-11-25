@@ -33,10 +33,10 @@ def test_barra_superior_pildoras_metricas_limpias():
     html = INDEX.read_text(encoding="utf-8")
     header = _header_html(html)
 
-    # 1. Repaso usa 🃏 en vez de 🧠
+    # 1. Repaso usa ícono propio i-repaso
     assert 'id="hdr-due"' in header
-    due_match = re.search(r'id="hdr-due"[^>]*>([^<]+)</span>', header)
-    assert due_match and "🃏" in due_match.group(1), f"hdr-due no usa 🃏: {due_match}"
+    due_match = re.search(r'id="hdr-due"[^>]*>(.*?)</span>', header, re.DOTALL)
+    assert due_match and "i-repaso" in due_match.group(1), f"hdr-due no usa i-repaso: {due_match}"
     assert "🧠" not in due_match.group(1)
 
     # 2. Racha, repaso y foco están en el contenedor principal md:flex
@@ -85,9 +85,9 @@ def test_menu_visible_en_modo_local_con_opciones():
     assert account_wrapper, "No se encontró #hdr-account"
     assert "hidden" not in account_wrapper.group(1).split(), "#hdr-account no debe tener 'hidden'"
 
-    # En modo local muestra ☰ Menú
+    # En modo local muestra ícono de menú y texto Menú
     btn_user_menu = header[header.index('id="btn-user-menu"'):header.index('id="user-dropdown-menu"')]
-    assert 'id="hdr-menu-icono"' in btn_user_menu and "☰" in btn_user_menu
+    assert 'id="hdr-menu-icono"' in btn_user_menu and "i-menu" in btn_user_menu
     assert 'id="hdr-user-label"' in btn_user_menu and "Menú" in btn_user_menu
 
     # Encabezado del dropdown dice Opciones
@@ -116,7 +116,7 @@ def test_boton_de_tema_en_barra_superior():
     btn_tema = header[idx_tema:idx_account]
     assert 'aria-label="Tema: oscuro. Cambiar a claro"' in btn_tema
     assert 'title="Tema: oscuro. Cambiar a claro"' in btn_tema
-    assert "🌙" in btn_tema
+    assert "i-tema-oscuro" in btn_tema
 
 
 def test_logica_tema_ciclo_y_sincronia_con_select():
@@ -147,7 +147,7 @@ def test_duolingo_e_indice_en_popover_de_salud():
     assert "salud-vector" in comunes_js
     assert "sincronizar-duolingo-cabecera" in comunes_js
     assert "ir-a-seccion-vectores" in comunes_js
-    assert "📚" in comunes_js
+    assert "indice" in comunes_js
 
     # pantalla-fsrs escribe a las filas nuevas en vez de hdr-duolingo
     assert "salud-duolingo-estado" in fsrs_js

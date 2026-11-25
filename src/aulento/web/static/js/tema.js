@@ -43,9 +43,9 @@
     sistema: 'según el sistema',
   };
   const ICONOS = {
-    oscuro: '🌙',
-    claro: '☀️',
-    sistema: '🖥️',
+    oscuro: 'tema-oscuro',
+    claro: 'tema-claro',
+    sistema: 'tema-sistema',
   };
 
   function siguienteTema(tema) {
@@ -69,7 +69,12 @@
       btn.setAttribute('aria-label', desc);
       btn.title = desc;
       const icono = btn.querySelector('#btn-tema-icono') || btn;
-      icono.textContent = ICONOS[tema] || '🌙';
+      const nombreIcono = ICONOS[tema] || 'tema-oscuro';
+      if (typeof Au !== 'undefined' && Au.icono) {
+        icono.innerHTML = Au.icono(nombreIcono);
+      } else {
+        icono.innerHTML = `<svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-${nombreIcono}"></use></svg>`;
+      }
     }
     if (selector && selector.value !== tema) {
       selector.value = tema;

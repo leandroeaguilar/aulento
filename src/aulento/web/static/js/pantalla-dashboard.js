@@ -69,7 +69,7 @@ async function loadDailyBriefingHero() {
 
     const streakBadge = document.getElementById('hero-streak-badge');
     if (streakBadge) {
-      streakBadge.textContent = `🔥 Racha: ${briefing.racha_dias || 0} días`;
+      streakBadge.innerHTML = `${Au.icono('racha')} Racha: ${briefing.racha_dias || 0} días`;
     }
 
     const fsrsCount = document.getElementById('hero-count-fsrs');
@@ -116,7 +116,7 @@ function renderDashboard() {
     quickBar.innerHTML = state.platforms.map(p => `
       <a href="${sanitizeUrl(p.url_acceso)}" target="_blank" rel="noopener noreferrer" class="au-boton au-boton--secundario au-boton--bloque au-boton--extremos min-w-0" title="${Au.escapar(p.nombre)}">
         <span class="truncate min-w-0">${Au.escapar(p.nombre)}</span>
-        <span class="text-slate-500 transition" aria-hidden="true">↗</span>
+        <span class="text-slate-500 transition" aria-hidden="true">${Au.icono('externo')}</span>
       </a>
     `).join('');
   }
@@ -126,7 +126,7 @@ function renderDashboard() {
   if (coursesList) {
     if (activeCourses.length === 0) {
       coursesList.innerHTML = Au.vacio({
-        icono: '📚',
+        icono: 'cursos',
         titulo: 'No hay cursadas activas',
         texto: 'Usá la pestaña Cursos para agregar una.'
       });
@@ -138,7 +138,8 @@ function renderDashboard() {
           etiqueta: `Progreso: ${c.progreso_pct.toFixed(0)}%`
         });
         const enlace = c.url_aula ? Au.boton({
-          texto: 'Entrar al Aula ↗',
+          texto: 'Entrar al Aula',
+          icono: 'externo',
           variante: 'fantasma',
           chico: true,
           href: c.url_aula,
@@ -171,12 +172,12 @@ function renderDashboard() {
 
     if (todayBlocks.length === 0) {
       scheduleList.innerHTML = Au.vacio({
-        icono: '🗓',
+        icono: 'agenda',
         titulo: `Sin bloques programados para hoy (${DIAS_SEMANA[todayDb - 1]})`,
         texto: 'Podés agendar un nuevo bloque de estudio para hoy.',
         accionHtml: Au.boton({
           texto: 'Agendar para hoy',
-          icono: '➕',
+          icono: 'agregar',
           variante: 'secundario',
           chico: true,
           accion: 'agendar-bloque-hoy',
@@ -189,7 +190,7 @@ function renderDashboard() {
         const durMin = getDurationMinutes(b.hora_inicio, b.hora_fin);
         const durStr = formatDuration(durMin);
         const botonDetalle = Au.boton({
-          icono: '⤢',
+          icono: 'ver',
           soloIcono: true,
           variante: 'fantasma',
           chico: true,
@@ -198,7 +199,7 @@ function renderDashboard() {
           datos: { id: Number(b.id) }
         });
         const botonEditar = Au.boton({
-          icono: '✏️',
+          icono: 'editar',
           soloIcono: true,
           variante: 'fantasma',
           chico: true,
@@ -207,8 +208,8 @@ function renderDashboard() {
           datos: { id: Number(b.id) }
         });
         const enlaceAcceso = b.url_acceso ? Au.boton({
-          texto: 'Entrar ↗',
-          icono: '🚀',
+          texto: 'Entrar',
+          icono: 'empezar',
           variante: 'fantasma',
           chico: true,
           href: b.url_acceso,
@@ -272,13 +273,13 @@ async function renderActivityHeatmap() {
 
     // Actualizar badges
     const streakBadge = document.getElementById('heatmap-streak-badge');
-    if (streakBadge) streakBadge.textContent = `🔥 ${data.streak.current_streak} días`;
+    if (streakBadge) streakBadge.innerHTML = `${Au.icono('racha')} ${data.streak.current_streak} días`;
 
     const recordBadge = document.getElementById('heatmap-record-badge');
-    if (recordBadge) recordBadge.textContent = `🏆 Récord: ${data.streak.longest_streak}d`;
+    if (recordBadge) recordBadge.innerHTML = `${Au.icono('logro')} Récord: ${data.streak.longest_streak}d`;
 
     const hdrStreak = document.getElementById('hdr-streak');
-    if (hdrStreak) hdrStreak.textContent = `🔥 ${data.streak.current_streak} días`;
+    if (hdrStreak) hdrStreak.innerHTML = `${Au.icono('racha')} ${data.streak.current_streak} días`;
 
     const kpiStreak = document.getElementById('kpi-streak');
     if (kpiStreak) kpiStreak.textContent = `${data.streak.current_streak} días`;
@@ -330,7 +331,7 @@ async function loadMacroFsrsTopics() {
 
     if (topics.length === 0) {
       container.innerHTML = `<div class="col-span-full">${Au.vacio({
-        icono: '🎉',
+        icono: 'celebrar',
         titulo: '¡Todo tu conocimiento de las rutas está consolidado!',
         texto: 'No tienes temas con fecha de recuperación vencida para hoy. El algoritmo FSRS v5 te notificará cuando sea momento de refrescar la memoria a largo plazo.'
       })}</div>`;
@@ -341,11 +342,11 @@ async function loadMacroFsrsTopics() {
       const dueStr = t.due_date ? t.due_date.substring(0, 10) : 'Hoy';
       const temaEscapado = escapeHtml(t.tema_titulo || ('Tema #' + t.tema_id));
       const insigniaRuta = Au.insignia({ texto: t.ruta_titulo || 'Ruta', tono: 'primario' });
-      const insigniaVence = Au.insignia({ texto: '⏰ Vence: ' + dueStr, tono: 'alerta', mono: true });
+      const insigniaVence = Au.insignia({ texto: 'Vence: ' + dueStr, icono: 'reloj', tono: 'alerta', mono: true });
       const botonQuiz = Au.boton({
         texto: 'Micro-Quiz Feynman (3 min)',
         variante: 'primario',
-        icono: '🎯',
+        icono: 'objetivo',
         bloque: true,
         accion: 'abrir-quiz-feynman',
         datos: { temaId: Number(t.tema_id) }
@@ -429,7 +430,7 @@ async function submitFeynmanRating(rating) {
       renderActivityHeatmap(),
     ]);
 
-    alert(`🎉 ¡Repaso registrado con éxito!\nPróximo repaso programado en: ${updated.scheduled_days} días.`);
+    alert(`¡Repaso registrado con éxito!\nPróximo repaso programado en: ${updated.scheduled_days} días.`);
   } catch (err) {
     alert("Error al enviar calificación: " + err.message);
   }
@@ -492,7 +493,7 @@ async function loadPlannerBriefing() {
       else if (u > 30) tono = 'alerta';
 
       urgencyEl.className = Au.clases('au-insignia', `au-insignia--${tono}`);
-      urgencyEl.textContent = `⚡ Urgencia: ${u}/100`;
+      urgencyEl.innerHTML = `${Au.icono('rapido')} Urgencia: ${u}/100`;
     }
   } catch (err) {
     console.error('Error al cargar briefing del planificador:', err);
@@ -533,20 +534,20 @@ async function generateAdaptiveStudyPlan() {
     if (list) {
       list.innerHTML = '';
       const phaseStyles = {
-        warmup_fsrs: { icon: '🎴', bg: 'bg-violet-950/40 border-violet-800/60', text: 'text-violet-300' },
-        macro_fsrs: { icon: '🧠', bg: 'bg-sky-950/40 border-sky-800/60', text: 'text-sky-300' },
-        deep_work_course: { icon: '🎓', bg: 'bg-indigo-950/40 border-indigo-800/60', text: 'text-indigo-300' },
-        active_reading_book: { icon: '📖', bg: 'bg-amber-950/40 border-amber-800/60', text: 'text-amber-300' },
-        break: { icon: '☕', bg: 'bg-slate-900 border-slate-700/60', text: 'text-slate-400' },
+        warmup_fsrs: { icon: 'tarjetas', bg: 'bg-violet-950/40 border-violet-800/60', text: 'text-violet-300' },
+        macro_fsrs: { icon: 'repaso', bg: 'bg-sky-950/40 border-sky-800/60', text: 'text-sky-300' },
+        deep_work_course: { icon: 'cursos', bg: 'bg-indigo-950/40 border-indigo-800/60', text: 'text-indigo-300' },
+        active_reading_book: { icon: 'lectura', bg: 'bg-amber-950/40 border-amber-800/60', text: 'text-amber-300' },
+        break: { icon: 'descanso', bg: 'bg-slate-900 border-slate-700/60', text: 'text-slate-400' },
       };
 
       currentPlannedBlocks.forEach((b) => {
-        const style = phaseStyles[b.fase] || { icon: '⏱', bg: 'bg-slate-900 border-slate-800', text: 'text-slate-300' };
+        const style = phaseStyles[b.fase] || { icon: 'foco', bg: 'bg-slate-900 border-slate-800', text: 'text-slate-300' };
         const card = document.createElement('div');
         card.className = `p-3 rounded-xl border flex items-center justify-between gap-3 ${style.bg}`;
         card.innerHTML = `
           <div class="flex items-center gap-2.5">
-            <span class="text-xl">${style.icon}</span>
+            <span class="text-xl shrink-0" aria-hidden="true">${Au.icono(style.icon)}</span>
             <div>
               <div class="flex items-center gap-2">
                 <span class="text-xs font-bold text-white">${escapeHtml(b.titulo || '')}</span>
@@ -588,7 +589,7 @@ async function applyPlanToScheduleAction() {
 
     if (res.ok) {
       const data = await res.json();
-      alert(`✅ ${data.mensaje}`);
+      alert(data.mensaje);
       closeStudyPlannerModal();
       if (typeof loadSchedule === 'function') {
         loadSchedule();
@@ -728,7 +729,7 @@ function nextGuidedSessionStep() {
   } else {
     // Misión completada
     cancelGuidedSession();
-    showToast('🎉 ¡Felicitaciones! Has completado las 3 fases de la misión de estudio de hoy.', 'success');
+    showToast('¡Felicitaciones! Has completado las 3 fases de la misión de estudio de hoy.', 'success');
   }
 }
 
