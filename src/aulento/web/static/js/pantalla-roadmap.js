@@ -1306,13 +1306,15 @@ function setDagDiagramNotice(message) {
 
 let mermaidPromise = null;
 let mermaidInicializado = false;
+// Al cambiar el tema, el próximo diagrama se dibuja con los colores nuevos.
+document.addEventListener('aulento:tema', () => { mermaidInicializado = false; });
 
 function inicializarMermaid() {
   if (mermaidInicializado) return;
   if (window.mermaid && typeof window.mermaid.initialize === 'function') {
     window.mermaid.initialize({
       startOnLoad: false,
-      theme: 'dark',
+      theme: window.aulentoTema && window.aulentoTema.esClaro() ? 'default' : 'dark',
       securityLevel: 'strict',
       maxTextSize: 500000,
       maxEdges: 5000,
