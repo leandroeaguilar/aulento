@@ -182,7 +182,7 @@ async function generateExamFromVault() {
 
               ${q.fragmento ? `
                 <div class="p-3 bg-slate-950/80 border border-slate-800/80 rounded-xl text-xs text-slate-400">
-                  <span class="font-semibold text-slate-300">📖 Fragmento de referencia:</span>
+                  <span class="font-semibold text-slate-300">${Au.icono('lectura')} Fragmento de referencia:</span>
                   <span class="italic">"${escapeHtml(q.fragmento)}"</span>
                   ${q.source_reference ? `<span class="block mt-1 text-xs text-slate-500">De: ${escapeHtml(q.source_reference)}</span>` : ''}
                 </div>
@@ -214,7 +214,7 @@ async function generateExamFromVault() {
                     data-q="${idx}" 
                     class="au-boton au-boton--primario au-boton--chico flex items-center gap-1.5"
                   >
-                    <span>🧪</span> Evaluar Respuesta
+                    <span>${Au.icono('examen')}</span> Evaluar Respuesta
                   </button>
                   <div id="q-open-feedback-${idx}" class="hidden space-y-2 p-4 bg-slate-950 border border-slate-800 rounded-xl text-xs"></div>
                 </div>
@@ -226,7 +226,7 @@ async function generateExamFromVault() {
                     data-target="q-cloze-${idx}" 
                     class="au-boton au-boton--secundario au-boton--chico"
                   >
-                    👁 Revelar Respuesta y Fundamento
+                    ${Au.icono('ver')} Revelar Respuesta y Fundamento
                   </button>
                   <div id="q-cloze-${idx}" class="hidden mt-3 p-4 bg-slate-950 border border-slate-800 rounded-xl space-y-2">
                     <p class="text-sm font-bold text-emerald-400">Respuesta: ${escapeHtml(q.correct_answer)}</p>
@@ -276,7 +276,7 @@ function handleQuizOptionClick(btn) {
     if (feedbackEl) {
       feedbackEl.classList.remove('hidden');
       feedbackEl.innerHTML = `
-        <span class="text-emerald-400 font-bold block mb-1">✔ ¡Correcto!</span>
+        <span class="text-emerald-400 font-bold block mb-1">${Au.icono('ok')} ¡Correcto!</span>
         <span class="text-slate-300">${escapeHtml(explanation)}</span>
       `;
     }
@@ -286,7 +286,7 @@ function handleQuizOptionClick(btn) {
     if (feedbackEl) {
       feedbackEl.classList.remove('hidden');
       feedbackEl.innerHTML = `
-        <span class="text-rose-400 font-bold block mb-1">✖ Incorrecto</span>
+        <span class="text-rose-400 font-bold block mb-1">${Au.icono('cerrar')} Incorrecto</span>
         <span class="text-slate-300">${escapeHtml(explanation)}</span>
       `;
     }
@@ -310,7 +310,7 @@ async function handleEvaluateOpenAnswer(btn) {
 
   btn.disabled = true;
   const originalHtml = btn.innerHTML;
-  btn.innerHTML = '<span>⏳</span> Evaluando...';
+  btn.innerHTML = '<span>' + Au.icono('cargando') + '</span> Evaluando...';
 
   try {
     const payload = {
@@ -332,7 +332,7 @@ async function handleEvaluateOpenAnswer(btn) {
 
       const isCorrect = data.is_correct;
       const statusColor = isCorrect ? 'text-emerald-400' : 'text-rose-400';
-      const statusIcon = isCorrect ? '✔ ¡Correcto!' : '✖ Requiere Ajuste';
+      const statusIcon = isCorrect ? (Au.icono('ok') + ' ¡Correcto!') : (Au.icono('cerrar') + ' Requiere Ajuste');
       const rotuloBadge = data.sin_ia ? Au.insignia({ texto: 'sin IA', tono: 'alerta' }) : '';
 
       feedbackEl.innerHTML = `
@@ -391,7 +391,7 @@ function selectQuizOption(btn, isCorrect, explanationOrEncoded, feedbackId) {
     if (feedbackEl) {
       feedbackEl.classList.remove('hidden');
       feedbackEl.innerHTML = `
-        <span class="text-emerald-400 font-bold block mb-1">✔ ¡Correcto!</span>
+        <span class="text-emerald-400 font-bold block mb-1">${Au.icono('ok')} ¡Correcto!</span>
         <span class="text-slate-300">${escapeHtml(explanation)}</span>
       `;
     }
@@ -401,7 +401,7 @@ function selectQuizOption(btn, isCorrect, explanationOrEncoded, feedbackId) {
     if (feedbackEl) {
       feedbackEl.classList.remove('hidden');
       feedbackEl.innerHTML = `
-        <span class="text-rose-400 font-bold block mb-1">✖ Incorrecto</span>
+        <span class="text-rose-400 font-bold block mb-1">${Au.icono('cerrar')} Incorrecto</span>
         <span class="text-slate-300">${escapeHtml(explanation)}</span>
       `;
     }
@@ -478,7 +478,7 @@ async function submitFeynmanEvaluation() {
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
             <div>
               <div class="flex items-center gap-2">
-                <span class="text-xl">🧪</span>
+                <span class="text-xl">${Au.icono('examen')}</span>
                 <h4 class="font-extrabold text-white text-lg">Diagnóstico Feynman: ${escapeHtml(data.concept)}</h4>
                 ${sinIaBadge}
               </div>
@@ -519,7 +519,7 @@ async function submitFeynmanEvaluation() {
             <div class="space-y-2">
               <h5 class="text-xs font-bold uppercase tracking-wider text-emerald-400">Puntos Fuertes Identificados</h5>
               <div class="au-aviso au-aviso--exito text-xs">
-                ${data.strengths.map(s => `<p>✔ ${escapeHtml(s)}</p>`).join('')}
+                ${data.strengths.map(s => `<p>${Au.icono('ok')} ${escapeHtml(s)}</p>`).join('')}
               </div>
             </div>
           ` : ''}
@@ -528,7 +528,7 @@ async function submitFeynmanEvaluation() {
             <div class="space-y-2">
               <h5 class="text-xs font-bold uppercase tracking-wider text-amber-400">Lagunas o Puntos Ciegos (Knowledge Gaps)</h5>
               <div class="au-aviso au-aviso--alerta">
-                ${data.knowledge_gaps.map(g => `<p>⚠ ${escapeHtml(g)}</p>`).join('')}
+                ${data.knowledge_gaps.map(g => `<p>${Au.icono('alerta')} ${escapeHtml(g)}</p>`).join('')}
               </div>
             </div>
           ` : ''}

@@ -43,19 +43,19 @@ async function openWeeklyDigestModal() {
       metricsEl.innerHTML = `
         <div class="p-2.5 bg-slate-950 border border-slate-800 rounded-xl">
           <div class="text-slate-400">Racha FSRS</div>
-          <div class="text-base font-bold text-amber-400">🔥 ${m.streak || 0} días</div>
+          <div class="text-base font-bold text-amber-400">${Au.icono('racha')} ${m.streak || 0} días</div>
         </div>
         <div class="p-2.5 bg-slate-950 border border-slate-800 rounded-xl">
           <div class="text-slate-400">Retención</div>
-          <div class="text-base font-bold text-emerald-400">🎯 ${(m.retention || 0).toFixed(1)}%</div>
+          <div class="text-base font-bold text-emerald-400">${Au.icono('objetivo')} ${(m.retention || 0).toFixed(1)}%</div>
         </div>
         <div class="p-2.5 bg-slate-950 border border-slate-800 rounded-xl">
           <div class="text-slate-400">Cursos Activos</div>
-          <div class="text-base font-bold text-sky-400">📚 ${m.courses_count || 0}</div>
+          <div class="text-base font-bold text-sky-400">${Au.icono('cursos')} ${m.courses_count || 0}</div>
         </div>
         <div class="p-2.5 bg-slate-950 border border-slate-800 rounded-xl">
           <div class="text-slate-400">Libros Monitoreados</div>
-          <div class="text-base font-bold text-purple-400">📖 ${m.books_count || 0}</div>
+          <div class="text-base font-bold text-purple-400">${Au.icono('lectura')} ${m.books_count || 0}</div>
         </div>
       `;
     } else {
@@ -76,7 +76,7 @@ function copyWeeklyDigestMarkdown() {
   const content = document.getElementById('weekly-digest-content').value;
   if (!content) return;
   navigator.clipboard.writeText(content).then(() => {
-    alert("✔ Markdown copiado al portapapeles.");
+    alert("Markdown copiado al portapapeles.");
   }).catch(() => {
     prompt("Copia el texto:", content);
   });
@@ -86,7 +86,7 @@ async function saveWeeklyDigestToVault() {
   const btn = document.getElementById('btn-save-weekly-vault');
   const originalText = btn.innerHTML;
   btn.disabled = true;
-  btn.innerHTML = '⏳ Guardando...';
+  btn.innerHTML = Au.icono('cargando') + ' Guardando...';
 
   try {
     const weekLabel = currentWeeklyDigestData ? currentWeeklyDigestData.week_label : null;
@@ -94,7 +94,7 @@ async function saveWeeklyDigestToVault() {
     const res = await fetch(url, { method: 'POST' });
     if (res.ok) {
       const data = await res.json();
-      alert(`✔ Resumen Semanal guardado exitosamente en Mis notas:\n${data.saved_path}`);
+      alert(`Resumen Semanal guardado exitosamente en Mis notas:\n${data.saved_path}`);
     } else {
       const err = await res.json();
       alert(`Error al guardar en Mis notas: ${err.detail || 'Fallo desconocido'}`);
@@ -215,7 +215,7 @@ async function handleSaveCourseNoteDirect() {
       const data = await res.json();
       previewText.value = data.content;
       pathEl.textContent = data.relative_path;
-      feedbackEl.textContent = '✔ Guardado exitoso en 04 Knowledge/Cursos/';
+      feedbackEl.innerHTML = `${Au.icono('ok')} Guardado exitoso en 04 Knowledge/Cursos/`;
 
       // Auto-vincular la nota en el curso si aún no tiene ruta_obsidian
       if (data.relative_path && payload.course_id) {
@@ -231,7 +231,7 @@ async function handleSaveCourseNoteDirect() {
         }
       }
 
-      alert(`✔ Apunte SOP creado y guardado físicamente en:\n${data.saved_path || data.relative_path}\n\nVinculado automáticamente a la tarjeta del curso.`);
+      alert(`Apunte SOP creado y guardado físicamente en:\n${data.saved_path || data.relative_path}\n\nVinculado automáticamente a la tarjeta del curso.`);
     } else {
       const err = await res.json();
       feedbackEl.textContent = `Error: ${err.detail || 'Fallo al guardar'}`;
@@ -247,7 +247,7 @@ function copyCourseNoteMarkdown() {
   const content = document.getElementById('course-note-preview-text').value;
   if (!content) return;
   navigator.clipboard.writeText(content).then(() => {
-    alert("✔ Apunte copiado al portapapeles.");
+    alert("Apunte copiado al portapapeles.");
   }).catch(() => {
     prompt("Copia el texto:", content);
   });
@@ -361,7 +361,7 @@ async function previewMaterialNote() {
 
     previewBox.textContent = data.content;
     pathBadge.textContent = data.relative_path;
-    statusInfo.textContent = `✔ Apunte listo para revisar: "${data.title}" en el curso "${data.course}".`;
+    statusInfo.innerHTML = `${Au.icono('ok')} Apunte listo para revisar: "${Au.escapar(data.title)}" en el curso "${Au.escapar(data.course)}".`;
   } catch (e) {
     previewBox.textContent = "Error: " + e.message;
     statusInfo.textContent = "No se pudo armar el apunte.";
@@ -391,8 +391,8 @@ async function saveMaterialNoteToVault() {
 
     previewBox.textContent = data.content;
     pathBadge.textContent = data.saved_path || data.relative_path;
-    statusInfo.textContent = `🎉 Apunte guardado en: ${data.saved_path || data.relative_path}`;
-    alert(`🎉 ¡Apunte guardado en Mis notas!\n\nRuta: ${data.saved_path || data.relative_path}\nCurso: ${data.course}\nPlataforma: ${data.platform}`);
+    statusInfo.innerHTML = `${Au.icono('ok')} Apunte guardado en: ${Au.escapar(data.saved_path || data.relative_path)}`;
+    alert(`¡Apunte guardado en Mis notas!\n\nRuta: ${data.saved_path || data.relative_path}\nCurso: ${data.course}\nPlataforma: ${data.platform}`);
   } catch (e) {
     statusInfo.textContent = "Error al guardar el apunte: " + e.message;
     alert("Error al guardar en Mis notas: " + e.message);
@@ -417,7 +417,7 @@ function renderNoteMarkdown(text) {
   ));
 
   // 4. Encabezados
-  str = str.replace(/^### (.*$)/gim, '<h4 class="text-sm font-bold text-white mt-4 mb-1.5 flex items-center gap-1.5"><span>🔹</span> $1</h4>');
+  str = str.replace(/^### (.*$)/gim, '<h4 class="text-sm font-bold text-white mt-4 mb-1.5 flex items-center gap-1.5"><span class="text-sky-400">' + Au.icono('punto') + '</span> $1</h4>');
   str = str.replace(/^## (.*$)/gim, '<h3 class="text-base font-bold text-sky-400 mt-4 mb-2 pb-1 border-b border-slate-800/80">$1</h3>');
   str = str.replace(/^# (.*$)/gim, '<h2 class="text-lg font-extrabold text-white mt-3 mb-2">$1</h2>');
 
@@ -442,7 +442,7 @@ function renderNoteMarkdown(text) {
   // 9. Wikilinks estilo Obsidian [[Destino]] o [[Destino|Alias]]
   str = str.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, target, alias) => {
     const textToShow = alias || target;
-    return `<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs font-mono bg-purple-950/60 text-purple-300 border border-purple-800/50"><span>📄</span> ${textToShow}</span>`;
+    return `<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs font-mono bg-purple-950/60 text-purple-300 border border-purple-800/50">${Au.icono('documento')} ${textToShow}</span>`;
   });
 
   // 10. Separación de párrafos
@@ -587,7 +587,7 @@ function renderNotesList(notes) {
 
   if (!notes || notes.length === 0) {
     listEl.innerHTML = Au.vacio({
-      icono: '📝',
+      icono: 'notas',
       titulo: 'No se encontraron notas',
       texto: 'Las notas generadas por el tutor o desde materiales aparecerán acá.',
     });
@@ -607,7 +607,7 @@ function renderNotesList(notes) {
     html += `
       <div class="notes-folder-group mb-3">
         <div class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-slate-400 bg-slate-900/60 rounded-lg flex items-center justify-between mb-1">
-          <span class="flex items-center gap-1.5"><span>📁</span> <span>${Au.escapar(folder)}</span></span>
+          <span class="flex items-center gap-1.5">${Au.icono('carpeta')} <span>${Au.escapar(folder)}</span></span>
           ${Au.insignia({ texto: String(folderNotes.length), mono: true })}
         </div>
         <div class="space-y-1">`;
@@ -670,7 +670,7 @@ function renderNoteDetail(note) {
         <div class="au-cabecera__principal">
           <div class="au-cabecera__textos">
             <div class="flex items-center gap-2 text-xs text-slate-400 font-mono mb-1">
-              <span>📁 ${Au.escapar(note.folder || '')}</span>
+              <span>${Au.icono('carpeta')} ${Au.escapar(note.folder || '')}</span>
               <span>•</span>
               <span class="truncate">${Au.escapar(note.path || '')}</span>
             </div>
@@ -678,7 +678,7 @@ function renderNoteDetail(note) {
           </div>
         </div>
         <div class="au-cabecera__acciones">
-          ${Au.boton({ texto: 'Descargar nota', variante: 'primario', icono: '📥', href: downloadUrl, attrs: { download: true, title: 'Descargar este archivo .md' } })}
+          ${Au.boton({ texto: 'Descargar nota', variante: 'primario', icono: 'descargar', href: downloadUrl, attrs: { download: true, title: 'Descargar este archivo .md' } })}
         </div>
       </div>
 
@@ -698,7 +698,7 @@ function renderEmptyNoteDetail() {
   const detailEl = document.getElementById('note-detail-container');
   if (!detailEl) return;
   detailEl.innerHTML = Au.vacio({
-    icono: '📄',
+    icono: 'documento',
     titulo: 'Seleccioná una nota para leerla',
     texto: 'Elegí una nota de la lista de la izquierda para ver su contenido.',
   });
