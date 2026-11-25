@@ -2,26 +2,70 @@
 document.addEventListener('DOMContentLoaded', () => {
   setupKeyboardShortcuts();
   actualizarBarraInferiorPestana();
+  actualizarBotonMenuCuenta();
   loadCurrentUser();
   loadAllData();
   initPdfGapDropzone();
 });
 
+document.addEventListener('capacidades-listas', () => {
+  actualizarBotonMenuCuenta();
+});
+
+function actualizarBotonMenuCuenta() {
+  const modo = (window.SE_CAPACIDADES && window.SE_CAPACIDADES.modo) ||
+               (document.body && document.body.dataset && document.body.dataset.modo) ||
+               'local';
+  const esLocal = modo === 'local';
+  const hdrAccount = document.getElementById('hdr-account');
+  if (hdrAccount) hdrAccount.classList.remove('hidden');
+
+  const avatar = document.getElementById('hdr-user-avatar');
+  const iconoMenu = document.getElementById('hdr-menu-icono');
+  const labelMenu = document.getElementById('hdr-user-label');
+  const hdrUser = document.getElementById('hdr-user');
+  const tituloMenu = document.getElementById('menu-cuenta-titulo');
+
+  if (esLocal || !state.currentUser) {
+    if (avatar) avatar.classList.add('hidden');
+    if (iconoMenu) iconoMenu.classList.remove('hidden');
+    if (labelMenu) labelMenu.classList.remove('hidden');
+    if (hdrUser) {
+      hdrUser.textContent = '';
+      hdrUser.classList.add('hidden');
+    }
+    if (tituloMenu) tituloMenu.textContent = 'Opciones';
+  } else {
+    if (avatar) avatar.classList.remove('hidden');
+    if (iconoMenu) iconoMenu.classList.add('hidden');
+    if (labelMenu) labelMenu.classList.add('hidden');
+    if (hdrUser) {
+      hdrUser.textContent = state.currentUser.nombre_usuario;
+      hdrUser.classList.remove('hidden');
+    }
+    if (tituloMenu) tituloMenu.textContent = 'Mi Cuenta';
+  }
+}
+
 // Muestra en la cabecera quién ingresó; sin sesión vigente vuelve a la pantalla de ingreso
 async function loadCurrentUser() {
+  actualizarBotonMenuCuenta();
   try {
     const response = await fetch('/api/auth/me');
     if (response.status === 401) {
       window.location.assign(LOGIN_PATH);
       return;
     }
-    if (!response.ok) return;
-    state.currentUser = await response.json();
-    document.getElementById('hdr-user').textContent = state.currentUser.nombre_usuario;
-    document.getElementById('hdr-account').classList.remove('hidden');
+    if (response.ok) {
+      state.currentUser = await response.json();
+    }
 
-    // Las extensiones (las cuentas de la nube) suman lo suyo al menú y a la barra lateral con la cuenta ya leída
-    document.dispatchEvent(new CustomEvent('aulento:cuenta', { detail: state.currentUser }));
+    actualizarBotonMenuCuenta();
+
+    if (state.currentUser) {
+      // Las extensiones (las cuentas de la nube) suman lo suyo al menú y a la barra lateral con la cuenta ya leída
+      document.dispatchEvent(new CustomEvent('aulento:cuenta', { detail: state.currentUser }));
+    }
 
     actualizarAvisoTutorDemo();
 
@@ -54,23 +98,30 @@ function switchTab(tabId) {
 
   // Actualizar título dinámico en el topbar si existe
   const titleMap = {
-    dashboard: '🏠 Dashboard',
-    schedule: '📅 Cronograma Semanal',
-    courses: '🎓 Aulas y Cursos',
-    books: '📖 Biblioteca de Libros',
-    roadmap: '🗺️ Rutas de Aprendizaje',
-    notes: '📝 Mis notas',
-    fsrs: '🇬🇧 Inglés Técnico',
-    brain: '🧠 Cerebro & Tutor IA',
-    exams: '📝 Repaso Activo',
-    config: '⚙️ Configuración'
+    dashboard: { icono: 'inicio', texto: 'Dashboard' },
+    schedule: { icono: 'agenda', texto: 'Cronograma Semanal' },
+    courses: { icono: 'cursos', texto: 'Aulas y Cursos' },
+    books: { icono: 'libros', texto: 'Biblioteca de Libros' },
+    roadmap: { icono: 'rutas', texto: 'Rutas de Aprendizaje' },
+    notes: { icono: 'notas', texto: 'Mis notas' },
+    fsrs: { icono: 'repaso', texto: 'Inglés Técnico' },
+    brain: { icono: 'cerebro', texto: 'Cerebro & Tutor IA' },
+    exams: { icono: 'examen', texto: 'Repaso Activo' },
+    config: { icono: 'ajustes', texto: 'Configuración' }
   };
   const activeBtn = document.getElementById(`tab-btn-${tabId}`);
-  // Una pestaña que suma una extensión trae su título en el botón
-  const titulo = titleMap[tabId] || (activeBtn && activeBtn.dataset.titulo);
+  const info = titleMap[tabId];
   const topbarTitle = document.getElementById('topbar-section-title');
-  if (topbarTitle && titulo) {
-    topbarTitle.textContent = titulo;
+  if (topbarTitle) {
+    if (info) {
+      if (typeof Au !== 'undefined' && Au.icono) {
+        topbarTitle.innerHTML = `${Au.icono(info.icono)} <span>${info.texto}</span>`;
+      } else {
+        topbarTitle.innerHTML = `<svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-${info.icono}"></use></svg> <span>${info.texto}</span>`;
+      }
+    } else if (activeBtn && activeBtn.dataset.titulo) {
+      topbarTitle.textContent = activeBtn.dataset.titulo;
+    }
   }
 
   // Actualizar botones de pestaña en el Sidebar

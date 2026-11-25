@@ -153,6 +153,130 @@ Un elemento de una lista lateral, como notas o materiales. Con `accion` es un bo
 
 Registrar dos veces el mismo nombre es un error. `Au.acciones.existe(nombre)` sirve para los tests.
 
+### Íconos: `Au.icono`, `Au.ICONOS`, `.au-icono`
+
+Set propio de Aulento (`src/aulento/web/static/icons/aulento-iconos.svg`), de línea fina sobre grilla `24×24`, que hereda `currentColor`. Catálogo visual en `/static/icons/catalogo.html`.
+
+- **En JS (`Au.icono`):**
+  - `${Au.icono('guardar')}` devuelve `<svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-guardar"></use></svg>`.
+  - `Au.icono('alerta', { etiqueta: 'Atención' })` agrega `role="img"` y `aria-label="Atención"` (escapado con `Au.escapar`).
+  - `Au.icono('cargando', { clase: 'au-icono--chico au-icono--girando' })` suma clases extra.
+  - `Au.ICONOS` lista todos los nombres válidos; pasar un nombre fuera de esa lista lanza un `Error`.
+  - Los componentes (`Au.boton`, `Au.cabecera`, `Au.insignia`, `Au.vacio`, `Au.aviso`, `Au.pestanas`, `Au.fila`) aceptan directamente el nombre del ícono en `icono: 'nombre'`.
+- **En `index.html`:**
+  ```html
+  <svg class="au-icono" aria-hidden="true" focusable="false">
+    <use href="/static/icons/aulento-iconos.svg#i-NOMBRE"></use>
+  </svg>
+  ```
+- **Clases de tamaño y movimiento:**
+  - `.au-icono`: `1em × 1em`, `vertical-align: -0.125em`, `flex-shrink: 0`.
+  - `.au-icono--chico`: `0.875em`.
+  - `.au-icono--grande`: `1.25em`.
+  - `.au-icono--girando`: rotación continua con `--au-duracion-giro`, desactivada con `prefers-reduced-motion: reduce`.
+- **Regla de accesibilidad:**
+  - **Ícono decorativo junto a texto** (título, pestaña, botón con texto): va con `aria-hidden="true" focusable="false"` (es el comportamiento por defecto de `Au.icono`).
+  - **Botón de solo ícono**: el `<svg>` mantiene `aria-hidden="true"` y el `<button>` lleva `aria-label` (y `title` si aplica) describiendo la acción.
+  - **Ícono informativo sin texto al lado**: usar `Au.icono('nombre', { etiqueta: 'Descripción' })`, que coloca `role="img"` y `aria-label`.
+
+| Nombre | Para qué |
+|---|---|
+| `inicio` | Pantalla principal / inicio |
+| `cursos` | Cursos y formación |
+| `libros` | Biblioteca de libros |
+| `lectura` | Lectura activa / capítulos |
+| `agenda` | Agenda y calendario semanal |
+| `rutas` | Rutas de aprendizaje (motivo DAG) |
+| `repaso` | Repaso FSRS y tarjetas para hoy |
+| `cerebro` | Segundo cerebro y notas enlazadas (motivo DAG) |
+| `indice` | Índice de apuntes, vectores y fragmentos (motivo DAG) |
+| `tarjetas` | Mazos y tarjetas de estudio |
+| `notas` | Escribir y editar notas |
+| `cuaderno` | Cuadernos y libretas |
+| `estadisticas` | Métricas y gráficos de avance |
+| `examen` | Exámenes y pruebas |
+| `objetivo` | Metas y retención objetivo |
+| `ajustes` | Configuración y preferencias |
+| `cuenta` | Cuenta individual / perfil |
+| `cuentas` | Múltiples cuentas / usuarios |
+| `plataforma` | Plataformas e instituciones |
+| `trabajo` | Trabajo y proyectos |
+| `brujula` | Exploración y orientación |
+| `grafo` | Grafo de prelaciones o conocimiento (motivo DAG) |
+| `modulo` | Módulos y bloques (motivo DAG) |
+| `cerrar` | Cerrar modal, panel o cancelar |
+| `ok` | Confirmar, completado, válido |
+| `agregar` | Crear o sumar un elemento |
+| `quitar` | Restar o quitar un elemento |
+| `guardar` | Guardar cambios |
+| `borrar` | Eliminar |
+| `editar` | Editar |
+| `copiar` | Copiar al portapapeles |
+| `lista` | Lista de tareas o pasos |
+| `descargar` | Descargar o exportar |
+| `importar` | Importar datos hacia adentro |
+| `subir` | Subir archivo o elemento |
+| `buscar` | Buscar y filtrar |
+| `recargar` | Recargar, sincronizar o reintentar |
+| `ver` | Ver detalle o previsualizar |
+| `enlace` | Enlazar o copiar vínculo |
+| `externo` | Abrir enlace externo |
+| `siguiente` | Avanzar / siguiente paso |
+| `saltar` | Saltar ítem o paso |
+| `pausa` | Pausar sesión o audio |
+| `detener` | Detener proceso o temporizador |
+| `ordenar` | Ordenar lista |
+| `fijar` | Fijar elemento |
+| `etiqueta` | Etiquetas y categorías |
+| `carpeta` | Carpetas y directorios |
+| `documento` | Documentos y apuntes |
+| `paquete` | Paquetes y exportaciones |
+| `imagen` | Imágenes |
+| `video` | Videos y clases grabadas |
+| `menu` | Menú de navegación |
+| `atajos` | Atajos de teclado |
+| `ayuda` | Ayuda y manual |
+| `alerta` | Advertencia o atención |
+| `cargando` | Estado de carga (centrado en 12,12 para girar) |
+| `punto` | Indicador de estado circular (color por clase de texto) |
+| `bloqueado` | Elemento bloqueado o con prerequisitos |
+| `desbloqueado` | Elemento desbloqueado |
+| `seguridad` | Seguridad y privacidad |
+| `salud` | Diagnóstico y salud del sistema |
+| `vacio` | Estado vacío sin elementos |
+| `celebrar` | Celebración y logros recientes |
+| `logro` | Trofeo o hito alcanzado |
+| `meta` | Meta o fin de ruta |
+| `idea` | Sugerencia, consejo o idea |
+| `ia` | Asistente y funciones de IA |
+| `generar` | Generar contenido con IA |
+| `rapido` | Acciones rápidas |
+| `empezar` | Iniciar proceso o ruta |
+| `analizar` | Análisis profundo |
+| `foco` | Modo foco y cronómetro |
+| `reloj` | Horarios y duración |
+| `pomodoro` | Técnica Pomodoro |
+| `descanso` | Pausa o descanso |
+| `racha` | Racha de días de estudio |
+| `idioma` | Idiomas y práctica lingüística |
+| `crecimiento` | Progreso y consolidación |
+| `fruto` | Fuente externa o cosecha |
+| `premium` | Funciones destacadas |
+| `pago` | Facturación y suscripción |
+| `voz` | Voz y dictado |
+| `audio` | Audio y escucha |
+| `celular` | Dispositivo móvil y atajos |
+| `computadora` | Escritorio |
+| `web` | Web y enlaces en línea |
+| `nube` | Sincronización en la nube |
+| `conexion` | Conexión y webhooks |
+| `integracion` | Integraciones y MCP |
+| `clave` | Claves y tokens |
+| `apariencia` | Apariencia y estilos |
+| `tema-oscuro` | Selector de tema oscuro |
+| `tema-claro` | Selector de tema claro |
+| `tema-sistema` | Selector de tema según sistema |
+
 ### Utilidades: `Au.escapar`, `Au.atributos`, `Au.clases`, `Au.urlSegura`
 
 - `Au.escapar(texto)` escapa `& < > " '`.

@@ -44,13 +44,13 @@ function renderBooks() {
   if (state.books.length === 0) {
     container.innerHTML = `
       <div class="col-span-full">${Au.vacio({
-        icono: '📚',
+        icono: 'libros',
         titulo: 'Tu Biblioteca Técnica está vacía',
         texto: 'Llevá un registro exacto de capítulos y páginas en libros de Arquitectura de Datos, Machine Learning y Sistemas Distribuidos con soporte para Active Recall y FSRS.',
         accionHtml: `
           <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-            ${Au.boton({ texto: 'Registrar Libro', variante: 'primario', icono: '➕', accion: 'abrir-registro-libro' })}
-            ${window.seTiene && window.seTiene('google_libros') ? Au.boton({ texto: 'Sincronizar Google Play Libros', variante: 'secundario', icono: '📱', accion: 'sincronizar-google-libros' }) : ''}
+            ${Au.boton({ texto: 'Registrar Libro', variante: 'primario', icono: 'agregar', accion: 'abrir-registro-libro' })}
+            ${window.seTiene && window.seTiene('google_libros') ? Au.boton({ texto: 'Sincronizar Google Play Libros', variante: 'secundario', icono: 'celular', accion: 'sincronizar-google-libros' }) : ''}
           </div>
         `,
       })}</div>
@@ -75,7 +75,7 @@ function renderBooks() {
   if (filteredBooks.length === 0 && state.books.length > 0) {
     container.innerHTML = `
       <div class="col-span-full">${Au.vacio({
-        icono: '🔍',
+        icono: 'buscar',
         titulo: 'No se encontraron libros con el filtro aplicado.',
         accionHtml: Au.boton({ texto: 'Restablecer filtros', variante: 'fantasma', chico: true, accion: 'restablecer-filtros-libros' }),
       })}</div>
@@ -89,8 +89,8 @@ function renderBooks() {
         <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
           <div class="flex items-center gap-1.5">
             <span>${Au.escapar(b.autor || 'Libro Técnico')}</span>
-            ${b.fuente_sincronizacion === 'google_books' ? Au.insignia({ texto: '📚 Google', tono: 'exito', mono: true, attrs: { title: 'Sincronizado con Google Play Libros' } }) : ''}
-            ${b.fuente_sincronizacion === 'apple_books' ? Au.insignia({ texto: '🍎 Apple', mono: true, attrs: { title: 'Sincronizado vía Atajo de Apple Libros' } }) : ''}
+            ${b.fuente_sincronizacion === 'google_books' ? Au.insignia({ texto: 'Google', icono: 'libros', tono: 'exito', mono: true, attrs: { title: 'Sincronizado con Google Play Libros' } }) : ''}
+            ${b.fuente_sincronizacion === 'apple_books' ? Au.insignia({ texto: 'Apple', icono: 'fruto', mono: true, attrs: { title: 'Sincronizado vía Atajo de Apple Libros' } }) : ''}
           </div>
           ${Au.insignia({ texto: b.estado, tono: b.estado === 'completado' ? 'exito' : 'primario' })}
         </div>
@@ -108,18 +108,18 @@ function renderBooks() {
 
         <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800">
           <div class="flex flex-wrap items-center gap-1.5">
-            ${Au.boton({ texto: 'Quiz', icono: '🧠', chico: true, accion: 'abrir-quiz-libro', datos: { bookId: b.id, bookTitulo: b.titulo }, attrs: { title: 'Active Recall con Mentor de IA' } })}
-            ${Au.boton({ texto: 'Cosechar', icono: '🃏', chico: true, accion: 'cosechar-libro', datos: { bookId: b.id, bookTitulo: b.titulo }, attrs: { title: 'Cosechar vocabulario técnico para FSRS' } })}
-            ${Au.boton({ texto: 'Indexar', icono: '⚡', chico: true, accion: 'indexar-libro', datos: { id: b.id }, attrs: { title: 'Indexar este libro en el índice de búsqueda' } })}
-            ${Au.boton({ texto: 'Editar', icono: '✏️', chico: true, accion: 'editar-libro', datos: { id: b.id }, attrs: { title: 'Editar libro' } })}
-            ${Au.boton({ icono: '🗑️', soloIcono: true, etiqueta: 'Eliminar libro', variante: 'peligro', chico: true, accion: 'eliminar-libro', datos: { bookId: b.id, bookTitulo: b.titulo } })}
+            ${Au.boton({ texto: 'Quiz', icono: 'repaso', chico: true, accion: 'abrir-quiz-libro', datos: { bookId: b.id, bookTitulo: b.titulo }, attrs: { title: 'Active Recall con Mentor de IA' } })}
+            ${Au.boton({ texto: 'Cosechar', icono: 'tarjetas', chico: true, accion: 'cosechar-libro', datos: { bookId: b.id, bookTitulo: b.titulo }, attrs: { title: 'Cosechar vocabulario técnico para FSRS' } })}
+            ${Au.boton({ texto: 'Indexar', icono: 'rapido', chico: true, accion: 'indexar-libro', datos: { id: b.id }, attrs: { title: 'Indexar este libro en el índice de búsqueda' } })}
+            ${Au.boton({ texto: 'Editar', icono: 'editar', chico: true, accion: 'editar-libro', datos: { id: b.id }, attrs: { title: 'Editar libro' } })}
+            ${Au.boton({ icono: 'borrar', soloIcono: true, etiqueta: 'Eliminar libro', variante: 'peligro', chico: true, accion: 'eliminar-libro', datos: { bookId: b.id, bookTitulo: b.titulo } })}
           </div>
           <div class="flex flex-wrap items-center gap-1.5">
             ${b.total_paginas ? `
-              ${Au.boton({ texto: '+10', icono: '📄', chico: true, deshabilitado: b.pagina_actual >= b.total_paginas, accion: 'avanzar-paginas-libro', datos: { id: b.id, paginas: 10 } })}
+              ${Au.boton({ texto: '+10', icono: 'documento', chico: true, deshabilitado: b.pagina_actual >= b.total_paginas, accion: 'avanzar-paginas-libro', datos: { id: b.id, paginas: 10 } })}
               ${Au.boton({ texto: 'Pág.', chico: true, accion: 'ajustar-pagina-libro', datos: { id: b.id, pagina: b.pagina_actual || 0 }, attrs: { title: 'Ajustar página' } })}
             ` : ''}
-            ${Au.boton({ texto: '+1 Cap.', icono: '📖', chico: true, deshabilitado: b.capitulo_actual >= b.total_capitulos, accion: 'avanzar-capitulo-libro', datos: { id: b.id } })}
+            ${Au.boton({ texto: '+1 Cap.', icono: 'lectura', chico: true, deshabilitado: b.capitulo_actual >= b.total_capitulos, accion: 'avanzar-capitulo-libro', datos: { id: b.id } })}
           </div>
         </div>
       </div>
@@ -158,7 +158,7 @@ async function promptEditBookPage(bookId, currentPage) {
     defaultValue: String(currentPage || 0),
     placeholder: 'Ej. 142',
     confirmText: 'Actualizar Página',
-    icon: '📖'
+    icon: 'lectura'
   });
   if (input === null || input.trim() === '') return;
   const newPage = parseInt(input.trim(), 10);
@@ -290,7 +290,7 @@ async function deleteBook(id, title) {
     message: `¿Estás seguro de eliminar el libro "${title}" del seguimiento de lectura?`,
     confirmText: 'Eliminar Libro',
     cancelText: 'Cancelar',
-    icon: '🗑️',
+    icon: 'borrar',
     danger: true
   });
   if (!confirmed) return;
@@ -332,7 +332,7 @@ async function syncGoogleBooks() {
         message: 'Google Play Libros no está vinculado todavía a tu cuenta.\n\n¿Deseás iniciar la vinculación con tu cuenta de Google ahora para sincronizar tus estanterías y progreso de lectura?',
         confirmText: 'Vincular cuenta',
         cancelText: 'Cancelar',
-        icon: '📚'
+        icon: 'libros'
       });
       if (confirmed) {
         const authRes = await fetch('/api/books/google/authorize', { method: 'POST' });
@@ -494,7 +494,7 @@ async function submitBookActiveRecallEvaluation() {
       </div>
       <p class="text-xs text-slate-300 leading-relaxed pt-1">${escapeHtml(data.resumen_pedagogico || '')}</p>
       <div class="text-xs text-emerald-400 font-semibold pt-1 flex items-center gap-1">
-        <span>⏱️</span> Sesión de estudio de 10 min registrada automáticamente en tu historial.
+        ${Au.icono('foco')} Sesión de estudio de 10 min registrada automáticamente en tu historial.
       </div>
     `;
 
@@ -625,7 +625,7 @@ async function commitBookHarvestCards() {
     const resBox = document.getElementById('book-harvest-results-box');
     resBox.innerHTML = `
       <div class="space-y-1.5">
-        <h4 class="font-bold text-white text-sm">🎉 ¡Tarjetas de repaso creadas con éxito!</h4>
+        <h4 class="font-bold text-white text-sm flex items-center gap-1.5">${Au.icono('celebrar')} ¡Tarjetas de repaso creadas con éxito!</h4>
         <p class="text-xs text-emerald-300">
           Se añadieron <strong>${data.guardadas}</strong> tarjetas nuevas a tu mazo de estudio.
           ${data.omitidas_duplicadas > 0 ? `<br><span class="text-slate-400">Se omitieron ${data.omitidas_duplicadas} tarjetas porque ya existían en tu mazo.</span>` : ''}
@@ -668,12 +668,12 @@ async function syncCourseProgressModal(courseId) {
     });
     if (res.ok) {
       const data = await res.json();
-      alert(`✅ ${data.mensaje || 'Curso sincronizado con éxito.'}\nNuevo avance: ${data.progreso_pct}% (${data.estado})`);
+      alert(`${data.mensaje || 'Curso sincronizado con éxito.'}\nNuevo avance: ${data.progreso_pct}% (${data.estado})`);
       await loadPlatforms();
       renderDashboard();
     } else {
       const err = await res.json();
-      alert(`❌ Error al sincronizar: ${err.detail || 'Ocurrió un error inesperado.'}`);
+      alert(`Error al sincronizar: ${err.detail || 'Ocurrió un error inesperado.'}`);
     }
   } catch (err) {
     console.error("Error al sincronizar curso:", err);

@@ -35,10 +35,14 @@ async function loadDuolingoStatus() {
       updateDuolingoKpis();
     } else {
       state.duolingoProfile = null;
-      const hdrDuo = document.getElementById('hdr-duolingo');
-      if (hdrDuo) {
-        hdrDuo.innerText = state.duolingoUsername ? '🦉 Duo: sin datos' : '🦉 Duo: conectar';
-        hdrDuo.title = state.duolingoUsername
+      const saludDuo = document.getElementById('salud-duolingo-estado');
+      if (saludDuo) {
+        saludDuo.innerText = state.duolingoUsername ? 'Sin datos' : 'Conectar';
+        saludDuo.className = 'text-slate-500 font-bold text-xs';
+      }
+      const saludFila = document.getElementById('salud-duolingo');
+      if (saludFila) {
+        saludFila.title = state.duolingoUsername
           ? `Duolingo (@${state.duolingoUsername}): todavía no se pudo leer el perfil. Clic para revisarlo.`
           : 'Duolingo: clic para conectar tu usuario y ver la racha.';
       }
@@ -52,10 +56,16 @@ async function loadDuolingoStatus() {
 function updateDuolingoKpis() {
   const p = state.duolingoProfile;
   if (!p) return;
-  const hdrDuo = document.getElementById('hdr-duolingo');
-    const xpFormatted = (p.total_xp || 0).toLocaleString();
-    hdrDuo.innerText = `🦉 Duo: ${p.streak}d (${xpFormatted} XP)`;
-    hdrDuo.title = `Duolingo (${escapeHtml(p.name)}): ${p.streak} días de racha • ${xpFormatted} XP acumulados. Clic para sincronizar.`;
+  const saludDuo = document.getElementById('salud-duolingo-estado');
+  const xpFormatted = (p.total_xp || 0).toLocaleString();
+  if (saludDuo) {
+    saludDuo.innerText = `${p.streak}d (${xpFormatted} XP)`;
+    saludDuo.className = 'text-emerald-400 font-bold text-xs';
+  }
+  const saludFila = document.getElementById('salud-duolingo');
+  if (saludFila) {
+    saludFila.title = `Duolingo (${escapeHtml(p.name)}): ${p.streak} días de racha • ${xpFormatted} XP acumulados. Clic para sincronizar.`;
+  }
 }
 
 // Sin usuario o sin perfil leído, la cabecera abre el modal; con perfil, sincroniza
@@ -64,8 +74,8 @@ async function syncDuolingoFromHeader() {
     openDuolingoModal();
     return;
   }
-  const hdrDuo = document.getElementById('hdr-duolingo');
-  if (hdrDuo) hdrDuo.innerText = '🦉 Sincronizando...';
+  const saludDuo = document.getElementById('salud-duolingo-estado');
+  if (saludDuo) saludDuo.innerText = 'Sincronizando...';
   const result = await syncDuolingoNow();
   if (result && result.status === 'error') {
     showToast(result.message || 'No se pudo sincronizar Duolingo.', 'error');
@@ -122,7 +132,7 @@ function duolingoProfileHtml(p) {
   return `
     <div class="grid grid-cols-3 gap-2 text-center">
       <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-2.5">
-        <div class="text-lg font-extrabold text-orange-300">🔥 ${escapeHtml(String(p.streak || 0))}</div>
+        <div class="text-lg font-extrabold text-orange-300">${Au.icono('racha')} ${escapeHtml(String(p.streak || 0))}</div>
         <div class="text-xs uppercase font-bold text-slate-500">días de racha</div>
       </div>
       <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-2.5">
@@ -229,7 +239,7 @@ function renderDuolingoConfigCard() {
         </div>
         ${Au.boton({
           texto: 'Conectar Duolingo',
-          icono: '🦉',
+          icono: 'idioma',
           variante: 'primario',
           accion: 'abrir-modal-duolingo'
         })}
@@ -247,7 +257,7 @@ function renderDuolingoConfigCard() {
         <div class="flex flex-wrap gap-2">
           ${Au.boton({
             texto: 'Sincronizar ahora',
-            icono: '🔄',
+            icono: 'recargar',
             variante: 'primario',
             accion: 'sincronizar-duolingo-config'
           })}
@@ -291,9 +301,9 @@ function updateFsrsKpis() {
   const retention = state.fsrsStatus.retencion_pct || 0;
 
   // Header
-  document.getElementById('hdr-streak').innerText = `🔥 ${streak} días`;
-  document.getElementById('hdr-due').innerText = `🧠 ${due} para hoy`;
-  document.getElementById('hdr-retention').innerText = `🎯 ${retention.toFixed(0)}% retención`;
+  document.getElementById('hdr-streak').innerHTML = `${Au.icono('racha')} ${streak} días`;
+  document.getElementById('hdr-due').innerHTML = `${Au.icono('tarjetas')} ${due} para hoy`;
+  document.getElementById('hdr-retention').innerHTML = `${Au.icono('objetivo')} ${retention.toFixed(0)}% retención`;
   document.getElementById('tab-fsrs-badge').innerText = due;
 
   // KPIs
@@ -332,7 +342,7 @@ let fsrsSessionRequestSeq = 0;
 async function loadFsrsSession(force = false) {
   const btn = document.getElementById('btn-fsrs-extra-cards');
   if (btn && force) {
-    btn.innerHTML = '<span class="animate-spin">⏳</span> Cargando tarjetas...';
+    btn.innerHTML = '<span class="animate-spin">' + Au.icono('cargando') + '</span> Cargando tarjetas...';
   }
   try {
     const lvl = state.fsrsSelectedLevel;
@@ -354,7 +364,7 @@ async function loadFsrsSession(force = false) {
     console.error("Error al cargar sesión FSRS:", err);
   } finally {
     if (btn) {
-      btn.innerHTML = '<span>🔄</span> Repasar 10 tarjetas más';
+      btn.innerHTML = Au.icono('recargar') + ' <span>Repasar 10 tarjetas más</span>';
     }
   }
 }
@@ -453,20 +463,20 @@ function renderCurrentCard() {
   if (backEl) backEl.classList.add('hidden');
 
   const levelLabels = {
-    'a1_foundations': '🟢 A1 BASES',
-    'a2_daily_work': '🟡 A2 STANDUPS & SYNC',
-    'b1_data_storytelling': '🟠 B1 DATA STORYTELLING',
-    'b2_tech_data_ai': '🔵 B2 TECH & CLOUD AI',
-    'c1_consulting_ai': '🟣 C1 CONSULTING & DISCOVERY',
+    'a1_foundations': `${Au.icono('punto', { clase: 'text-emerald-400' })} A1 BASES`,
+    'a2_daily_work': `${Au.icono('punto', { clase: 'text-amber-400' })} A2 STANDUPS & SYNC`,
+    'b1_data_storytelling': `${Au.icono('punto', { clase: 'text-orange-300' })} B1 DATA STORYTELLING`,
+    'b2_tech_data_ai': `${Au.icono('punto', { clase: 'text-sky-400' })} B2 TECH & CLOUD AI`,
+    'c1_consulting_ai': `${Au.icono('punto', { clase: 'text-purple-400' })} C1 CONSULTING & DISCOVERY`,
   };
   const mazoDeRuta = (state.fsrsRoadmapDecks || []).find(d => d.categoria === card.categoria);
-  const categoryLabel = levelLabels[card.categoria] || (mazoDeRuta ? mazoDeRuta.titulo : (card.categoria ? card.categoria.replace(/_/g, ' ').toUpperCase() : 'GENERAL'));
+  const categoryLabel = levelLabels[card.categoria] || (mazoDeRuta ? mazoDeRuta.titulo : (card.categoria ? escapeHtml(card.categoria.replace(/_/g, ' ').toUpperCase()) : 'GENERAL'));
 
   const counterEl = document.getElementById('fsrs-card-counter');
   if (counterEl) counterEl.innerText = `Tarjeta ${state.currentCardIndex + 1} de ${state.fsrsCards.length}`;
 
   const catEl = document.getElementById('fsrs-card-category');
-  if (catEl) catEl.innerText = categoryLabel;
+  if (catEl) catEl.innerHTML = categoryLabel;
 
   const esMazoIngles = !String(card.categoria || '').startsWith('roadmap_');
 
@@ -505,7 +515,7 @@ function renderCurrentCard() {
   }
   const btnTrans = document.getElementById('btn-translate-context');
   if (btnTrans) {
-    btnTrans.innerHTML = '<span>🌐 Traducir ejemplo</span>';
+    btnTrans.innerHTML = Au.icono('web') + ' <span>Traducir ejemplo</span>';
   }
 
   const statsPreviewEl = document.getElementById('fsrs-card-stats-preview');
@@ -517,9 +527,9 @@ function renderCurrentCard() {
 
   if (state.audioConfig.listeningMode) {
     const frontText = document.getElementById('fsrs-front-text');
-    if (frontText) frontText.innerText = "🎧 [Listening Mode] Escucha la colocación y repítela antes de voltear...";
+    if (frontText) frontText.innerHTML = Au.icono('audio') + " [Listening Mode] Escucha la colocación y repítela antes de voltear...";
     const stateLabel = document.getElementById('fsrs-card-state-label');
-    if (stateLabel) stateLabel.innerText = "🎧 Escucha con atención & Shadowing";
+    if (stateLabel) stateLabel.innerHTML = Au.icono('audio') + " Escucha con atención & Shadowing";
     setTimeout(() => {
       if (state.audioConfig.listeningMode && !state.isCardFlipped) {
         playCurrentCardAudio();
@@ -547,7 +557,7 @@ function renderCurrentCard() {
   // Reset hint y botón de avance rápido
   const flipHint = document.getElementById('fsrs-card-flip-hint');
   if (flipHint) {
-    flipHint.innerText = "Presioná [Espacio] o hacé clic para voltear 🔄";
+    flipHint.innerHTML = "Presioná [Espacio] o hacé clic para voltear " + Au.icono('recargar');
     flipHint.classList.remove('text-emerald-400');
   }
   const advanceBtn = document.getElementById('fsrs-quick-advance-container');
@@ -596,7 +606,7 @@ function renderFsrsSessionQueue() {
       badgeHtml = '<span class="au-insignia au-insignia--primario au-insignia--mono animate-pulse shrink-0 font-extrabold">▶ Activa</span>';
     } else if (isDone) {
       itemClass += "bg-slate-950/40 border-emerald-900/40 text-slate-400 hover:bg-slate-900/60";
-      badgeHtml = '<span class="au-insignia au-insignia--exito au-insignia--mono shrink-0 font-bold">✓ Hecho</span>';
+      badgeHtml = '<span class="au-insignia au-insignia--exito au-insignia--mono shrink-0 font-bold">' + Au.icono('ok') + ' Hecho</span>';
     } else {
       itemClass += "bg-slate-950/40 border-slate-800/60 text-slate-400 hover:bg-slate-900/60 hover:text-slate-200";
       badgeHtml = `<span class="au-insignia au-insignia--mono shrink-0">#${idx + 1}</span>`;
@@ -632,7 +642,7 @@ async function toggleContextTranslation(event) {
 
   if (!ctxEs.classList.contains('hidden')) {
     ctxEs.classList.add('hidden');
-    btnTrans.innerHTML = '<span>🌐 Traducir ejemplo</span>';
+    btnTrans.innerHTML = Au.icono('web') + ' <span>Traducir ejemplo</span>';
     return;
   }
 
@@ -660,11 +670,11 @@ async function toggleContextTranslation(event) {
       ctxEs.classList.remove('hidden');
       btnTrans.innerHTML = '<span>Ocultar traducción</span>';
     } else {
-      btnTrans.innerHTML = '<span>🌐 Traducir ejemplo</span>';
+      btnTrans.innerHTML = Au.icono('web') + ' <span>Traducir ejemplo</span>';
     }
   } catch (err) {
     console.error("Error al traducir ejemplo:", err);
-    btnTrans.innerHTML = '<span>🌐 Traducir ejemplo</span>';
+    btnTrans.innerHTML = Au.icono('web') + ' <span>Traducir ejemplo</span>';
   }
 }
 
@@ -742,7 +752,7 @@ function revealCard() {
 
   const flipHint = document.getElementById('fsrs-card-flip-hint');
   if (flipHint) {
-    flipHint.innerText = "Presioná [Espacio] o hacé clic para avanzar ⏭️";
+    flipHint.innerHTML = "Presioná [Espacio] o hacé clic para avanzar " + Au.icono('saltar');
     flipHint.classList.add('text-emerald-400');
   }
 
@@ -804,7 +814,7 @@ function resetVoiceRecordingButton() {
   const txt = document.getElementById('btn-voice-rec-text');
   if (btn && icon && txt) {
     btn.className = "au-boton au-boton--secundario au-boton--chico";
-    icon.innerText = "🎙️";
+    icon.innerHTML = Au.icono('voz');
     txt.innerText = "Hablar (Shadowing)";
   }
   if (state.voiceRecognition.target === 'card') {
@@ -861,7 +871,7 @@ function toggleCardVoiceRecording(event) {
   // UI activo
   if (btn && icon && txt) {
     btn.className = "au-boton au-boton--peligro au-boton--chico animate-pulse";
-    icon.innerText = "🔴";
+    icon.innerHTML = Au.icono('punto', { clase: 'text-rose-500' });
     txt.innerText = "Escuchando...";
   }
 
@@ -917,10 +927,10 @@ function toggleCardVoiceRecording(event) {
         const modelBadge = document.getElementById('fsrs-voice-eval-model');
         if (modelBadge) {
           if (evalData.is_fallback) {
-            modelBadge.innerHTML = '<span>⚡</span> Fallback Local';
+            modelBadge.innerHTML = Au.icono('rapido') + ' Fallback Local';
             modelBadge.className = "au-insignia au-insignia--alerta cursor-pointer flex items-center gap-1";
           } else {
-            modelBadge.innerHTML = '<span>✨</span> Gemini 1.5 Flash';
+            modelBadge.innerHTML = Au.icono('generar') + ' Gemini 1.5 Flash';
             modelBadge.className = "au-insignia au-insignia--primario cursor-pointer flex items-center gap-1";
           }
         }
@@ -1076,7 +1086,7 @@ async function executeHarvestPreview() {
 
   container.innerHTML = `
     <div class="text-center py-8 space-y-2">
-      <span class="text-2xl animate-spin inline-block">⏳</span>
+      <span class="text-2xl animate-spin inline-block">${Au.icono('cargando')}</span>
       <p class="text-xs text-slate-400">Extrayendo colocaciones y analizando duplicados...</p>
     </div>
   `;
@@ -1137,7 +1147,7 @@ function renderHarvestCandidates() {
         </label>
         <div class="flex flex-col items-end gap-1 shrink-0">
           <span class="au-insignia ${c.is_duplicate ? 'au-insignia--alerta' : 'au-insignia--exito'}">
-            ${c.is_duplicate ? '⚠️ Ya existe' : '✔ Nueva'}
+            ${c.is_duplicate ? Au.icono('alerta') + ' Ya existe' : Au.icono('ok') + ' Nueva'}
           </span>
           <span class="au-insignia au-insignia--mono">${escapeHtml(c.source)}</span>
         </div>
@@ -1162,7 +1172,7 @@ function updateHarvestCommitButtonState() {
   const checkedBoxes = document.querySelectorAll('.harvest-card-checkbox:checked');
   if (!commitBtn) return;
   commitBtn.disabled = checkedBoxes.length === 0;
-  commitBtn.innerText = `📥 Importar ${checkedBoxes.length} Tarjetas al Mazo FSRS`;
+  commitBtn.innerHTML = `${Au.icono('importar')} Importar ${checkedBoxes.length} Tarjetas al Mazo FSRS`;
 }
 
 async function commitHarvestSelected() {
@@ -1190,7 +1200,7 @@ async function commitHarvestSelected() {
 
     if (res.ok) {
       const data = await res.json();
-      alert(`🎉 ${data.message}`);
+      alert(data.message);
       closeHarvesterModal();
       await loadFsrsStatus();
       await loadFsrsSession(true);

@@ -110,7 +110,7 @@ function renderFolderItems(containerId, countId) {
       return `
         <label class="flex items-start gap-3 pr-3 py-2 rounded-xl hover:bg-slate-800/60 cursor-pointer transition ${marcada ? 'bg-emerald-950/30' : ''}" style="padding-left: ${0.75 + nivel * 1.25}rem">
           <input type="checkbox" data-ruta="${escapeHtml(c.ruta)}" ${marcada ? 'checked' : ''} class="mt-1 rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-0">
-          <span class="text-sm mt-0.5">${nivel ? '📂' : '📁'}</span>
+          <span class="text-sm mt-0.5">${Au.icono('carpeta', { clase: 'au-icono--chico' })}</span>
           <div class="flex-1 min-w-0">
             <div class="flex items-center justify-between gap-2">
               <span class="text-sm text-slate-200 truncate" title="${escapeHtml(c.ruta)}">${escapeHtml(partes[nivel])}</span>
@@ -157,7 +157,7 @@ function renderVaultFolders() {
           <p class="text-sm font-semibold text-amber-200">${faltan.length === 1 ? 'Una carpeta del tutor todavía no existe' : `${faltan.length} carpetas del tutor todavía no existen`}</p>
           <p class="text-xs text-amber-200/70 truncate" title="${escapeHtml(faltan.join(' · '))}">${escapeHtml(faltan.join(' · '))}</p>
         </div>
-        <button type="button" class="au-boton au-boton--suave-alerta au-boton--chico btn-create-missing-folders shrink-0">📁 Crear las que faltan</button>` : '';
+        <button type="button" class="au-boton au-boton--suave-alerta au-boton--chico btn-create-missing-folders shrink-0">${Au.icono('carpeta')} Crear las que faltan</button>` : '';
       faltanBox.classList.toggle('hidden', !faltan.length);
       const btn = faltanBox.querySelector('.btn-create-missing-folders');
       if (btn) {
@@ -401,7 +401,7 @@ function renderMisMateriales() {
 
   if (misMateriales.lista.length === 0) {
     lista.innerHTML = Au.vacio({
-      icono: '📚',
+      icono: 'libros',
       titulo: 'Todavía no subiste materiales.',
       texto: demo ? 'En una cuenta compartida no se suben archivos.' : 'Usá «Subir materiales» para sumar tus PDF, Markdown o textos.'
     });
@@ -409,7 +409,7 @@ function renderMisMateriales() {
   }
   if (visibles.length === 0) {
     lista.innerHTML = Au.vacio({
-      icono: '🔍',
+      icono: 'buscar',
       titulo: 'Sin resultados',
       texto: 'Ningún material tiene ese nombre.'
     });
@@ -418,7 +418,7 @@ function renderMisMateriales() {
 
   lista.innerHTML = visibles.map(m => {
     const id = Number(m.id);
-    const icono = m.extension === '.pdf' ? '📕' : '📝';
+    const icono = m.extension === '.pdf' ? Au.icono('cuaderno') : Au.icono('notas');
     return `
       <div class="au-tarjeta flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div class="flex items-center gap-3 min-w-0">
@@ -429,10 +429,10 @@ function renderMisMateriales() {
           </div>
         </div>
         <div class="flex flex-wrap items-center gap-1.5 shrink-0">
-          <button type="button" data-accion="preguntar-material-tutor" data-id="${id}" class="au-boton au-boton--secundario au-boton--chico"><span>🎯</span> Preguntar al tutor</button>
-          <button type="button" data-accion="ver-texto-material" data-id="${id}" class="au-boton au-boton--secundario au-boton--chico"><span>📄</span> Ver texto</button>
-          ${state.vectorOnline ? `<button type="button" data-accion="indexar-material" data-id="${id}" class="au-boton au-boton--secundario au-boton--chico"><span>⚡</span> Indexar</button>` : ''}
-          ${demo ? '' : `<button type="button" data-accion="borrar-material" data-id="${id}" class="au-boton au-boton--peligro au-boton--chico"><span>🗑️</span> Borrar</button>`}
+          <button type="button" data-accion="preguntar-material-tutor" data-id="${id}" class="au-boton au-boton--secundario au-boton--chico">${Au.icono('objetivo')} Preguntar al tutor</button>
+          <button type="button" data-accion="ver-texto-material" data-id="${id}" class="au-boton au-boton--secundario au-boton--chico">${Au.icono('documento')} Ver texto</button>
+          ${state.vectorOnline ? `<button type="button" data-accion="indexar-material" data-id="${id}" class="au-boton au-boton--secundario au-boton--chico">${Au.icono('rapido')} Indexar</button>` : ''}
+          ${demo ? '' : `<button type="button" data-accion="borrar-material" data-id="${id}" class="au-boton au-boton--peligro au-boton--chico">${Au.icono('borrar')} Borrar</button>`}
         </div>
       </div>`;
   }).join('');
@@ -563,7 +563,7 @@ async function indexarMaterial(id, btn = null) {
   const original = btn ? btn.innerHTML : '';
   if (btn) {
     btn.disabled = true;
-    btn.textContent = '⏳ Indexando...';
+    btn.innerHTML = Au.icono('cargando') + ' Indexando...';
   }
   try {
     const res = await fetch('/api/vectors/index-selection', {
@@ -592,7 +592,7 @@ async function borrarMaterial(id) {
     title: 'Borrar material',
     message: `¿Borrar «${material.nombre}»? Se borra el archivo y el tutor deja de usarlo. Libera ${describirBytes(material.bytes)}.`,
     confirmText: 'Borrar',
-    icon: '🗑️',
+    icon: 'borrar',
     danger: true,
   });
   if (!confirmado) return;
@@ -693,7 +693,7 @@ async function askCloudAgent(overrideQuery = null) {
 
   state.cloudAgent.isAsking = true;
   if (btnAsk) btnAsk.disabled = true;
-  if (iconAsk) iconAsk.innerText = '⏳';
+  if (iconAsk) iconAsk.innerHTML = Au.icono('cargando');
   if (textAsk) textAsk.innerText = 'Preguntando...';
 
   try {
@@ -744,7 +744,7 @@ async function askCloudAgent(overrideQuery = null) {
   } finally {
     state.cloudAgent.isAsking = false;
     if (btnAsk) btnAsk.disabled = false;
-    if (iconAsk) iconAsk.innerText = '⚡';
+    if (iconAsk) iconAsk.innerHTML = Au.icono('rapido');
     if (textAsk) textAsk.innerText = 'Preguntar';
   }
 }
@@ -762,7 +762,7 @@ function renderAgentMarkdown(text) {
   str = str.replace(/`([^`]+)`/g, '<code class="bg-slate-900 text-sky-300 border border-slate-800/80 px-1.5 py-0.5 rounded text-xs font-mono">$1</code>');
 
   // Encabezados
-  str = str.replace(/^### (.*$)/gim, '<h4 class="text-sm font-bold text-white mt-4 mb-1.5 flex items-center gap-1.5"><span>🔹</span> $1</h4>');
+  str = str.replace(/^### (.*$)/gim, '<h4 class="text-sm font-bold text-white mt-4 mb-1.5 flex items-center gap-1.5"><span class="text-sky-400">' + Au.icono('punto') + '</span> $1</h4>');
   str = str.replace(/^## (.*$)/gim, '<h3 class="text-base font-bold text-sky-400 mt-4 mb-2 pb-1 border-b border-slate-800/80">$1</h3>');
   str = str.replace(/^# (.*$)/gim, '<h2 class="text-lg font-extrabold text-white mt-3 mb-2">$1</h2>');
 
@@ -796,10 +796,10 @@ function renderCloudAgentResult(data) {
   const conceptsList = document.getElementById('agent-concepts-list');
 
   const modeLabels = {
-    explain: '💡 Explicación Académica',
-    summarize: '📋 Resumen Estructurado (SOP)',
-    quiz: '🎯 Autoevaluación Feynman',
-    flashcards: '🇬🇧 Vocabulario Técnico FSRS'
+    explain: `${Au.icono('idea')} Explicación Académica`,
+    summarize: `${Au.icono('lista')} Resumen Estructurado (SOP)`,
+    quiz: `${Au.icono('objetivo')} Autoevaluación Feynman`,
+    flashcards: `${Au.icono('idioma')} Vocabulario Técnico FSRS`
   };
 
   if (titleEl) titleEl.innerText = modeLabels[data.mode] || 'Respuesta del Agente';
@@ -813,7 +813,7 @@ function renderCloudAgentResult(data) {
   if (bodyEl) {
     let html = '';
     if (data.encontrado_en_tus_notas === false) {
-      html += '<p class="text-xs text-amber-300 font-medium mb-2 flex items-center gap-1.5"><span>ℹ️</span> No lo encontré en tus notas.</p>';
+      html += '<p class="text-xs text-amber-300 font-medium mb-2 flex items-center gap-1.5"><span>' + Au.icono('ayuda') + '</span> No lo encontré en tus notas.</p>';
     }
     html += renderAgentMarkdown(data.answer);
     bodyEl.innerHTML = html;
@@ -827,7 +827,7 @@ function renderCloudAgentResult(data) {
       if (sourcesContainer) sourcesContainer.classList.remove('hidden');
       sourcesList.innerHTML = data.sources.map(s => {
         const esMaterial = s.provider === 'materiales' || s.material_id != null;
-        const icon = esMaterial ? '📚' : (s.name.includes('[CURSO]') ? '🎓' : (s.name.includes('[LIBRO]') ? '📖' : '🧠'));
+        const icon = esMaterial ? Au.icono('libros') : (s.name.includes('[CURSO]') ? Au.icono('cursos') : (s.name.includes('[LIBRO]') ? Au.icono('lectura') : Au.icono('cerebro')));
         const cursoOOrigen = s.course_hint || (esMaterial ? 'tus materiales' : 'tus apuntes');
         const simBadge = s.similitud != null ? ` • ${Math.round(s.similitud * 100)}% similitud` : '';
         const detalle = `${cursoOOrigen}${simBadge}`;
@@ -868,7 +868,7 @@ async function saveCloudAgentNoteToVault() {
   const originalHtml = btn ? btn.innerHTML : '';
   if (btn) {
     btn.disabled = true;
-    btn.innerHTML = '<span>⏳</span> Guardando...';
+    btn.innerHTML = Au.icono('cargando') + ' Guardando...';
   }
 
   try {
@@ -888,7 +888,7 @@ async function saveCloudAgentNoteToVault() {
 
     if (res.ok) {
       const data = await res.json();
-      alert(`✅ ¡Apunte guardado exitosamente en Mis notas!\n\nRuta: ${data.relative_path}`);
+      alert(`¡Apunte guardado exitosamente en Mis notas!\n\nRuta: ${data.relative_path}`);
     } else {
       const err = await res.json().catch(() => ({}));
       alert("Error al guardar en Mis notas: " + (err.detail || "Error desconocido"));
@@ -915,7 +915,7 @@ async function harvestCloudAgentCards() {
   const originalHtml = btn ? btn.innerHTML : '';
   if (btn) {
     btn.disabled = true;
-    btn.innerHTML = '<span>⏳</span> Cosechando...';
+    btn.innerHTML = Au.icono('cargando') + ' Cosechando...';
   }
 
   try {
@@ -936,7 +936,7 @@ async function harvestCloudAgentCards() {
     if (res.ok) {
       const data = await res.json();
       const rotuloInfo = data.rotulo ? ` [${data.rotulo}]` : '';
-      alert(`🌾 Cosecha FSRS completada${rotuloInfo}:\n\n• Tarjetas nuevas agregadas: ${data.harvested_count}\n• Conceptos procesados: ${data.total_submitted}\n• Duplicadas descartadas: ${data.duplicates}`);
+      alert(`Cosecha FSRS completada${rotuloInfo}:\n\n• Tarjetas nuevas agregadas: ${data.harvested_count}\n• Conceptos procesados: ${data.total_submitted}\n• Duplicadas descartadas: ${data.duplicates}`);
       // Actualizar contador del mazo en UI
       if (typeof loadFsrsStatus === 'function') {
         loadFsrsStatus();
@@ -965,7 +965,7 @@ function copyAgentResponseMarkdown() {
   const textToCopy = result.suggested_note_markdown || result.answer;
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(textToCopy).then(() => {
-      alert("📋 Respuesta y apunte copiado al portapapeles.");
+      alert("Respuesta y apunte copiado al portapapeles.");
     }).catch(() => {
       fallbackCopyText(textToCopy);
     });
@@ -981,7 +981,7 @@ function fallbackCopyText(text) {
   textArea.select();
   try {
     document.execCommand('copy');
-    alert("📋 Respuesta copiada al portapapeles.");
+    alert("Respuesta copiada al portapapeles.");
   } catch (err) {
     prompt("Copiá el texto manualmente:", text);
   }
@@ -997,7 +997,7 @@ async function checkVectorStatus() {
   const tabStatusBadge = document.getElementById('vector-tab-status-badge');
   const tabBadge = document.getElementById('tab-brain-badge') || document.getElementById('tab-vectors-badge');
   const dashPill = document.getElementById('dash-vector-pill');
-  const hdrVector = document.getElementById('hdr-vector');
+  const saludVector = document.getElementById('salud-vector-estado');
   const kpiConn = document.getElementById('vector-kpi-connected');
   const kpiExt = document.getElementById('vector-kpi-extension');
   const kpiEmb = document.getElementById('vector-kpi-embeddings');
@@ -1019,11 +1019,11 @@ async function checkVectorStatus() {
     if (indiceEncendido) {
       if (badge) {
         badge.className = 'au-insignia au-insignia--exito';
-        badge.innerText = `🟢 ${nombreAlmacen} activo`;
+        badge.innerHTML = `<span class="text-emerald-400">${Au.icono('punto')}</span> ${nombreAlmacen} activo`;
       }
       if (tabStatusBadge) {
         tabStatusBadge.className = 'au-insignia au-insignia--exito';
-        tabStatusBadge.innerText = `🟢 ${nombreAlmacen} activo`;
+        tabStatusBadge.innerHTML = `<span class="text-emerald-400">${Au.icono('punto')}</span> ${nombreAlmacen} activo`;
       }
       if (tabBadge) {
         tabBadge.className = 'au-insignia au-insignia--exito au-insignia--mono';
@@ -1033,9 +1033,10 @@ async function checkVectorStatus() {
         dashPill.className = 'au-insignia au-insignia--exito au-insignia--mono';
         dashPill.innerText = `${nombreAlmacen} activo (${data.total_embeddings} fragmentos)`;
       }
-      if (hdrVector) {
-        hdrVector.className = 'au-insignia au-insignia--primario cursor-pointer';
-        hdrVector.innerText = `🧠 ${nombreAlmacen}: ${data.total_embeddings} fragmentos`;
+      state.vectorTexto = `${nombreAlmacen}: ${data.total_embeddings} fragmentos`;
+      if (saludVector) {
+        saludVector.className = 'text-emerald-400 font-bold text-xs';
+        saludVector.innerText = state.vectorTexto;
       }
       if (kpiConn) {
         kpiConn.innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Encendido';
@@ -1048,11 +1049,11 @@ async function checkVectorStatus() {
       const motivoEscapado = escapeHtml(motivoTexto);
       if (badge) {
         badge.className = 'au-insignia';
-        badge.innerText = `⚪ ${nombreAlmacen} apagado`;
+        badge.innerHTML = `<span class="text-slate-400">${Au.icono('punto')}</span> ${nombreAlmacen} apagado`;
       }
       if (tabStatusBadge) {
         tabStatusBadge.className = 'au-insignia';
-        tabStatusBadge.innerText = `⚪ ${nombreAlmacen} apagado`;
+        tabStatusBadge.innerHTML = `<span class="text-slate-400">${Au.icono('punto')}</span> ${nombreAlmacen} apagado`;
       }
       if (tabBadge) {
         tabBadge.className = 'au-insignia au-insignia--mono';
@@ -1062,9 +1063,10 @@ async function checkVectorStatus() {
         dashPill.className = 'au-insignia au-insignia--mono';
         dashPill.innerText = `${nombreAlmacen} apagado`;
       }
-      if (hdrVector) {
-        hdrVector.className = 'au-insignia cursor-pointer';
-        hdrVector.innerText = `🧠 ${nombreAlmacen}: apagado`;
+      state.vectorTexto = `${nombreAlmacen}: apagado`;
+      if (saludVector) {
+        saludVector.className = 'text-slate-500 font-bold text-xs';
+        saludVector.innerText = state.vectorTexto;
       }
       if (kpiConn) {
         kpiConn.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Apagado: ${motivoEscapado}`;
@@ -1076,11 +1078,12 @@ async function checkVectorStatus() {
   } catch (err) {
     if (badge) {
       badge.className = 'au-insignia au-insignia--peligro';
-      badge.innerText = '⚠️ Desconectado';
+      badge.innerHTML = `<span class="text-amber-400">${Au.icono('alerta')}</span> Desconectado`;
     }
-    if (hdrVector) {
-      hdrVector.className = 'au-insignia au-insignia--peligro';
-      hdrVector.innerText = '🧠 Índice: sin conexión';
+    state.vectorTexto = 'Índice: sin conexión';
+    if (saludVector) {
+      saludVector.className = 'text-rose-400 font-bold text-xs';
+      saludVector.innerText = state.vectorTexto;
     }
     state.vectorOnline = false;
   }
@@ -1095,7 +1098,7 @@ function actualizarAvisoTutorDemo() {
   const aviso = document.getElementById('demo-tutor-aviso');
   // Sin base vectorial o sin clave de IA, el tutor de la demo no puede responder
   if (aviso) aviso.classList.toggle('hidden', !(apagado || esDemoSinIA()));
-  ['hdr-vector', 'dash-vector-pill', 'tab-brain-badge'].forEach((id) => {
+  ['salud-vector', 'dash-vector-pill', 'tab-brain-badge'].forEach((id) => {
     const el = document.getElementById(id);
     if (el) el.classList.toggle('hidden', apagado);
   });
@@ -1144,7 +1147,7 @@ async function syncAllCatalogToVectors() {
   const originalText = btn ? btn.innerHTML : '';
   if (btn) {
     btn.disabled = true;
-    btn.innerHTML = '<span>⏳</span> Indexando...';
+    btn.innerHTML = Au.icono('cargando') + ' Indexando...';
   }
 
   try {
@@ -1154,10 +1157,10 @@ async function syncAllCatalogToVectors() {
       throw new Error(data.detail || 'Error en indexación de vectores');
     }
 
-    alert(`🎉 ¡Indexación completada!\n\n• Indexados: ${data.indexados ?? data.indexed_materials ?? 0}\n• Salteados (sin cambios): ${data.salteados ?? 0}\n• Fallidos: ${data.fallidos ?? 0}\n• Fragmentos totales: ${data.total_chunks ?? 0}`);
+    alert(`¡Indexación completada!\n\n• Indexados: ${data.indexados ?? data.indexed_materials ?? 0}\n• Salteados (sin cambios): ${data.salteados ?? 0}\n• Fallidos: ${data.fallidos ?? 0}\n• Fragmentos totales: ${data.total_chunks ?? 0}`);
     await checkVectorStatus();
   } catch (err) {
-    alert(`⚠️ No se pudo indexar el catálogo:\n${err.message}\n\nEl servicio de vectores no está disponible en este momento.`);
+    alert(`No se pudo indexar el catálogo:\n${err.message}\n\nEl servicio de vectores no está disponible en este momento.`);
   } finally {
     if (btn) {
       btn.disabled = false;
@@ -1209,7 +1212,7 @@ async function executeVectorSearch() {
         <div class="p-3.5 bg-slate-900/90 border border-slate-800 hover:border-slate-700 rounded-xl space-y-2 transition">
           <div class="flex items-center justify-between gap-2">
             <div class="flex items-center gap-2">
-              <span class="text-sm">${isCourse ? '🎓' : '📖'}</span>
+              <span class="text-sm">${isCourse ? Au.icono('cursos') : Au.icono('lectura')}</span>
               <span class="font-bold text-white text-xs">${escapeHtml(m.source_title)}</span>
               <span class="au-insignia au-insignia--mono">${escapeHtml(m.source_type)}</span>
             </div>
@@ -1226,7 +1229,7 @@ async function executeVectorSearch() {
   } catch (err) {
     if (resultsList) {
       resultsList.innerHTML = `<div class="p-3 bg-rose-950/40 border border-rose-900/60 rounded-xl text-xs text-rose-300 space-y-1">
-        <p class="font-bold">⚠️ La búsqueda en tus apuntes no está disponible</p>
+        <p class="font-bold">${Au.icono('alerta')} La búsqueda en tus apuntes no está disponible</p>
         <p>${escapeHtml(err.message)}</p>
         <p class="text-xs text-slate-400 mt-1">El servicio de búsqueda vectorial no está disponible en este momento.</p>
       </div>`;
@@ -1242,17 +1245,17 @@ async function indexSingleBook(bookId, btn = null) {
   const origHtml = btn ? btn.innerHTML : '';
   if (btn) {
     btn.disabled = true;
-    btn.innerHTML = '<span>⏳</span> ...';
+    btn.innerHTML = Au.icono('cargando') + ' ...';
   }
   try {
     const res = await fetch(`/api/vectors/index-book/${bookId}`, { method: 'POST' });
     const data = await res.json();
     if (!res.ok) throw new Error(data.detail || 'No se pudo indexar el libro');
-    alert(`🎉 ¡Libro "${data.title}" sumado al índice de apuntes!\n• Fragmentos: ${data.chunks}`);
-    if (btn) btn.innerHTML = '<span>✅</span> Listo';
+    alert(`¡Libro "${data.title}" sumado al índice de apuntes!\n• Fragmentos: ${data.chunks}`);
+    if (btn) btn.innerHTML = Au.icono('ok') + ' Listo';
     await checkVectorStatus();
   } catch (err) {
-    alert(`⚠️ No se pudo indexar el libro: ${err.message}`);
+    alert(`No se pudo indexar el libro: ${err.message}`);
     if (btn) {
       btn.disabled = false;
       btn.innerHTML = origHtml;
@@ -1264,17 +1267,17 @@ async function indexSingleCourse(courseId, btn = null) {
   const origHtml = btn ? btn.innerHTML : '';
   if (btn) {
     btn.disabled = true;
-    btn.innerHTML = '<span>⏳</span> ...';
+    btn.innerHTML = Au.icono('cargando') + ' ...';
   }
   try {
     const res = await fetch(`/api/vectors/index-course/${courseId}`, { method: 'POST' });
     const data = await res.json();
     if (!res.ok) throw new Error(data.detail || 'No se pudo indexar el curso');
-    alert(`🎉 ¡Curso "${data.title}" sumado al índice de apuntes!\n• Fragmentos: ${data.chunks}`);
-    if (btn) btn.innerHTML = '<span>✅</span> Listo';
+    alert(`¡Curso "${data.title}" sumado al índice de apuntes!\n• Fragmentos: ${data.chunks}`);
+    if (btn) btn.innerHTML = Au.icono('ok') + ' Listo';
     await checkVectorStatus();
   } catch (err) {
-    alert(`⚠️ No se pudo indexar el curso: ${err.message}`);
+    alert(`No se pudo indexar el curso: ${err.message}`);
     if (btn) {
       btn.disabled = false;
       btn.innerHTML = origHtml;
@@ -1309,7 +1312,7 @@ async function openSelectiveIndexModal() {
     html += `
       <div class="space-y-3 pt-1">
         <h4 class="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
-          <span>🎓</span> Cursos Académicos (${courses.length})
+          ${Au.icono('cursos')} Cursos Académicos (${courses.length})
         </h4>
         <div class="space-y-1.5 max-h-48 overflow-y-auto pr-1">
           ${courses.length === 0 ? '<p class="text-xs text-slate-500 italic">No hay cursos registrados.</p>' : courses.map(c => `
@@ -1329,7 +1332,7 @@ async function openSelectiveIndexModal() {
     html += `
       <div class="space-y-3 pt-4">
         <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
-          <span>📖</span> Libros Técnicos (${books.length})
+          ${Au.icono('lectura')} Libros Técnicos (${books.length})
         </h4>
         <div class="space-y-1.5 max-h-48 overflow-y-auto pr-1">
           ${books.length === 0 ? '<p class="text-xs text-slate-500 italic">No hay libros registrados.</p>' : books.map(b => `
@@ -1350,7 +1353,7 @@ async function openSelectiveIndexModal() {
       html += `
         <div class="space-y-3 pt-4">
           <h4 class="text-xs font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">
-            <span>📚</span> Mis materiales (${materiales.length})
+            ${Au.icono('libros')} Mis materiales (${materiales.length})
           </h4>
           <div class="space-y-1.5 max-h-48 overflow-y-auto pr-1">
             ${materiales.map(m => `
@@ -1393,7 +1396,7 @@ function updateSelectiveIndexCount() {
   }
   if (btnSubmit) {
     btnSubmit.disabled = (checked.length === 0);
-    btnSubmit.innerHTML = `<span>⚡</span> Indexar (${checked.length})`;
+    btnSubmit.innerHTML = `${Au.icono('rapido')} Indexar (${checked.length})`;
   }
 }
 
@@ -1413,7 +1416,7 @@ async function executeSelectiveIndexing() {
   const origHtml = btn ? btn.innerHTML : '';
   if (btn) {
     btn.disabled = true;
-    btn.innerHTML = '<span>⏳</span> Indexando...';
+    btn.innerHTML = Au.icono('cargando') + ' Indexando...';
   }
 
   try {
@@ -1425,11 +1428,11 @@ async function executeSelectiveIndexing() {
     const data = await res.json();
     if (!res.ok) throw new Error(data.detail || 'Error en indexación selectiva');
 
-    alert(`🎉 ¡Indexación selectiva completada con éxito!\n\n• Ítems procesados: ${data.total_indexed}\n• Fragmentos indexados: ${data.total_chunks}`);
+    alert(`¡Indexación selectiva completada con éxito!\n\n• Ítems procesados: ${data.total_indexed}\n• Fragmentos indexados: ${data.total_chunks}`);
     closeSelectiveIndexModal();
     await checkVectorStatus();
   } catch (err) {
-    alert(`⚠️ No se pudo completar la indexación selectiva:\n${err.message}`);
+    alert(`No se pudo completar la indexación selectiva:\n${err.message}`);
   } finally {
     if (btn) {
       btn.disabled = false;

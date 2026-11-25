@@ -18,6 +18,7 @@ def _cargar(page: Page, ancho: int = 375, alto: int = 812) -> None:
         "<!doctype html><html><head><meta name='viewport' content='width=device-width, initial-scale=1'></head>"
         "<body><div id='raiz'></div></body></html>"
     )
+    page.add_style_tag(path=str(ESTATICO / "css" / "paleta.css"))
     page.add_style_tag(path=str(ESTATICO / "componentes.css"))
     page.add_script_tag(path=str(ESTATICO / "componentes.js"))
 

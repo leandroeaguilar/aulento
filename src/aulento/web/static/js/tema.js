@@ -37,7 +37,51 @@
     aplicar(tema);
   }
 
-  window.aulentoTema = { leer, guardar, esClaro: () => esClaro(leer()) };
+  const ETIQUETAS = {
+    oscuro: 'oscuro',
+    claro: 'claro',
+    sistema: 'según el sistema',
+  };
+  const ICONOS = {
+    oscuro: 'tema-oscuro',
+    claro: 'tema-claro',
+    sistema: 'tema-sistema',
+  };
+
+  function siguienteTema(tema) {
+    const idx = TEMAS.indexOf(tema);
+    return TEMAS[(idx + 1) % TEMAS.length];
+  }
+
+  function alternar() {
+    const sig = siguienteTema(leer());
+    guardar(sig);
+    return sig;
+  }
+
+  function actualizarBotonTema(tema) {
+    const btn = document.getElementById('btn-tema');
+    const selector = document.getElementById('config-tema-select');
+    const sig = siguienteTema(tema);
+    const desc = `Tema: ${ETIQUETAS[tema] || tema}. Cambiar a ${ETIQUETAS[sig] || sig}`;
+
+    if (btn) {
+      btn.setAttribute('aria-label', desc);
+      btn.title = desc;
+      const icono = btn.querySelector('#btn-tema-icono') || btn;
+      const nombreIcono = ICONOS[tema] || 'tema-oscuro';
+      if (typeof Au !== 'undefined' && Au.icono) {
+        icono.innerHTML = Au.icono(nombreIcono);
+      } else {
+        icono.innerHTML = `<svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-${nombreIcono}"></use></svg>`;
+      }
+    }
+    if (selector && selector.value !== tema) {
+      selector.value = tema;
+    }
+  }
+
+  window.aulentoTema = { leer, guardar, alternar, actualizarBotonTema, esClaro: () => esClaro(leer()) };
 
   aplicar(leer());
 
@@ -47,8 +91,15 @@
     });
   }
 
+  document.addEventListener('aulento:tema', (e) => {
+    const tema = (e.detail && e.detail.tema) || leer();
+    actualizarBotonTema(tema);
+  });
+
   document.addEventListener('DOMContentLoaded', () => {
+    const tema = leer();
     const selector = document.getElementById('config-tema-select');
-    if (selector) selector.value = leer();
+    if (selector) selector.value = tema;
+    actualizarBotonTema(tema);
   });
 })();

@@ -1,5 +1,5 @@
 // ========================================================
-// 🗺️ RUTAS DE APRENDIZAJE, GAP ANALYSIS & LESSON STUDIO
+// RUTAS DE APRENDIZAJE, GAP ANALYSIS & LESSON STUDIO
 // ========================================================
 
 // --- ACCIONES DELEGADAS DE RUTAS (072 T4) ---
@@ -154,18 +154,18 @@ function renderRoadmapCatalog() {
 
   const getCatBadge = (cat) => {
     switch (cat) {
-      case 'data_engineering': return Au.insignia({ texto: '🛠️ Data Engineering', tono: 'alerta' });
-      case 'artificial_intelligence': return Au.insignia({ texto: '🤖 Inteligencia Artificial', tono: 'primario' });
-      case 'data_science': return Au.insignia({ texto: '🔬 Data Science & ML', tono: 'exito' });
-      case 'cloud_devops': return Au.insignia({ texto: '☁️ Cloud, DevOps & SRE', tono: 'primario' });
-      case 'business_intelligence': return Au.insignia({ texto: '📊 Business Intelligence', tono: 'exito' });
-      case 'software_eng': return Au.insignia({ texto: '💻 Software Engineering', tono: 'primario' });
-      case 'frontend_web': return Au.insignia({ texto: '🌐 Frontend & Web', tono: 'primario' });
-      case 'mobile_dev': return Au.insignia({ texto: '📱 Mobile', tono: 'primario' });
-      case 'cybersecurity': return Au.insignia({ texto: '🛡️ Ciberseguridad', tono: 'peligro' });
-      case 'english_communication': return Au.insignia({ texto: '🇬🇧 Inglés Profesional', tono: 'alerta' });
-      case 'product_management': return Au.insignia({ texto: '🚀 Product Management', tono: 'primario' });
-      default: return Au.insignia({ texto: `🏷️ ${cat || 'General'}` });
+      case 'data_engineering': return Au.insignia({ texto: 'Data Engineering', icono: 'ajustes', tono: 'alerta' });
+      case 'artificial_intelligence': return Au.insignia({ texto: 'Inteligencia Artificial', icono: 'ia', tono: 'primario' });
+      case 'data_science': return Au.insignia({ texto: 'Data Science & ML', icono: 'analizar', tono: 'exito' });
+      case 'cloud_devops': return Au.insignia({ texto: 'Cloud, DevOps & SRE', icono: 'nube', tono: 'primario' });
+      case 'business_intelligence': return Au.insignia({ texto: 'Business Intelligence', icono: 'estadisticas', tono: 'exito' });
+      case 'software_eng': return Au.insignia({ texto: 'Software Engineering', icono: 'computadora', tono: 'primario' });
+      case 'frontend_web': return Au.insignia({ texto: 'Frontend & Web', icono: 'web', tono: 'primario' });
+      case 'mobile_dev': return Au.insignia({ texto: 'Mobile', icono: 'celular', tono: 'primario' });
+      case 'cybersecurity': return Au.insignia({ texto: 'Ciberseguridad', icono: 'seguridad', tono: 'peligro' });
+      case 'english_communication': return Au.insignia({ texto: 'Inglés Profesional', icono: 'idioma', tono: 'alerta' });
+      case 'product_management': return Au.insignia({ texto: 'Product Management', icono: 'empezar', tono: 'primario' });
+      default: return Au.insignia({ texto: cat || 'General', icono: 'etiqueta' });
     }
   };
 
@@ -184,8 +184,8 @@ function renderRoadmapCatalog() {
               <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
                 ${escapeHtml(r.nivel_objetivo || 'Senior')}
               </span>
-              <button type="button" data-accion="borrar-ruta" data-roadmap-id="${Number(r.id)}" data-roadmap-titulo="${escapeHtml(r.titulo)}" class="au-boton au-boton--fantasma au-boton--icono au-boton--chico" title="Eliminar ruta">
-                🗑️
+              <button type="button" data-accion="borrar-ruta" data-roadmap-id="${Number(r.id)}" data-roadmap-titulo="${escapeHtml(r.titulo)}" class="au-boton au-boton--fantasma au-boton--icono au-boton--chico" title="Eliminar ruta" aria-label="Eliminar ruta">
+                ${Au.icono('borrar')}
               </button>
             </div>
           </div>
@@ -213,7 +213,7 @@ function renderRoadmapCatalog() {
             data-id="${r.id}" 
             class="w-full ${isActive ? 'au-boton au-boton--secundario' : 'au-boton au-boton--primario'}"
           >
-            <span>${isActive ? '✔ Estudiando Actualmente' : '🚀 Seleccionar Ruta'}</span>
+            <span>${isActive ? Au.icono('ok') + ' Estudiando Actualmente' : Au.icono('empezar') + ' Seleccionar Ruta'}</span>
           </button>
         </div>
       </div>
@@ -235,7 +235,7 @@ async function deleteRoadmap(roadmapId, title) {
     message: `¿Estás seguro de que deseas eliminar la ruta "${title}"?\nSe borrarán sus módulos y temas asociados de forma permanente.`,
     confirmText: 'Eliminar ruta',
     cancelText: 'Cancelar',
-    icon: '🗑️',
+    icon: 'borrar',
     danger: true
   });
   if (!confirmed) {
@@ -267,7 +267,7 @@ async function reSeedTemplates() {
     if (res.ok) {
       await loadRoadmaps();
       renderRoadmapCatalog();
-      alert("✔ Todas las rutas canónicas están actualizadas.");
+      alert("Todas las rutas canónicas están actualizadas.");
     }
   } catch (err) {
     alert("Error al sincronizar plantillas: " + err.message);
@@ -278,7 +278,7 @@ async function loadRoadmapDetails(roadmapId) {
   const container = document.getElementById('roadmap-tree-container');
   if (!container) return;
 
-  container.innerHTML = '<div class="p-8 text-center text-slate-400"><div class="inline-block animate-spin text-2xl mb-2">⚡</div><p class="text-xs">Cargando árbol curricular...</p></div>';
+  container.innerHTML = '<div class="p-8 text-center text-slate-400"><div class="inline-block animate-spin text-2xl mb-2">' + Au.icono('rapido') + '</div><p class="text-xs">Cargando árbol curricular...</p></div>';
 
   try {
     const res = await fetch(`/api/roadmap/${roadmapId}`);
@@ -318,14 +318,14 @@ function renderEmptyRoadmapState() {
 
   container.innerHTML = `
     <div class="au-tarjeta text-center">
-      <div class="text-4xl">🗺️</div>
+      <div class="text-4xl">${Au.icono('rutas', { clase: 'au-icono--grande' })}</div>
       <h3 class="text-lg font-bold text-white">Comienza tu Ruta de Aprendizaje Personalizada</h3>
       <p class="text-xs text-slate-400 max-w-md mx-auto">
         Diseña una ruta técnica con Gemini 1.5 Flash o elige una de las plantillas curadas (Data Engineer, AI Architect, Cloud & FinOps, BI Storytelling).
       </p>
       <div class="flex justify-center gap-3 pt-2">
         <button type="button" data-accion="ruta-abrir-nueva" class="au-boton au-boton--primario">
-          <span>✨</span> Crear Nueva Ruta con IA
+          ${Au.icono('generar')} Crear Nueva Ruta con IA
         </button>
       </div>
     </div>
@@ -333,6 +333,7 @@ function renderEmptyRoadmapState() {
 }
 
 function renderRoadmap(detail) {
+  const _icono = (n, o) => (typeof Au.icono === 'function' ? Au.icono(n, o) : '');
   const container = document.getElementById('roadmap-tree-container');
   if (!container) return;
 
@@ -369,15 +370,15 @@ function renderRoadmap(detail) {
 
       let statusBadge = '';
       if (isCompleted) {
-        statusBadge = Au.insignia({ texto: '✔ Dominado', tono: 'exito' });
+        statusBadge = Au.insignia({ texto: 'Dominado', icono: 'ok', tono: 'exito' });
       } else if (isInProgress) {
-        statusBadge = Au.insignia({ texto: '🚀 En Curso', tono: 'primario' });
+        statusBadge = Au.insignia({ texto: 'En Curso', icono: 'empezar', tono: 'primario' });
       } else {
-        statusBadge = Au.insignia({ texto: '⏳ Pendiente' });
+        statusBadge = Au.insignia({ texto: 'Pendiente', icono: 'cargando' });
       }
 
       const hasClassBadge = topic.clase 
-        ? Au.insignia({ texto: '📖 Clase Lista', tono: 'primario' }) 
+        ? Au.insignia({ texto: 'Clase Lista', icono: 'lectura', tono: 'primario' }) 
         : '';
 
       const isGapBadge = topic.fuente === 'pdf_gap'
@@ -388,7 +389,7 @@ function renderRoadmap(detail) {
         <div class="p-3.5 bg-slate-950/70 border border-slate-800/80 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-3 hover:border-slate-700 transition">
           <div class="flex items-start gap-3">
             <button type="button" data-accion="cambiar-estado-tema" data-topic-id="${Number(topicId)}" data-estado="${escapeHtml(estado)}" class="au-boton au-boton--fantasma au-boton--icono au-boton--chico" title="Cambiar estado: Pendiente -> En curso -> Dominado">
-              ${isCompleted ? '✅' : (isInProgress ? '🔄' : '⚪')}
+              ${isCompleted ? _icono('ok') : (isInProgress ? _icono('recargar') : _icono('punto'))}
             </button>
             <div>
               <div class="flex items-center gap-2 flex-wrap">
@@ -404,17 +405,17 @@ function renderRoadmap(detail) {
           <div class="flex items-center gap-1.5 flex-wrap self-end md:self-center">
             ${topic.clase ? `
               <button type="button" data-accion="ruta-ver-clase" data-tema-id="${topicId}" class="au-boton au-boton--secundario au-boton--chico">
-                <span>👁️</span> Ver Clase
+                <span>${_icono('ver')}</span> Ver Clase
               </button>
             ` : ''}
             <button type="button" data-accion="ruta-abrir-prompt-tema" data-tema-id="${topicId}" class="au-boton au-boton--secundario au-boton--chico" title="Generar Prompt Maestro para NotebookLM o Claude">
-              <span>📋</span> Prompt Maestro
+              <span>${_icono('copiar')}</span> Prompt Maestro
             </button>
             <button type="button" data-accion="ruta-generar-clase" data-tema-id="${topicId}" class="au-boton au-boton--primario au-boton--chico" title="Generar la clase con la IA que tengas configurada (o el motor local, si no hay clave)">
-              <span>⚡</span> Generar clase
+              <span>${_icono('rapido')}</span> Generar clase
             </button>
             <button type="button" data-accion="ruta-abrir-importar-clase" data-tema-id="${topicId}" class="au-boton au-boton--secundario au-boton--chico" title="Importar clase copiada desde NotebookLM o Claude">
-              <span>📥</span> Importar
+              <span>${_icono('importar')}</span> Importar
             </button>
           </div>
         </div>
@@ -444,7 +445,7 @@ function renderRoadmap(detail) {
           <div class="p-4 bg-slate-950/70 border border-dashed border-slate-700 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <p class="text-xs text-slate-400">Esta materia todavía no tiene temas. Genéralos con IA cuando vayas a cursarla.</p>
             <button type="button" data-accion="ruta-expandir-modulo" data-id="${Number(mod.id)}" class="au-boton au-boton--secundario au-boton--chico" title="Generar con IA los temas de esta materia">
-              <span>🌱</span> Expandir materia
+              <span>${_icono('crecimiento')}</span> Expandir materia
             </button>
           </div>
         `}
@@ -480,7 +481,7 @@ async function expandRoadmapModule(moduleId, btn) {
   const originalLabel = btn ? btn.textContent : '';
   if (btn) {
     btn.disabled = true;
-    btn.textContent = '⚡ Generando temas...';
+    btn.innerHTML = _icono('rapido') + ' Generando temas...';
   }
 
   try {
@@ -491,7 +492,7 @@ async function expandRoadmapModule(moduleId, btn) {
     }
     const added = await res.json();
     await loadRoadmapDetails(state.activeRoadmapId);
-    alert(`🌱 Se agregaron ${added.length} temas a la materia.`);
+    alert(`Se agregaron ${added.length} temas a la materia.`);
   } catch (err) {
     alert("No se pudo expandir la materia: " + err.message);
     if (btn) {
@@ -539,7 +540,7 @@ function addPedagogicalProfileSection(section) {
   removeBtn.type = 'button';
   removeBtn.className = 'au-boton au-boton--fantasma au-boton--icono au-boton--chico';
   removeBtn.title = 'Quitar sección';
-  removeBtn.textContent = '🗑️';
+  removeBtn.textContent = '✕'; removeBtn.setAttribute('aria-label', 'Quitar sección');
   removeBtn.addEventListener('click', () => row.remove());
 
   const instructionInput = document.createElement('textarea');
@@ -733,7 +734,7 @@ async function submitCreateRoadmap() {
   const alcance = alcanceSelect ? alcanceSelect.value : 'curso';
 
   btn.disabled = true;
-  btn.innerHTML = '<span>⚡</span> Diseñando ruta con IA...';
+  btn.innerHTML = '<span>' + Au.icono('rapido') + '</span> Diseñando ruta con IA...';
 
   try {
     const res = await fetch('/api/roadmap/generate', {
@@ -760,15 +761,15 @@ async function submitCreateRoadmap() {
     await loadRoadmaps();
     const aviso = created.metadata_json ? created.metadata_json.aviso : null;
     if (aviso) {
-      alert(`⚠️ Ruta creada SIN IA: ${created.titulo}\n\n${aviso}`);
+      alert(`Ruta creada SIN IA: ${created.titulo}\n\n${aviso}`);
     } else {
-      alert(`🎉 ¡Ruta creada exitosamente: ${created.titulo}!`);
+      alert(`¡Ruta creada exitosamente: ${created.titulo}!`);
     }
   } catch (err) {
     alert("Error al generar ruta: " + err.message);
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '<span>✨</span> Generar Ruta';
+    btn.innerHTML = '<span>' + Au.icono('generar') + '</span> Generar Ruta';
   }
 }
 
@@ -786,13 +787,13 @@ function switchNewRoadmapTab(tab) {
     if (secIngest) secIngest.classList.remove('hidden');
     if (btnAi) btnAi.setAttribute('aria-selected', 'false');
     if (btnIngest) btnIngest.setAttribute('aria-selected', 'true');
-    if (btnSubmit) btnSubmit.innerHTML = '<span>🚀</span> Crear Ruta desde Temario';
+    if (btnSubmit) btnSubmit.innerHTML = '<span>' + Au.icono('empezar') + '</span> Crear Ruta desde Temario';
   } else {
     if (secAi) secAi.classList.remove('hidden');
     if (secIngest) secIngest.classList.add('hidden');
     if (btnAi) btnAi.setAttribute('aria-selected', 'true');
     if (btnIngest) btnIngest.setAttribute('aria-selected', 'false');
-    if (btnSubmit) btnSubmit.innerHTML = '<span>✨</span> Generar Ruta';
+    if (btnSubmit) btnSubmit.innerHTML = '<span>' + Au.icono('generar') + '</span> Generar Ruta';
   }
 }
 
@@ -870,7 +871,7 @@ async function previewSyllabus() {
       modulesContainer.innerHTML = preview.modulos.map(m => `
         <div class="p-2.5 bg-slate-900 border border-slate-800 rounded-xl space-y-1">
           <div class="font-bold text-white flex items-center justify-between">
-            <span>📁 ${escapeHtml(m.titulo)}</span>
+            <span>${Au.icono('carpeta')} ${escapeHtml(m.titulo)}</span>
             <span class="text-xs text-slate-500 font-normal">${m.temas.length} temas</span>
           </div>
           <ul class="list-disc list-inside text-slate-300 space-y-0.5 pl-1">
@@ -883,7 +884,7 @@ async function previewSyllabus() {
     alert("Error al previsualizar temario: " + err.message);
   } finally {
     btn.disabled = false;
-    btn.innerText = "🔍 Previsualizar";
+    btn.innerHTML = Au.icono('buscar') + ' Previsualizar';
   }
 }
 
@@ -914,7 +915,7 @@ async function submitImportSyllabusDirect() {
   }
 
   btn.disabled = true;
-  btn.innerHTML = '<span>⚡</span> Procesando e importando ruta...';
+  btn.innerHTML = '<span>' + Au.icono('rapido') + '</span> Procesando e importando ruta...';
 
   try {
     let res;
@@ -957,12 +958,12 @@ async function submitImportSyllabusDirect() {
     closeNewRoadmapModal();
     state.activeRoadmapId = created.id;
     await loadRoadmaps();
-    alert(`🎉 ¡Ruta importada y creada exitosamente: ${created.titulo}!`);
+    alert(`¡Ruta importada y creada exitosamente: ${created.titulo}!`);
   } catch (err) {
     alert("Error al importar temario: " + err.message);
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '<span>🚀</span> Crear Ruta desde Temario';
+    btn.innerHTML = '<span>' + Au.icono('empezar') + '</span> Crear Ruta desde Temario';
   }
 }
 
@@ -995,7 +996,7 @@ async function loadRoadmapGraph() {
   if (!state.activeRoadmapId) return;
   const nodesBoard = document.getElementById('dag-nodes-board');
   if (nodesBoard) {
-    nodesBoard.innerHTML = '<div class="col-span-full py-8 text-center text-slate-500"><div class="inline-block animate-spin text-xl mb-1">⚡</div><p class="text-xs">Calculando orden topológico y ruta crítica...</p></div>';
+    nodesBoard.innerHTML = '<div class="col-span-full py-8 text-center text-slate-500"><div class="inline-block animate-spin text-xl mb-1">' + Au.icono('rapido') + '</div><p class="text-xs">Calculando orden topológico y ruta crítica...</p></div>';
   }
 
   try {
@@ -1039,7 +1040,7 @@ function renderRoadmapGraph(graphData) {
   if (kpiStatus) {
     if (graphData.has_cycle) {
       kpiStatus.className = "text-xs font-extrabold text-rose-400 mt-1";
-      kpiStatus.textContent = "⚠️ Ciclo Detectado";
+      kpiStatus.innerHTML = Au.icono('alerta') + ' Ciclo Detectado';
     } else {
       kpiStatus.className = "text-xs font-extrabold text-emerald-400 mt-1";
       kpiStatus.textContent = "● Acíclico (DAG Válido)";
@@ -1072,9 +1073,9 @@ function renderRoadmapGraph(graphData) {
           <div class="flex items-center gap-4 flex-wrap">
             <span class="font-semibold text-white">Progreso: <strong class="text-emerald-400 font-mono">${completedCount}/${totalNodes}</strong> dominados (${pct}%)</span>
             <span class="text-slate-600 hidden sm:inline">|</span>
-            <span class="text-sky-300 font-medium">🔓 ${readyCount} listos para estudiar</span>
+            <span class="text-sky-300 font-medium">${Au.icono('desbloqueado')} ${readyCount} listos para estudiar</span>
             <span class="text-slate-600 hidden sm:inline">|</span>
-            <span class="text-rose-300 font-medium">🔒 ${blockedCount} esperando prerrequisitos</span>
+            <span class="text-rose-300 font-medium">${Au.icono('bloqueado')} ${blockedCount} esperando prerrequisitos</span>
           </div>
           <div class="w-full sm:w-48 bg-slate-800 h-1.5 rounded-full overflow-hidden">
             <div class="bg-gradient-to-r from-sky-500 to-emerald-400 h-full rounded-full transition-all duration-300" style="width: ${pct}%"></div>
@@ -1091,19 +1092,19 @@ function renderRoadmapGraph(graphData) {
             ${graphData.topological_order.map((nodeId, idx) => {
               const node = nodeMap[nodeId] || { titulo: `Tema #${nodeId}`, estado: 'pendiente' };
               let badgeTone = "au-boton--suave-alerta";
-              let statusIcon = "🔓";
+              let statusIcon = Au.icono('desbloqueado');
               if (node.estado === 'completado') {
                 badgeTone = "au-boton--suave-exito";
-                statusIcon = "✅";
+                statusIcon = Au.icono('ok');
               } else if (node.estado === 'en_progreso') {
                 badgeTone = "au-boton--suave-primario";
-                statusIcon = "⏳";
+                statusIcon = Au.icono('cargando');
               } else if (node.is_blocked) {
                 badgeTone = "au-boton--fantasma";
-                statusIcon = "🔒";
+                statusIcon = Au.icono('bloqueado');
               } else {
                 badgeTone = "au-boton--suave-alerta";
-                statusIcon = "🔓";
+                statusIcon = Au.icono('desbloqueado');
               }
 
               return `
@@ -1111,7 +1112,7 @@ function renderRoadmapGraph(graphData) {
                   <span class="font-mono text-xs font-bold opacity-60">#${idx + 1}</span>
                   <span>${statusIcon}</span>
                   <span class="truncate max-w-[150px] font-medium">${escapeHtml(node.titulo)}</span>
-                  ${node.is_critical_path ? '<span class="text-amber-400 font-black text-xs" title="Ruta Crítica">⚡</span>' : ''}
+                  ${node.is_critical_path ? '<span class="text-amber-400 font-black text-xs" title="Ruta Crítica">' + Au.icono('rapido') + '</span>' : ''}
                 </button>
               `;
             }).join(' <span class="text-slate-600 text-xs select-none">➔</span> ')}
@@ -1130,16 +1131,16 @@ function renderRoadmapGraph(graphData) {
 
               if (node.estado === 'completado') {
                 statusBorder = "border-emerald-700/80 bg-emerald-950/20 hover:border-emerald-500";
-                statusPill = Au.insignia({ texto: 'Dominado', icono: '✅', tono: 'exito' });
+                statusPill = Au.insignia({ texto: 'Dominado', icono: 'ok', tono: 'exito' });
               } else if (node.estado === 'en_progreso') {
                 statusBorder = "border-sky-700/80 bg-sky-950/20 hover:border-sky-500 ring-1 ring-sky-500/20";
-                statusPill = Au.insignia({ texto: 'En Curso', icono: '⏳', tono: 'primario' });
+                statusPill = Au.insignia({ texto: 'En Curso', icono: 'cargando', tono: 'primario' });
               } else if (isLocked) {
                 statusBorder = "border-rose-900/60 bg-rose-950/10 hover:border-rose-700";
-                statusPill = Au.insignia({ texto: 'Bloqueado', icono: '🔒', tono: 'peligro' });
+                statusPill = Au.insignia({ texto: 'Bloqueado', icono: 'bloqueado', tono: 'peligro' });
               } else {
                 statusBorder = "border-amber-700/60 bg-amber-950/10 hover:border-amber-500";
-                statusPill = Au.insignia({ texto: 'Listo', icono: '🔓', tono: 'alerta' });
+                statusPill = Au.insignia({ texto: 'Listo', icono: 'desbloqueado', tono: 'alerta' });
               }
 
               return `
@@ -1163,13 +1164,13 @@ function renderRoadmapGraph(graphData) {
 
                     <!-- Dependencias y Prelaciones -->
                     <div class="pt-2 border-t border-slate-900 flex items-center justify-between text-xs text-slate-400 font-mono">
-                      <span>${node.in_degree > 0 ? `📥 ${node.in_degree} previo` : '🌱 Fundamento'}</span>
-                      <span>${node.out_degree > 0 ? `🔓 Desbloquea ${node.out_degree}` : '🏁 Terminal'}</span>
+                      <span>${node.in_degree > 0 ? `${Au.icono('importar')} ${node.in_degree} previo` : `${Au.icono('crecimiento')} Fundamento`}</span>
+                      <span>${node.out_degree > 0 ? `${Au.icono('desbloqueado')} Desbloquea ${node.out_degree}` : `${Au.icono('meta')} Terminal`}</span>
                     </div>
 
                     <!-- Tags adicionales -->
                     <div class="flex flex-wrap items-center justify-between gap-1 pt-1">
-                      ${node.is_critical_path ? Au.insignia({ texto: 'Ruta Crítica', icono: '⚡', tono: 'alerta' }) : '<span></span>'}
+                      ${node.is_critical_path ? Au.insignia({ texto: 'Ruta Crítica', icono: 'rapido', tono: 'alerta' }) : '<span></span>'}
                       <span class="toque text-xs text-sky-400 hover:underline font-semibold">
                         Ver tema ↗
                       </span>
@@ -1202,16 +1203,16 @@ function renderRoadmapGraph(graphData) {
         let statusBadge = Au.insignia({ texto: 'Pendiente' });
         if (n.estado === 'completado') {
           borderClass = "border-emerald-800/80 bg-emerald-950/10";
-          statusBadge = Au.insignia({ texto: 'Dominado ✔', tono: 'exito' });
+          statusBadge = Au.insignia({ texto: 'Dominado', icono: 'ok', tono: 'exito' });
         } else if (n.estado === 'en_progreso') {
           borderClass = "border-sky-800/80 bg-sky-950/10";
-          statusBadge = Au.insignia({ texto: 'En Progreso ⚡', tono: 'primario' });
+          statusBadge = Au.insignia({ texto: 'En Progreso', icono: 'rapido', tono: 'primario' });
         } else if (n.is_blocked) {
           borderClass = "border-rose-900/60 bg-rose-950/10";
-          statusBadge = Au.insignia({ texto: 'Bloqueado 🔒', tono: 'peligro' });
+          statusBadge = Au.insignia({ texto: 'Bloqueado', icono: 'bloqueado', tono: 'peligro' });
         } else {
           borderClass = "border-amber-900/60 bg-amber-950/10";
-          statusBadge = Au.insignia({ texto: 'Listo 🚀', tono: 'alerta' });
+          statusBadge = Au.insignia({ texto: 'Listo', icono: 'empezar', tono: 'alerta' });
         }
 
         const isCritical = n.is_critical_path;
@@ -1225,7 +1226,7 @@ function renderRoadmapGraph(graphData) {
                 <h5 class="text-xs font-bold text-white leading-snug">${escapeHtml(n.titulo)}</h5>
               </div>
               <div class="flex items-center gap-1">
-                ${isCritical ? '<span title="Ruta Crítica - Bloqueo Principal" class="text-amber-400 text-xs">⚡</span>' : ''}
+                ${isCritical ? '<span title="Ruta Crítica - Bloqueo Principal" class="text-amber-400 text-xs">' + Au.icono('rapido') + '</span>' : ''}
                 ${statusBadge}
               </div>
             </div>
@@ -1245,10 +1246,10 @@ function renderRoadmapGraph(graphData) {
             <!-- Acciones Rápidas -->
             <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-900" data-sin-accion>
               <button type="button" data-accion="ruta-ver-clase" data-tema-id="${n.id}" class="au-boton au-boton--fantasma au-boton--chico">
-                <span>📖</span> Ver Clase
+                <span>${Au.icono('lectura')}</span> Ver Clase
               </button>
               <button type="button" data-accion="ruta-agregar-requisito-con-defaults" data-id="${n.id}" class="au-boton au-boton--fantasma au-boton--chico" title="Añadir prelación a partir de este tema">
-                <span>➕</span> Prelación
+                <span>${Au.icono('agregar')}</span> Prelación
               </button>
             </div>
           </div>
@@ -1285,9 +1286,9 @@ function findGraphNode(nodeId) {
 }
 
 function dagNodeStatusLabel(node) {
-  if (node.estado === 'completado') return 'Dominado ✔';
+  if (node.estado === 'completado') return 'Dominado';
   if (node.estado === 'en_progreso') return 'En progreso';
-  if (node.is_blocked) return 'Bloqueado 🔒';
+  if (node.is_blocked) return 'Bloqueado';
   return 'Disponible';
 }
 
@@ -1492,7 +1493,7 @@ function renderDagNodePanel(node) {
   facts.appendChild(dagEl('span', 'au-insignia', dagNodeStatusLabel(node)));
   facts.appendChild(dagEl('span', 'au-insignia', `Nivel ${node.nivel_topologico}`));
   if (node.is_critical_path) {
-    facts.appendChild(dagEl('span', 'au-insignia au-insignia--alerta', '⚡ Ruta crítica'));
+    facts.appendChild(dagEl('span', 'au-insignia au-insignia--alerta', 'Ruta crítica'));
   }
   panel.appendChild(facts);
 
@@ -1510,7 +1511,7 @@ function renderDagNodePanel(node) {
     'Ningún tema depende de este.'
   ));
 
-  const addBtn = dagEl('button', 'w-full py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold transition', '➕ Añadir prelación desde aquí');
+  const addBtn = dagEl('button', 'w-full py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold transition', 'Añadir prelación desde aquí');
   addBtn.type = 'button';
   addBtn.addEventListener('click', () => openAddPrerequisiteWithDefaults(node.id));
   panel.appendChild(addBtn);
@@ -1554,7 +1555,7 @@ function renderDagAvailable(graphData) {
     text.appendChild(dagEl('span', 'block text-xs text-slate-500 truncate', node.modulo_titulo || ''));
     btn.appendChild(text);
     if (node.is_critical_path) {
-      const mark = dagEl('span', 'text-amber-400 text-xs font-bold shrink-0', '⚡ Crítico');
+      const mark = dagEl('span', 'text-amber-400 text-xs font-bold shrink-0', 'Crítico');
       mark.title = 'Está en la ruta crítica';
       btn.appendChild(mark);
     }
@@ -1685,7 +1686,7 @@ async function requestPrerequisiteSuggestions() {
   const btn = document.getElementById('btn-dag-suggest');
   const label = btn.textContent;
   btn.disabled = true;
-  btn.textContent = '⏳ Consultando a la IA...';
+  btn.textContent = 'Consultando a la IA...';
 
   try {
     const res = await fetch(`/api/roadmap/${roadmapId}/prerequisites/suggest`, { method: 'POST' });
@@ -1747,7 +1748,7 @@ function copyRoadmapMermaid() {
     return;
   }
   navigator.clipboard.writeText(state.activeGraphData.mermaid_code).then(() => {
-    alert("📋 ¡Código Mermaid copiado al portapapeles! Pegalo directamente en tus notas.");
+    alert("¡Código Mermaid copiado al portapapeles! Pegalo directamente en tus notas.");
   }).catch(() => {
     alert("No se pudo copiar automáticamente. Copialo desde la sección inferior.");
   });
@@ -1805,7 +1806,7 @@ async function submitCreatePrerequisite() {
   }
 
   btn.disabled = true;
-  btn.innerHTML = '<span>⏳</span> Guardando...';
+  btn.innerHTML = '<span>' + Au.icono('cargando') + '</span> Guardando...';
 
   try {
     const res = await fetch(`/api/roadmap/${state.activeRoadmapId}/prerequisites`, {
@@ -1827,12 +1828,12 @@ async function submitCreatePrerequisite() {
     closeAddPrerequisiteModal();
     if (descInput) descInput.value = '';
     await loadRoadmapGraph();
-    alert("✔ Prelación añadida correctamente al Grafo DAG.");
+    alert("Prelación añadida correctamente al Grafo DAG.");
   } catch (err) {
     alert("Error: " + err.message);
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '<span>➕</span> Guardar Prelación';
+    btn.innerHTML = '<span>' + Au.icono('agregar') + '</span> Guardar Prelación';
   }
 }
 
@@ -1902,7 +1903,7 @@ function copyMasterPrompt() {
 
   navigator.clipboard.writeText(textarea.value).then(() => {
     const status = document.getElementById('prompt-copy-status');
-    status.textContent = "✔ ¡Prompt copiado al portapapeles! Pégalo en tu LLM.";
+    status.innerHTML = Au.icono('ok') + " ¡Prompt copiado al portapapeles! Pégalo en tu LLM.";
     setTimeout(() => { status.textContent = ''; }, 4000);
   }).catch(() => {
     alert("No se pudo copiar automáticamente. Selecciónalo y presiona Ctrl+C.");
@@ -1950,7 +1951,7 @@ async function submitImportLesson() {
   if (topicHasLesson(topicId) && !confirm(`${AVISO_REEMPLAZO_CLASE}\n\n¿Reemplazarla con la clase importada?`)) return;
 
   btn.disabled = true;
-  btn.innerHTML = '<span>⏳</span> Importando clase...';
+  btn.innerHTML = '<span>' + Au.icono('cargando') + '</span> Importando clase...';
 
   try {
     const res = await fetch(`/api/roadmap/topics/${topicId}/import-lesson`, {
@@ -1972,7 +1973,7 @@ async function submitImportLesson() {
     let fsrsMsg = "";
     if (autoFsrs && imported.cards_count > 0) {
       await fetch(`/api/roadmap/lessons/${imported.lesson_id}/export-fsrs`, { method: 'POST' });
-      fsrsMsg = `\n✔ ${imported.cards_count} flashcards inyectadas a tu mazo de repaso.`;
+      fsrsMsg = `\n${imported.cards_count} flashcards inyectadas a tu mazo de repaso.`;
     }
 
     let vaultMsg = "";
@@ -1981,8 +1982,8 @@ async function submitImportLesson() {
         const vRes = await fetch(`/api/roadmap/lessons/${imported.lesson_id}/export-vault`, { method: 'POST' });
         if (vRes.ok) {
           const vData = await vRes.json();
-          vaultMsg = `\n✔ Guardado en Mis notas: ${vData.vault_path}`;
-          if (vData.backup_path) vaultMsg += `\n⚠ En el vault había una nota distinta; se guardó una copia en: ${vData.backup_path}`;
+          vaultMsg = `\nGuardado en Mis notas: ${vData.vault_path}`;
+          if (vData.backup_path) vaultMsg += `\nEn el vault había una nota distinta; se guardó una copia en: ${vData.backup_path}`;
         }
       } catch (ve) {
         console.warn("Vault sync warning:", ve);
@@ -1991,13 +1992,13 @@ async function submitImportLesson() {
 
     closeImportLessonModal();
     await loadRoadmapDetails(state.activeRoadmapId);
-    alert(`🎉 ¡Clase importada con éxito!${fsrsMsg}${vaultMsg}`);
+    alert(`¡Clase importada con éxito!${fsrsMsg}${vaultMsg}`);
     viewLessonModal(topicId);
   } catch (err) {
     alert("Error al importar clase: " + err.message);
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '<span>📥</span> Procesar e Importar Clase';
+    btn.innerHTML = '<span>' + Au.icono('importar') + '</span> Procesar e Importar Clase';
   }
 }
 
@@ -2038,9 +2039,9 @@ async function generateLessonInApp(topicId) {
   const generador = await quienGeneraLasClases();
   const confirmado = await showConfirmDialog({
     title: 'Generar la clase completa',
-    message: `La genera: ${generador.texto}\n\n${summary}\n\nEstas opciones se cambian en 📋 Prompt Maestro → Opciones del Prompt.${reemplazo}`,
+    message: `La genera: ${generador.texto}\n\n${summary}\n\nEstas opciones se cambian en Prompt Maestro → Opciones del Prompt.${reemplazo}`,
     confirmText: 'Generar clase',
-    icon: generador.conIA ? '⚡' : '🧩',
+    icon: generador.conIA ? 'rapido' : 'modulo',
   });
   if (!confirmado) return;
 
@@ -2056,7 +2057,7 @@ async function generateLessonInApp(topicId) {
   overlay.innerHTML = `
     <div class="au-modal__caja au-modal__caja--angosta">
       <div class="au-modal__cuerpo text-center" aria-live="polite">
-        <div class="inline-block animate-spin text-4xl" aria-hidden="true">⚡</div>
+        <div class="inline-block animate-spin text-4xl" aria-hidden="true">${Au.icono('rapido')}</div>
         <h3 id="generando-clase-titulo" class="au-modal__titulo">${escapeHtml(generador.corto)} está armando la clase</h3>
         <p class="text-xs text-slate-400">Analogía Feynman, diagramas y preguntas de Active Recall para FSRS v5...</p>
       </div>
@@ -2156,7 +2157,7 @@ function getLessonMarkdownParser() {
 function renderLessonPlainText(markdown, container) {
   const notice = document.createElement('p');
   notice.className = 'lesson-fallback-notice';
-  notice.textContent = '⚠️ No se pudo cargar el render de Markdown (¿sin conexión?). Se muestra la clase como texto plano.';
+  notice.textContent = 'No se pudo cargar el render de Markdown (¿sin conexión?). Se muestra la clase como texto plano.';
   const pre = document.createElement('pre');
   pre.className = 'lesson-plain';
   pre.textContent = markdown;
@@ -2375,7 +2376,7 @@ function copyLessonMarkdown() {
     return;
   }
   navigator.clipboard.writeText(state.currentLesson.contenido_markdown || '').then(() => {
-    status.textContent = "✔ Markdown copiado al portapapeles.";
+    status.textContent = "Markdown copiado al portapapeles.";
     setTimeout(() => { status.textContent = ''; }, 4000);
   }).catch(() => {
     alert("No se pudo copiar automáticamente. Selecciona el texto y presiona Ctrl+C.");
@@ -2437,12 +2438,12 @@ async function exportCurrentLessonToFsrs() {
     const res = await fetch(`/api/roadmap/lessons/${state.currentLesson.id}/export-fsrs`, { method: 'POST' });
     if (!res.ok) throw new Error("Error exportando a FSRS");
     const data = await res.json();
-    alert(`🎉 ¡${data.cards_exported} tarjetas añadidas exitosamente a tu mazo de repaso diario!`);
+    alert(`¡${data.cards_exported} tarjetas añadidas exitosamente a tu mazo de repaso diario!`);
   } catch (err) {
     alert("Error al exportar a FSRS: " + err.message);
   } finally {
     btn.disabled = false;
-    btn.textContent = "✔ Enviar a Flashcards";
+    btn.textContent = "Enviar a Flashcards";
   }
 }
 
@@ -2457,13 +2458,13 @@ async function exportCurrentLessonToVault() {
     if (!res.ok) throw new Error("Error exportando a Mis notas");
     const data = await res.json();
     document.getElementById('viewer-vault-status').textContent = `Mis notas: ${data.vault_path}`;
-    const respaldo = data.backup_path ? `\n\n⚠ En el vault había una nota distinta de la que escribió el sistema; se guardó una copia en:\n${data.backup_path}` : '';
-    alert(`🎉 ¡Apunte canónico guardado con éxito en Mis notas!\n\nRuta: ${data.vault_path}${respaldo}`);
+    const respaldo = data.backup_path ? `\n\nEn el vault había una nota distinta de la que escribió el sistema; se guardó una copia en:\n${data.backup_path}` : '';
+    alert(`¡Apunte canónico guardado con éxito en Mis notas!\n\nRuta: ${data.vault_path}${respaldo}`);
   } catch (err) {
     alert("Error al guardar en Mis notas: " + err.message);
   } finally {
     btn.disabled = false;
-    btn.textContent = "📝 Guardar en Mis notas";
+    btn.textContent = "Guardar en Mis notas";
   }
 }
 
@@ -2485,7 +2486,7 @@ async function loadLessonVersions(topicId) {
     if (pedido !== lessonVersionsRequestSeq) return;
     state.lessonVersions = versiones;
     const n = versiones.length;
-    btn.textContent = `🕘 Restaurar versión anterior (${n})`;
+    btn.textContent = `Restaurar versión anterior (${n})`;
     btn.classList.toggle('hidden', n === 0);
   } catch (err) {
     console.warn("No se pudieron cargar las versiones de la clase:", err);
@@ -2541,7 +2542,7 @@ async function submitPdfGapAnalysis() {
   const file = fileInput.files[0];
   const btn = document.getElementById('btn-run-gap-analysis');
   btn.disabled = true;
-  btn.innerHTML = '<span>⚡</span> Analizando syllabus con Gemini...';
+  btn.innerHTML = '<span>' + Au.icono('rapido') + '</span> Analizando syllabus con Gemini...';
 
   const formData = new FormData();
   formData.append('file', file);
@@ -2595,7 +2596,7 @@ async function submitPdfGapAnalysis() {
     alert("Error en el Gap Analysis: " + err.message);
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '<span>✨</span> Iniciar Gap Analysis con IA';
+    btn.innerHTML = '<span>' + Au.icono('generar') + '</span> Iniciar Gap Analysis con IA';
   }
 }
 
@@ -2620,7 +2621,7 @@ async function mergeGapTopicsToActiveRoadmap() {
     const data = await res.json();
     closePdfGapModal();
     await loadRoadmapDetails(state.activeRoadmapId);
-    alert(`🎉 ¡${data.inserted_topics} nuevos temas incorporados exitosamente a tu ruta!`);
+    alert(`¡${data.inserted_topics} nuevos temas incorporados exitosamente a tu ruta!`);
   } catch (err) {
     alert("Error al incorporar temas: " + err.message);
   } finally {
@@ -2650,7 +2651,7 @@ async function suggestNextRoadmapTopics() {
 
     const topicsText = data.suggested_topics.map(t => `• ${t.titulo}: ${t.descripcion || ''}`).join('\n');
     const confirmed = confirm(
-      `✨ Sugerencias de Evolución Curricular (Nivel i+1):\n\n${data.reasoning}\n\n${topicsText}\n\n¿Deseas incorporar estos temas avanzados a tu ruta de aprendizaje activa?`
+      `Sugerencias de Evolución Curricular (Nivel i+1):\n\n${data.reasoning}\n\n${topicsText}\n\n¿Deseas incorporar estos temas avanzados a tu ruta de aprendizaje activa?`
     );
 
     if (confirmed) {
@@ -2664,7 +2665,7 @@ async function suggestNextRoadmapTopics() {
       });
       if (mergeRes.ok) {
         await loadRoadmapDetails(state.activeRoadmapId);
-        alert("🎉 ¡Temas de vanguardia incorporados a tu ruta!");
+        alert("¡Temas de vanguardia incorporados a tu ruta!");
       }
     }
   } catch (err) {
@@ -2716,7 +2717,7 @@ function toggleDagFullscreen() {
   const isFull = diag.classList.toggle('dag-fullscreen');
   if (btn) {
     btn.innerHTML = isFull 
-      ? '<span>✕</span> <span class="hidden sm:inline">Cerrar</span>' 
+      ? '<span>' + Au.icono('cerrar') + '</span> <span class="hidden sm:inline">Cerrar</span>' 
       : '<span>⤢</span> <span class="hidden sm:inline">Pantalla Completa</span>';
     btn.title = isFull ? 'Cerrar pantalla completa (Esc)' : 'Expandir pantalla completa';
   }
