@@ -3,11 +3,18 @@
 import re
 from pathlib import Path
 
-from scripts import generar_paleta
+import pytest
+
+try:
+    from scripts import generar_paleta
+except ImportError:  # el repo extraído por extract_open_source_core.py no trae scripts/
+    generar_paleta = None
 
 RAIZ = Path(__file__).resolve().parents[1]
 ESTATICO = RAIZ / "src" / "aulento" / "web" / "static"
 PALETA_CSS = ESTATICO / "css" / "paleta.css"
+
+necesita_el_generador = pytest.mark.skipif(generar_paleta is None, reason="este repo no trae scripts/")
 
 
 def _bloques(css: str) -> dict[str, dict[str, str]]:
@@ -18,10 +25,12 @@ def _bloques(css: str) -> dict[str, dict[str, str]]:
     return bloques
 
 
+@necesita_el_generador
 def test_paleta_css_esta_al_dia_con_el_generador():
     assert generar_paleta.main(["--comprobar"]) == 0, "correr python scripts/generar_paleta.py"
 
 
+@necesita_el_generador
 def test_el_tema_oscuro_conserva_los_colores_de_tailwind():
     """Cero cambio visual en el tema por defecto: los valores son los de Tailwind v3.4.17."""
     oscuro = _bloques(PALETA_CSS.read_text(encoding="utf-8"))[":root"]
@@ -44,8 +53,12 @@ def test_el_tema_claro_y_el_de_sistema_definen_las_mismas_variables():
     assert claro["slate-950"] != oscuro["slate-950"], "el tema claro tiene que cambiar el fondo"
 
 
+@necesita_el_generador
 def test_tailwind_config_usa_las_mismas_familias_que_la_paleta():
-    config = (RAIZ / "tailwind.config.js").read_text(encoding="utf-8")
+    ruta = RAIZ / "tailwind.config.js"
+    if not ruta.exists():
+        pytest.skip("este repo no trae tailwind.config.js")
+    config = ruta.read_text(encoding="utf-8")
     bloque = re.search(r"const FAMILIAS = \[(.*?)\];", config, re.DOTALL).group(1)
     assert re.findall(r"'([a-z]+)'", bloque) == list(generar_paleta.PALETA)
     assert "rgb(var(--au-${nombre}) / <alpha-value>)" in config
