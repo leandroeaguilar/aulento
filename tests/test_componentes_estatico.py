@@ -25,8 +25,8 @@ PATRONES_COPIADOS = {
     "texto chico a mano (los componentes ya lo resuelven)": re.compile(r"text-\[(?:[0-9]|1[01])px\]"),
     # El relleno de un componente sale de sus tokens y modificadores: un p-3 suelto lo desalinea del resto
     "relleno de Tailwind sobre un componente (usar un modificador)": re.compile(
-        r'class="[^"]*\bau-(?:tarjeta|boton|campo__control|insignia|kpi|aviso|fila)\b[^"]*\bp[xytrbl]?-[0-9][^"]*"'
-        r'|class="[^"]*\bp[xytrbl]?-[0-9][^"]*\bau-(?:tarjeta|boton|campo__control|insignia|kpi|aviso|fila)\b[^"]*"'
+        r'class="[^"]*\bau-(?:tarjeta|seccion|boton|campo__control|insignia|kpi|aviso|fila)\b[^"]*\bp[xytrbl]?-[0-9][^"]*"'
+        r'|class="[^"]*\bp[xytrbl]?-[0-9][^"]*\bau-(?:tarjeta|seccion|boton|campo__control|insignia|kpi|aviso|fila)\b[^"]*"'
     ),
 }
 
@@ -245,8 +245,8 @@ def test_r8_los_buscadores_siguen_filtrando_al_escribir(id_campo: str):
 
 
 def test_r1_sin_space_y_sobre_componentes_con_gap():
-    """La tarjeta, el aviso y el campo ya separan sus hijos con gap: un space-y-* encima duplica el espacio."""
-    patron = re.compile(r'class="([^"]*\bau-(?:tarjeta|aviso|campo)\b[^"]*)"')
+    """La tarjeta, la sección, el aviso y el campo ya separan sus hijos con gap: un space-y-* encima duplica el espacio."""
+    patron = re.compile(r'class="([^"]*\bau-(?:tarjeta|seccion|aviso|campo)\b[^"]*)"')
     hallados = []
     for archivo in [INDEX, *(ESTATICO / "js").glob("*.js")]:
         for clases in patron.findall(archivo.read_text(encoding="utf-8")):

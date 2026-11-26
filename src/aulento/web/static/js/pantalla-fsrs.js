@@ -1134,8 +1134,12 @@ function renderHarvestCandidates() {
   const newCount = candidates.filter(c => !c.is_duplicate).length;
   countLabel.innerText = `${candidates.length} encontradas (${newCount} nuevas)`;
 
-  container.innerHTML = candidates.map((c, idx) => `
-    <div class="p-3 rounded-2xl border ${c.is_duplicate ? 'bg-slate-950/40 border-slate-800/50 opacity-60' : 'bg-slate-950 border-slate-800 hover:border-slate-700'} space-y-1.5 transition text-xs">
+  container.innerHTML = candidates.map((c, idx) => {
+    const cardClass = c.is_duplicate
+      ? 'au-tarjeta au-tarjeta--plana transition text-xs opacity-60'
+      : 'au-tarjeta au-tarjeta--plana transition text-xs';
+    return `
+    <div class="${cardClass}">
       <div class="flex items-start justify-between gap-3">
         <label class="flex items-start gap-2.5 cursor-pointer flex-1">
           <input type="checkbox" data-index="${idx}" ${c.is_duplicate ? 'disabled' : 'checked'} data-accion="cambiar-seleccion-cosecha" class="harvest-card-checkbox mt-0.5 rounded bg-slate-900 border-slate-700 text-sky-500 focus:ring-0">
@@ -1153,7 +1157,8 @@ function renderHarvestCandidates() {
         </div>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 
   if (selectAll) selectAll.checked = true;
   updateHarvestCommitButtonState();

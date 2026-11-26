@@ -148,6 +148,16 @@
     return `<section class="${clase}"${atributos(attrs)}>${cab ? cabecera(cab) : ''}${cuerpoHtml}</section>`;
   }
 
+  const VARIANTES_SECCION = ['suave', 'con-linea', 'apretada'];
+
+  /** Región de la página: cabecera opcional y cuerpo, sin borde ni sombra (con `suave`, panel hundido). */
+  function seccion({ cabecera: cab, cuerpoHtml = '', variantes = [], attrs } = {}) {
+    const desconocida = variantes.find((v) => !VARIANTES_SECCION.includes(v));
+    if (desconocida) throw new Error(`Variante de sección desconocida: ${desconocida}`);
+    const clase = clases('au-seccion', ...variantes.map((v) => `au-seccion--${v}`));
+    return `<section class="${clase}"${atributos(attrs)}>${cab ? cabecera(cab) : ''}${cuerpoHtml}</section>`;
+  }
+
   function kpi({ etiqueta, valor, unidad, detalle, attrs } = {}) {
     return `<div class="au-kpi"${atributos(attrs)}>`
       + `<span class="au-kpi__etiqueta">${escapar(etiqueta)}</span>`
@@ -391,7 +401,7 @@
   window.Au = Object.freeze({
     escapar, atributos, clases, urlSegura,
     ICONOS, icono,
-    insignia, boton, cabecera, tarjeta, kpi, progreso, vacio, aviso, campo, pestanas, fila,
+    insignia, boton, cabecera, tarjeta, seccion, kpi, progreso, vacio, aviso, campo, pestanas, fila,
     acciones, modal,
   });
 })();

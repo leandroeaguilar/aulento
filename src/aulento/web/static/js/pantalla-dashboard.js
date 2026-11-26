@@ -146,7 +146,7 @@ function renderDashboard() {
           attrs: { target: '_blank', rel: 'noopener noreferrer' }
         }) : '';
         return `
-        <div class="au-tarjeta au-tarjeta--hundida">
+        <div class="au-tarjeta au-tarjeta--plana">
           <div class="flex items-center justify-between text-xs">
             <span class="font-bold text-slate-200">${Au.escapar(c.nombre_curso)}</span>
             <span class="font-mono text-sky-400 font-bold">${c.progreso_pct.toFixed(0)}%</span>
@@ -219,7 +219,7 @@ function renderDashboard() {
         const insigniaTipo = Au.insignia({ texto: meta.label, icono: meta.icon });
 
         return `
-          <div data-accion="detalle-bloque-agenda" data-id="${Number(b.id)}" class="bg-slate-950/90 border border-slate-800/90 ${meta.borderClass} border-l-4 rounded-xl p-3 space-y-1.5 cursor-pointer hover:border-slate-700 transition">
+          <div data-accion="detalle-bloque-agenda" data-id="${Number(b.id)}" class="au-tarjeta au-tarjeta--hundida au-tarjeta--interactiva ${meta.borderClass} border-l-4 gap-2">
             <div class="flex items-center justify-between text-xs font-mono">
               <span class="${meta.timeColor} font-bold">${Au.escapar(b.hora_inicio)} - ${Au.escapar(b.hora_fin)}</span>
               <div class="flex items-center gap-1">
@@ -353,7 +353,7 @@ async function loadMacroFsrsTopics() {
       });
 
       return `
-        <div class="au-tarjeta au-tarjeta--hundida">
+        <div class="au-tarjeta au-tarjeta--plana">
           <div class="flex items-center justify-between text-xs text-slate-400">
             ${insigniaRuta}
             ${insigniaVence}

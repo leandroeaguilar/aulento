@@ -171,19 +171,18 @@ function renderRoadmapCatalog() {
 
   container.innerHTML = roadmaps.map(r => {
     const isActive = state.activeRoadmapId === r.id;
+    const activeCls = isActive ? 'ring-2 ring-sky-500' : '';
     const meta = r.metadata_json || {};
     const tags = Array.isArray(meta.tags) ? meta.tags : [];
     const tagsHtml = tags.map(t => `<span class="px-1.5 py-0.5 bg-slate-800 text-slate-300 rounded text-xs font-mono">${escapeHtml(t)}</span>`).join(' ');
 
     return `
-      <div class="p-5 rounded-2xl border ${isActive ? 'bg-slate-900/90 border-sky-500 shadow-lg shadow-sky-500/10' : 'bg-slate-950 border-slate-800 hover:border-slate-700'} flex flex-col justify-between gap-4 transition">
+      <div class="au-tarjeta au-tarjeta--plana ${activeCls} flex flex-col justify-between gap-4 transition">
         <div class="space-y-2.5">
           <div class="flex items-center justify-between gap-2">
             ${getCatBadge(r.categoria)}
             <div class="flex items-center gap-1.5">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
-                ${escapeHtml(r.nivel_objetivo || 'Senior')}
-              </span>
+              ${Au.insignia({ texto: r.nivel_objetivo || 'Senior' })}
               <button type="button" data-accion="borrar-ruta" data-roadmap-id="${Number(r.id)}" data-roadmap-titulo="${escapeHtml(r.titulo)}" class="au-boton au-boton--fantasma au-boton--icono au-boton--chico" title="Eliminar ruta" aria-label="Eliminar ruta">
                 ${Au.icono('borrar')}
               </button>
@@ -192,7 +191,7 @@ function renderRoadmapCatalog() {
           <div>
             <h4 class="font-bold text-white text-sm flex items-center gap-1.5">
               ${escapeHtml(r.titulo)}
-              ${isActive ? '<span class="text-xs px-1.5 py-0.2 rounded bg-sky-950 text-sky-400 border border-sky-800 font-semibold">Activa</span>' : ''}
+              ${isActive ? Au.insignia({ texto: 'Activa', tono: 'primario' }) : ''}
             </h4>
             <p class="text-xs text-slate-400 mt-1 line-clamp-2">${escapeHtml(r.descripcion || '')}</p>
           </div>
@@ -204,9 +203,7 @@ function renderRoadmapCatalog() {
             <span>Progreso: <b class="text-white">${r.temas_completados} / ${r.total_temas} temas</b></span>
             <span class="font-bold ${r.progreso_pct > 0 ? 'text-emerald-400' : 'text-slate-400'}">${r.progreso_pct}%</span>
           </div>
-          <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-            <div class="bg-gradient-to-r from-sky-500 to-emerald-500 h-full" style="width: ${r.progreso_pct}%;"></div>
-          </div>
+          <progress class="au-progreso" value="${Math.max(0, Math.min(100, Number(r.progreso_pct) || 0))}" max="100" aria-label="Progreso de la ruta"></progress>
           <button 
             type="button" 
             data-accion="ruta-seleccionar-de-catalogo" 
@@ -316,20 +313,18 @@ function renderEmptyRoadmapState() {
   document.getElementById('roadmap-kpi-bar-text').textContent = "0%";
   document.getElementById('roadmap-progress-bar').value = 0;
 
-  container.innerHTML = `
-    <div class="au-tarjeta text-center">
-      <div class="text-4xl">${Au.icono('rutas', { clase: 'au-icono--grande' })}</div>
-      <h3 class="text-lg font-bold text-white">Comienza tu Ruta de Aprendizaje Personalizada</h3>
-      <p class="text-xs text-slate-400 max-w-md mx-auto">
-        Diseña una ruta técnica con Gemini 1.5 Flash o elige una de las plantillas curadas (Data Engineer, AI Architect, Cloud & FinOps, BI Storytelling).
-      </p>
+  container.innerHTML = Au.vacio({
+    icono: 'rutas',
+    titulo: 'Comienza tu Ruta de Aprendizaje Personalizada',
+    texto: 'Diseña una ruta técnica con Gemini 1.5 Flash o elige una de las plantillas curadas (Data Engineer, AI Architect, Cloud & FinOps, BI Storytelling).',
+    accionHtml: `
       <div class="flex justify-center gap-3 pt-2">
         <button type="button" data-accion="ruta-abrir-nueva" class="au-boton au-boton--primario">
           ${Au.icono('generar')} Crear Nueva Ruta con IA
         </button>
       </div>
-    </div>
-  `;
+    `,
+  });
 }
 
 function renderRoadmap(detail) {
@@ -355,7 +350,7 @@ function renderRoadmap(detail) {
 
   detail.modulos.forEach((mod, modIdx) => {
     const modDiv = document.createElement('div');
-    modDiv.className = "roadmap-module-card au-tarjeta overflow-hidden shadow-lg transition p-0";
+    modDiv.className = "roadmap-module-card au-seccion au-seccion--suave overflow-hidden transition";
 
     const completedInMod = mod.temas.filter(t => t.estado === 'completado').length;
     const modPct = mod.temas.length > 0 ? Math.round((completedInMod / mod.temas.length) * 100) : 0;
@@ -386,7 +381,7 @@ function renderRoadmap(detail) {
         : '';
 
       topicsHtml += `
-        <div class="p-3.5 bg-slate-950/70 border border-slate-800/80 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-3 hover:border-slate-700 transition">
+        <div class="au-tarjeta au-tarjeta--plana au-tarjeta--compacta flex flex-col md:flex-row md:items-center justify-between gap-3 transition">
           <div class="flex items-start gap-3">
             <button type="button" data-accion="cambiar-estado-tema" data-topic-id="${Number(topicId)}" data-estado="${escapeHtml(estado)}" class="au-boton au-boton--fantasma au-boton--icono au-boton--chico" title="Cambiar estado: Pendiente -> En curso -> Dominado">
               ${isCompleted ? _icono('ok') : (isInProgress ? _icono('recargar') : _icono('punto'))}
@@ -423,7 +418,7 @@ function renderRoadmap(detail) {
     });
 
     modDiv.innerHTML = `
-      <div data-accion="ruta-alternar-modulo" class="cursor-pointer p-5 border-b border-slate-800/80 bg-slate-900/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-850 transition select-none">
+      <div data-accion="ruta-alternar-modulo" class="cursor-pointer pb-3 border-b border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition select-none">
         <div class="flex items-center gap-3">
           <div class="w-8 h-8 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-400 font-bold flex items-center justify-center text-xs">
             ${modIdx + 1}
@@ -435,14 +430,12 @@ function renderRoadmap(detail) {
         </div>
         <div class="flex items-center gap-3 text-xs text-slate-400">
           <span>${completedInMod}/${mod.temas.length} temas (${modPct}%)</span>
-          <div class="w-24 bg-slate-800 h-2 rounded-full overflow-hidden">
-            <div class="bg-sky-500 h-full" style="width: ${modPct}%;"></div>
-          </div>
+          <progress class="au-progreso w-24" value="${modPct}" max="100" aria-label="Progreso del módulo"></progress>
         </div>
       </div>
-      <div class="module-body p-5 space-y-2.5">
+      <div class="module-body space-y-2.5">
         ${mod.temas.length > 0 ? topicsHtml : `
-          <div class="p-4 bg-slate-950/70 border border-dashed border-slate-700 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="au-tarjeta au-tarjeta--hundida flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <p class="text-xs text-slate-400">Esta materia todavía no tiene temas. Genéralos con IA cuando vayas a cursarla.</p>
             <button type="button" data-accion="ruta-expandir-modulo" data-id="${Number(mod.id)}" class="au-boton au-boton--secundario au-boton--chico" title="Generar con IA los temas de esta materia">
               <span>${_icono('crecimiento')}</span> Expandir materia
@@ -1077,9 +1070,7 @@ function renderRoadmapGraph(graphData) {
             <span class="text-slate-600 hidden sm:inline">|</span>
             <span class="text-rose-300 font-medium">${Au.icono('bloqueado')} ${blockedCount} esperando prerrequisitos</span>
           </div>
-          <div class="w-full sm:w-48 bg-slate-800 h-1.5 rounded-full overflow-hidden">
-            <div class="bg-gradient-to-r from-sky-500 to-emerald-400 h-full rounded-full transition-all duration-300" style="width: ${pct}%"></div>
-          </div>
+          <progress class="au-progreso w-full sm:w-48" value="${pct}" max="100" aria-label="Progreso de la secuencia"></progress>
         `;
       }
 
@@ -1145,12 +1136,10 @@ function renderRoadmapGraph(graphData) {
 
               return `
                 <div class="flex items-stretch gap-3 shrink-0">
-                  <div data-accion="ruta-destacar-nodo-grafo" data-id="${Number(node.id)}" class="w-64 p-4 rounded-2xl bg-slate-950/90 border ${statusBorder} flex flex-col justify-between space-y-3 cursor-pointer transition hover:-translate-y-0.5 shadow-md">
+                  <div data-accion="ruta-destacar-nodo-grafo" data-id="${Number(node.id)}" class="w-64 au-tarjeta au-tarjeta--plana flex flex-col justify-between cursor-pointer transition hover:-translate-y-0.5 ${statusBorder}">
                     <!-- Cabecera de la tarjeta del paso -->
                     <div class="flex items-center justify-between">
-                      <span class="text-xs font-mono font-extrabold px-2 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-sky-400">
-                        PASO ${String(idx + 1).padStart(2, '0')}
-                      </span>
+                      ${Au.insignia({ texto: 'PASO ' + String(idx + 1).padStart(2, '0'), tono: 'primario', mono: true })}
                       ${statusPill}
                     </div>
 
@@ -1219,7 +1208,7 @@ function renderRoadmapGraph(graphData) {
         const isSelected = state.selectedGraphNodeId === n.id;
 
         return `
-          <div id="graph-node-card-${n.id}" data-accion="ruta-destacar-nodo-grafo" data-id="${n.id}" class="au-tarjeta au-tarjeta--hundida cursor-pointer transition ${borderClass} ${isSelected ? 'ring-2 ring-indigo-500' : ''} ${isCritical ? 'shadow-lg shadow-amber-500/10' : ''}">
+          <div id="graph-node-card-${n.id}" data-accion="ruta-destacar-nodo-grafo" data-id="${n.id}" class="au-tarjeta au-tarjeta--plana cursor-pointer transition ${borderClass} ${isSelected ? 'ring-2 ring-indigo-500' : ''} ${isCritical ? 'shadow-lg shadow-amber-500/10' : ''}">
             <div class="flex items-start justify-between gap-2">
               <div>
                 <span class="text-xs text-slate-500 font-mono block">${escapeHtml(n.modulo_titulo || 'Módulo')}</span>
@@ -1427,19 +1416,19 @@ function applyDagSelectionStyles() {
     if (!card) return;
 
     if (n.id === selected.id) {
-      card.className = "au-tarjeta au-tarjeta--hundida ring-2 ring-indigo-500/50 shadow-xl transition cursor-pointer";
+      card.className = "au-tarjeta au-tarjeta--plana ring-2 ring-indigo-500/50 shadow-xl transition cursor-pointer";
     } else if (prereqs.has(n.id)) {
-      card.className = "au-tarjeta au-tarjeta--hundida border-2 border-amber-500/80 transition cursor-pointer";
+      card.className = "au-tarjeta au-tarjeta--plana border-2 border-amber-500/80 transition cursor-pointer";
     } else if (dependents.has(n.id)) {
-      card.className = "au-tarjeta au-tarjeta--hundida border-2 border-emerald-500/80 transition cursor-pointer";
+      card.className = "au-tarjeta au-tarjeta--plana border-2 border-emerald-500/80 transition cursor-pointer";
     } else {
-      card.className = "au-tarjeta au-tarjeta--hundida opacity-40 transition cursor-pointer hover:opacity-100";
+      card.className = "au-tarjeta au-tarjeta--plana opacity-40 transition cursor-pointer hover:opacity-100";
     }
   });
 }
 
 function buildDagEdgeRow(edge, otherTitle) {
-  const row = dagEl('div', 'p-2 bg-slate-900 border border-slate-800 rounded-lg space-y-1.5');
+  const row = dagEl('div', 'au-tarjeta au-tarjeta--hundida space-y-1.5');
   row.appendChild(dagEl('div', 'text-slate-200 font-medium break-words', otherTitle));
 
   const meta = dagEl('div', 'flex flex-wrap items-center gap-2');
@@ -1511,7 +1500,7 @@ function renderDagNodePanel(node) {
     'Ningún tema depende de este.'
   ));
 
-  const addBtn = dagEl('button', 'w-full py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold transition', 'Añadir prelación desde aquí');
+  const addBtn = dagEl('button', 'au-boton au-boton--primario au-boton--bloque au-boton--chico', 'Añadir prelación desde aquí');
   addBtn.type = 'button';
   addBtn.addEventListener('click', () => openAddPrerequisiteWithDefaults(node.id));
   panel.appendChild(addBtn);
@@ -1548,7 +1537,7 @@ function renderDagAvailable(graphData) {
   }
 
   available.forEach(node => {
-    const btn = dagEl('button', 'w-full text-left px-3 py-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-sky-500 transition flex items-center justify-between gap-2');
+    const btn = dagEl('button', 'au-fila flex items-center justify-between gap-2');
     btn.type = 'button';
     const text = dagEl('span', 'min-w-0');
     text.appendChild(dagEl('span', 'block text-xs text-slate-200 font-medium truncate', node.titulo));
