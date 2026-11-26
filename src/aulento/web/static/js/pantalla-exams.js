@@ -158,7 +158,7 @@ async function generateExamFromVault() {
 
       container.innerHTML = `
         <div class="space-y-6">
-          <div class="au-tarjeta au-tarjeta--hundida flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="au-seccion au-seccion--suave flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <div class="flex items-center gap-2">
                 <h3 class="font-bold text-white text-base">${escapeHtml(exam.title)}</h3>
@@ -181,7 +181,7 @@ async function generateExamFromVault() {
               <p class="text-base text-white font-medium leading-relaxed">${escapeHtml(q.prompt)}</p>
 
               ${q.fragmento ? `
-                <div class="p-3 bg-slate-950/80 border border-slate-800/80 rounded-xl text-xs text-slate-400">
+                <div class="au-tarjeta au-tarjeta--hundida text-xs text-slate-400">
                   <span class="font-semibold text-slate-300">${Au.icono('lectura')} Fragmento de referencia:</span>
                   <span class="italic">"${escapeHtml(q.fragmento)}"</span>
                   ${q.source_reference ? `<span class="block mt-1 text-xs text-slate-500">De: ${escapeHtml(q.source_reference)}</span>` : ''}
@@ -216,7 +216,7 @@ async function generateExamFromVault() {
                   >
                     <span>${Au.icono('examen')}</span> Evaluar Respuesta
                   </button>
-                  <div id="q-open-feedback-${idx}" class="hidden space-y-2 p-4 bg-slate-950 border border-slate-800 rounded-xl text-xs"></div>
+                  <div id="q-open-feedback-${idx}" class="hidden au-seccion au-seccion--con-linea au-seccion--apretada text-xs"></div>
                 </div>
               ` : `
                 <div class="pt-2">
@@ -228,7 +228,7 @@ async function generateExamFromVault() {
                   >
                     ${Au.icono('ver')} Revelar Respuesta y Fundamento
                   </button>
-                  <div id="q-cloze-${idx}" class="hidden mt-3 p-4 bg-slate-950 border border-slate-800 rounded-xl space-y-2">
+                  <div id="q-cloze-${idx}" class="hidden mt-3 au-tarjeta au-tarjeta--hundida">
                     <p class="text-sm font-bold text-emerald-400">Respuesta: ${escapeHtml(q.correct_answer)}</p>
                     <p class="text-xs text-slate-300 leading-relaxed">${escapeHtml(q.explanation)}</p>
                   </div>
@@ -474,7 +474,7 @@ async function submitFeynmanEvaluation() {
       ` : '';
 
       container.innerHTML = `
-        <div class="au-tarjeta shadow-2xl">
+        <div class="au-seccion au-seccion--suave">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
             <div>
               <div class="flex items-center gap-2">

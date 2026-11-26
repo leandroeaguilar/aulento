@@ -420,7 +420,7 @@ function renderMisMateriales() {
     const id = Number(m.id);
     const icono = m.extension === '.pdf' ? Au.icono('cuaderno') : Au.icono('notas');
     return `
-      <div class="au-tarjeta flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div class="au-tarjeta au-tarjeta--plana flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div class="flex items-center gap-3 min-w-0">
           <span class="text-xl shrink-0" aria-hidden="true">${icono}</span>
           <div class="min-w-0">
@@ -1201,7 +1201,7 @@ async function executeVectorSearch() {
     }
 
     if (!data.matches || data.matches.length === 0) {
-      resultsList.innerHTML = '<div class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-400">No se encontraron fragmentos con suficiente similitud semántica. Prueba indexando el catálogo primero.</div>';
+      resultsList.innerHTML = '<div class="au-aviso">No se encontraron fragmentos con suficiente similitud semántica. Prueba indexando el catálogo primero.</div>';
       return;
     }
 
@@ -1209,7 +1209,7 @@ async function executeVectorSearch() {
       const pct = Math.round(m.similarity * 100);
       const isCourse = m.source_type === 'course';
       return `
-        <div class="p-3.5 bg-slate-900/90 border border-slate-800 hover:border-slate-700 rounded-xl space-y-2 transition">
+        <div class="au-tarjeta au-tarjeta--plana">
           <div class="flex items-center justify-between gap-2">
             <div class="flex items-center gap-2">
               <span class="text-sm">${isCourse ? Au.icono('cursos') : Au.icono('lectura')}</span>
@@ -1220,7 +1220,7 @@ async function executeVectorSearch() {
               ${pct}% match
             </span>
           </div>
-          <p class="text-xs text-slate-300 leading-relaxed bg-slate-950/60 p-2.5 rounded-lg font-mono border border-slate-900">
+          <p class="au-tarjeta au-tarjeta--hundida text-xs text-slate-300 leading-relaxed font-mono">
             ${escapeHtml(m.chunk_text)}
           </p>
         </div>
@@ -1228,10 +1228,13 @@ async function executeVectorSearch() {
     }).join('');
   } catch (err) {
     if (resultsList) {
-      resultsList.innerHTML = `<div class="p-3 bg-rose-950/40 border border-rose-900/60 rounded-xl text-xs text-rose-300 space-y-1">
-        <p class="font-bold">${Au.icono('alerta')} La búsqueda en tus apuntes no está disponible</p>
-        <p>${escapeHtml(err.message)}</p>
-        <p class="text-xs text-slate-400 mt-1">El servicio de búsqueda vectorial no está disponible en este momento.</p>
+      resultsList.innerHTML = `<div class="au-aviso au-aviso--peligro">
+        <span class="au-aviso__icono" aria-hidden="true">${Au.icono('alerta')}</span>
+        <div class="au-aviso__contenido">
+          <span class="au-aviso__titulo">La búsqueda en tus apuntes no está disponible</span>
+          <p>${escapeHtml(err.message)}</p>
+          <p class="text-xs text-slate-400 mt-1">El servicio de búsqueda vectorial no está disponible en este momento.</p>
+        </div>
       </div>`;
     }
   }
