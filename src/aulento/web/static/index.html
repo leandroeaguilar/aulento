@@ -1929,21 +1929,19 @@
     <!-- 8. TAB: CONFIGURACIÓN INTEGRAL -->
     <section id="tab-config" class="tab-content hidden space-y-6">
       <!-- Encabezado del Panel -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 au-tarjeta">
-        <div>
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-500 via-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-600/20 text-white shrink-0">
-              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-ajustes"></use></svg>
-            </div>
-            <div>
-              <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Panel de Configuración & Integraciones</h2>
-              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">
-                Modelos de Inteligencia Artificial, calendario, instrucciones de enseñanza y control de costos.
-              </p>
-            </div>
+      <div class="au-cabecera">
+        <div class="au-cabecera__principal">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-500 via-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-600/20 text-white shrink-0">
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-ajustes"></use></svg>
+          </div>
+          <div class="au-cabecera__textos">
+            <h2 class="au-cabecera__titulo">Panel de Configuración & Integraciones</h2>
+            <p class="au-cabecera__subtitulo">
+              Modelos de Inteligencia Artificial, calendario, instrucciones de enseñanza y control de costos.
+            </p>
           </div>
         </div>
-        <div class="flex items-center gap-2 shrink-0">
+        <div class="au-cabecera__acciones">
           <button type="button" data-accion="config-abrir-onboarding" class="au-boton au-boton--secundario">
             <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-empezar"></use></svg> <span>Asistente de Configuración</span>
           </button>
@@ -1985,31 +1983,31 @@
       <div id="cfg-sec-ai" data-demo-aviso="ia" class="cfg-section space-y-6">
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
           <!-- Columna Principal: Formularios de Proveedores (Span 2) -->
-          <div class="xl:col-span-2 au-tarjeta">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 flex items-center justify-center shrink-0">
+          <div class="xl:col-span-2 au-seccion au-seccion--suave">
+            <div class="au-cabecera au-cabecera--con-linea">
+              <div class="au-cabecera__principal">
+                <span class="au-cabecera__icono text-indigo-400">
                   <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-generar"></use></svg>
-                </div>
-                <div>
-                  <h3 class="font-bold text-white text-base">Proveedores de Inteligencia Artificial</h3>
-                  <p class="text-xs text-slate-400">Gemini, Anthropic y OpenAI con claves cifradas y conmutación automática</p>
+                </span>
+                <div class="au-cabecera__textos">
+                  <h3 class="au-cabecera__titulo">Proveedores de Inteligencia Artificial</h3>
+                  <p class="au-cabecera__subtitulo">Gemini, Anthropic y OpenAI con claves cifradas y conmutación automática</p>
                 </div>
               </div>
-              <div class="flex items-center gap-1.5 self-start sm:self-auto">
-                <span id="config-ia-active-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-950 text-indigo-400 border border-indigo-800 shadow-sm">
+              <div class="au-cabecera__acciones">
+                <span id="config-ia-active-badge" class="au-insignia au-insignia--primario">
                   Gemini Activo
                 </span>
               </div>
             </div>
 
             <!-- Selector de Proveedor Activo -->
-            <div class="au-tarjeta au-tarjeta--hundida flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div class="au-campo flex-1">
                 <label for="config-ia-active-provider-select" class="au-campo__etiqueta">Proveedor de IA Activo</label>
                 <span class="au-campo__ayuda">Atiende las consultas del tutor, diseño de rutas, clases estructuradas y resúmenes</span>
               </div>
-              <div class="w-full sm:w-auto">
+              <div class="w-full sm:w-auto shrink-0">
                 <select id="config-ia-active-provider-select" data-accion="config-cambiar-proveedor-ia" class="au-campo__control au-campo__control--compacto">
                   <option value="gemini">Google Gemini</option>
                   <option value="anthropic">Anthropic (Claude)</option>
@@ -2034,10 +2032,10 @@
             <!-- PANEL GEMINI -->
             <div id="panel-provider-gemini" class="space-y-4">
               <!-- Banner Informativo Dual Tier -->
-              <div class="p-4 bg-indigo-950/40 rounded-2xl border border-indigo-900/60 text-xs text-slate-300 space-y-2">
+              <div class="au-tarjeta au-tarjeta--hundida flex flex-col gap-2 text-xs text-slate-300">
                 <div class="flex items-center justify-between text-indigo-300 font-semibold">
                   <span class="flex items-center gap-2"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-alerta"></use></svg> <span>Disponibilidad Continua con Gemini</span></span>
-                  <span id="config-gemini-tier-badge" class="text-xs px-2.5 py-0.5 rounded-lg bg-indigo-900/80 text-indigo-200 border border-indigo-700/50">Modo: Auto</span>
+                  <span id="config-gemini-tier-badge" class="au-insignia au-insignia--primario">Modo: Auto</span>
                 </div>
                 <p class="leading-relaxed">
                   Configurá una clave <strong>Gratuita</strong> (15 consultas por minuto sin costo) para uso diario y opcionalmente una clave <strong>Estándar</strong> (con facturación de respaldo). En modo <code class="text-sky-300 font-mono">automático</code>, el motor usará la clave gratuita y, si alcanza el límite de uso temporal, cambiará a la clave estándar sin interrumpir tu estudio.
@@ -2046,7 +2044,7 @@
                   <a href="https://aistudio.google.com/app/apikey" target="_blank" class="inline-flex items-center gap-1 text-sky-400 hover:text-sky-300 font-semibold underline">
                     Google AI Studio Keys <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-externo"></use></svg></a>
   
-                  <span id="config-gemini-status-badge" class="text-slate-500 text-xs">Verificando...</span>
+                  <span id="config-gemini-status-badge" class="au-insignia">Verificando...</span>
                 </div>
               </div>
 
@@ -2110,10 +2108,10 @@
 
             <!-- PANEL ANTHROPIC -->
             <div id="panel-provider-anthropic" class="hidden space-y-4">
-              <div class="p-4 bg-slate-950/60 rounded-2xl border border-slate-800 text-xs text-slate-300 space-y-1">
+              <div class="au-tarjeta au-tarjeta--hundida flex flex-col gap-1 text-xs text-slate-300">
                 <div class="flex items-center justify-between text-indigo-300 font-semibold">
                   <span>Anthropic API (Claude)</span>
-                  <span id="config-anthropic-status-badge" class="text-xs px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">Sin Clave</span>
+                  <span id="config-anthropic-status-badge" class="au-insignia">Sin Clave</span>
                 </div>
                 <p class="text-slate-400">Permite generación de texto y análisis curricular de temarios en PDF.</p>
               </div>
@@ -2155,10 +2153,10 @@
 
             <!-- PANEL OPENAI -->
             <div id="panel-provider-openai" class="hidden space-y-4">
-              <div class="p-4 bg-slate-950/60 rounded-2xl border border-slate-800 text-xs text-slate-300 space-y-1">
+              <div class="au-tarjeta au-tarjeta--hundida flex flex-col gap-1 text-xs text-slate-300">
                 <div class="flex items-center justify-between text-emerald-300 font-semibold">
                   <span>OpenAI (ChatGPT)</span>
-                  <span id="config-openai-status-badge" class="text-xs px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">Sin Clave</span>
+                  <span id="config-openai-status-badge" class="au-insignia">Sin Clave</span>
                 </div>
                 <p class="text-slate-400">Genera texto, lee documentos PDF y puede indexar tus apuntes para el tutor.</p>
               </div>
@@ -2200,19 +2198,19 @@
           </div>
 
           <!-- Columna Lateral: Arquitectura & Capacidades Pedagógicas de la IA (Span 1) -->
-          <div class="space-y-6">
-            <div class="au-tarjeta">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-purple-600/20 text-purple-400 border border-purple-500/30 flex items-center justify-center text-xl font-bold shrink-0">
-                  🧠
-                </div>
-                <div>
-                  <h4 class="font-bold text-white text-sm">Capacidades del Tutor IA</h4>
-                  <p class="text-xs text-slate-400">Integración con Mis notas</p>
+          <div>
+            <div class="au-seccion au-seccion--suave">
+              <div class="au-cabecera">
+                <div class="au-cabecera__principal">
+                  <span class="au-cabecera__icono" aria-hidden="true">🧠</span>
+                  <div class="au-cabecera__textos">
+                    <h3 class="au-cabecera__titulo">Capacidades del Tutor IA</h3>
+                    <p class="au-cabecera__subtitulo">Integración con Mis notas</p>
+                  </div>
                 </div>
               </div>
-              <div class="space-y-3 text-xs text-slate-300 leading-relaxed">
-                <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 space-y-1">
+              <div class="flex flex-col gap-3 text-xs text-slate-300 leading-relaxed">
+                <div class="au-tarjeta au-tarjeta--hundida flex flex-col gap-1">
                   <span class="font-bold text-sky-400 flex items-center gap-1.5">
                     <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rapido"></use></svg> <span>Lesson Studio (Guía Maestra)</span>
                   </span>
@@ -2220,7 +2218,7 @@
                     Convierte temas abstractos en guías prácticas paso a paso con diagramas visuales y preguntas de repaso integradas.
                   </p>
                 </div>
-                <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 space-y-1">
+                <div class="au-tarjeta au-tarjeta--hundida flex flex-col gap-1">
                   <span class="font-bold text-emerald-400 flex items-center gap-1.5">
                     <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-objetivo"></use></svg> <span>Análisis de Temas Faltantes (PDFs)</span>
                   </span>
@@ -2228,7 +2226,7 @@
                     Compara temarios oficiales de cursos con Mis notas y detecta qué conceptos te faltan dominar.
                   </p>
                 </div>
-                <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 space-y-1">
+                <div class="au-tarjeta au-tarjeta--hundida flex flex-col gap-1">
                   <span class="font-bold text-amber-400 flex items-center gap-1.5">
                     <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-seguridad"></use></svg> <span>Respaldo Automático Local ($0)</span>
                   </span>
@@ -2244,20 +2242,22 @@
       <div id="cfg-sec-cloud" data-demo-aviso="conectores" class="cfg-section hidden space-y-6">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <!-- GOOGLE CALENDAR & EXPORTACIÓN .ICS -->
-          <div class="au-tarjeta">
-            <div class="flex items-center justify-between border-b border-slate-800/80 pb-4">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0">
+          <div class="au-seccion au-seccion--suave">
+            <div class="au-cabecera au-cabecera--con-linea">
+              <div class="au-cabecera__principal">
+                <span class="au-cabecera__icono text-emerald-400">
                   <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agenda"></use></svg>
-                </div>
-                <div>
-                  <h3 class="font-bold text-white text-base">Google Calendar</h3>
-                  <p class="text-xs text-slate-400">Exportación semanal, 1-clic y feed RFC 5545</p>
+                </span>
+                <div class="au-cabecera__textos">
+                  <h3 class="au-cabecera__titulo">Google Calendar</h3>
+                  <p class="au-cabecera__subtitulo">Exportación semanal, 1-clic y feed RFC 5545</p>
                 </div>
               </div>
-              <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-800/80 shadow-sm">
-                ● Activo (Web & .ics)
-              </span>
+              <div class="au-cabecera__acciones">
+                <span class="au-insignia au-insignia--exito">
+                  ● Activo (Web & .ics)
+                </span>
+              </div>
             </div>
 
             <p class="text-xs text-slate-300 leading-relaxed">
@@ -2279,20 +2279,22 @@
       <!-- SECCIÓN: CONECTAR TU ASISTENTE POR MCP (la arma renderMcpConnect en app.js) -->
       <!-- SECCIÓN: CARPETAS DEL TUTOR (vault de la cuenta; se crean y eligen desde acá, también en un servidor) -->
       <div id="cfg-sec-vault" class="cfg-section hidden space-y-6">
-        <div class="au-tarjeta">
-          <div class="flex items-start justify-between gap-3 border-b border-slate-800/80 pb-4">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-xl bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0">
+        <div class="au-seccion au-seccion--suave">
+          <div class="au-cabecera au-cabecera--con-linea">
+            <div class="au-cabecera__principal">
+              <span class="au-cabecera__icono text-emerald-400">
                 <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cuaderno"></use></svg>
-              </div>
-              <div>
-                <h3 class="font-bold text-white text-base">Carpetas del Tutor</h3>
-                <p class="text-xs text-slate-400">El tutor, los exámenes y la cosecha de tarjetas leen las notas de las carpetas que marques. <span id="vault-folders-where"></span></p>
+              </span>
+              <div class="au-cabecera__textos">
+                <h3 class="au-cabecera__titulo">Carpetas del Tutor</h3>
+                <p class="au-cabecera__subtitulo">El tutor, los exámenes y la cosecha de tarjetas leen las notas de las carpetas que marques. <span id="vault-folders-where"></span></p>
               </div>
             </div>
-            <button type="button" data-accion="config-cargar-carpetas-vault" class="au-boton au-boton--fantasma au-boton--icono shrink-0" title="Volver a leer las carpetas" aria-label="Volver a leer las carpetas">
-              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-recargar"></use></svg>
-            </button>
+            <div class="au-cabecera__acciones">
+              <button type="button" data-accion="config-cargar-carpetas-vault" class="au-boton au-boton--fantasma au-boton--icono shrink-0" title="Volver a leer las carpetas" aria-label="Volver a leer las carpetas">
+                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-recargar"></use></svg>
+              </button>
+            </div>
           </div>
 
           <div id="vault-folders-missing" class="hidden bg-amber-950/30 border border-amber-800/50 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3"></div>
@@ -2321,14 +2323,16 @@
 
       <!-- SECCIÓN: DUOLINGO (usuario público de la cuenta, racha y XP) -->
       <div id="cfg-sec-duolingo" class="cfg-section hidden space-y-6">
-        <div class="au-tarjeta">
-          <div class="flex items-center gap-3 border-b border-slate-800/80 pb-4">
-            <div class="w-10 h-10 rounded-xl bg-lime-500/15 text-lime-300 border border-lime-500/30 flex items-center justify-center shrink-0">
-              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-idioma"></use></svg>
-            </div>
-            <div>
-              <h3 class="font-bold text-white text-base">Duolingo</h3>
-              <p class="text-xs text-slate-400">Tu racha y tu XP se leen de tu perfil público. No hace falta contraseña.</p>
+        <div class="au-seccion au-seccion--suave">
+          <div class="au-cabecera au-cabecera--con-linea">
+            <div class="au-cabecera__principal">
+              <span class="au-cabecera__icono text-lime-300">
+                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-idioma"></use></svg>
+              </span>
+              <div class="au-cabecera__textos">
+                <h3 class="au-cabecera__titulo">Duolingo</h3>
+                <p class="au-cabecera__subtitulo">Tu racha y tu XP se leen de tu perfil público. No hace falta contraseña.</p>
+              </div>
             </div>
           </div>
           <div id="duolingo-config-card">
@@ -2338,14 +2342,14 @@
       </div>
 
       <div id="cfg-sec-mcp" class="cfg-section hidden space-y-6">
-        <div class="au-tarjeta">
-          <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-2xl bg-violet-500/10 text-violet-300 border border-violet-500/20 flex items-center justify-center shrink-0">
+        <div class="au-cabecera">
+          <div class="au-cabecera__principal">
+            <span class="au-cabecera__icono text-violet-300">
               <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-integracion"></use></svg>
-            </div>
-            <div class="space-y-1.5">
-              <h3 class="font-bold text-white text-lg">Conectá tu asistente de IA</h3>
-              <p class="text-sm text-slate-300 leading-relaxed">
+            </span>
+            <div class="au-cabecera__textos">
+              <h3 class="au-cabecera__titulo">Conectá tu asistente de IA</h3>
+              <p class="au-cabecera__subtitulo">
                 Claude Desktop, Claude Code, Cursor u otro asistente compatible con MCP puede trabajar sobre tu Aulento:
                 crear clases de tus rutas, consultar tus notas, repasar tarjetas o registrar lo que leíste.
                 <span class="text-violet-300 font-semibold">Usa la suscripción de tu asistente: no hace falta una clave de API.</span>
@@ -2363,25 +2367,25 @@
 
       <!-- SECCIÓN 3: SYSTEM PROMPTS PEDAGÓGICOS (DISTRIBUCIÓN MEJORADA) -->
       <div id="cfg-sec-prompts" class="cfg-section hidden space-y-6">
-        <div class="au-tarjeta">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-xl bg-purple-600/20 text-purple-400 border border-purple-500/30 flex items-center justify-center shrink-0">
+        <div class="au-seccion au-seccion--suave">
+          <div class="au-cabecera au-cabecera--con-linea">
+            <div class="au-cabecera__principal">
+              <span class="au-cabecera__icono text-purple-400">
                 <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cerebro"></use></svg>
-              </div>
-              <div>
-                <h3 class="font-bold text-white text-base">Instrucciones del Tutor IA</h3>
-                <p class="text-xs text-slate-400">Diseño Curricular por Metas y Niveles de Aprendizaje</p>
+              </span>
+              <div class="au-cabecera__textos">
+                <h3 class="au-cabecera__titulo">Instrucciones del Tutor IA</h3>
+                <p class="au-cabecera__subtitulo">Diseño Curricular por Metas y Niveles de Aprendizaje</p>
               </div>
             </div>
-            <div class="flex items-center gap-2 self-start sm:self-auto">
-              <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-purple-950 text-purple-300 border border-purple-800">
+            <div class="au-cabecera__acciones">
+              <span class="au-insignia au-insignia--primario">
                 Modo Curricular Activo
               </span>
             </div>
           </div>
 
-          <div class="p-4 bg-purple-950/30 rounded-2xl border border-purple-900/60 text-xs text-slate-300 leading-relaxed">
+          <div class="au-tarjeta au-tarjeta--hundida text-xs text-slate-300 leading-relaxed">
             Estas instrucciones guían al tutor sobre cómo organizar el mapa de temas y cómo redactar las lecciones paso a paso (guías maestras, preguntas de repaso, diagramas visuales y explicaciones claras).
           </div>
 
@@ -2429,50 +2433,52 @@
 
       <!-- SECCIÓN 4: TOKEN & COST ANALYTICS (DISTRIBUCIÓN MEJORADA) -->
       <div id="cfg-sec-analytics" class="cfg-section hidden space-y-6">
-        <div class="au-tarjeta">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
-            <div class="flex items-center gap-3">
-              <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/20 text-white shrink-0">
+        <div class="au-seccion au-seccion--suave">
+          <div class="au-cabecera au-cabecera--con-linea">
+            <div class="au-cabecera__principal">
+              <span class="au-cabecera__icono text-emerald-400">
                 <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-estadisticas"></use></svg>
-              </div>
-              <div>
-                <h3 class="font-bold text-white text-lg">Panel de Consumo & Estimación de IA</h3>
-                <p class="text-xs text-slate-400">Métricas en tiempo real, consumo de tokens y costos estimados por llamada</p>
+              </span>
+              <div class="au-cabecera__textos">
+                <h3 class="au-cabecera__titulo">Panel de Consumo & Estimación de IA</h3>
+                <p class="au-cabecera__subtitulo">Métricas en tiempo real, consumo de tokens y costos estimados por llamada</p>
               </div>
             </div>
-            <button type="button" data-accion="config-cargar-analiticas" class="au-boton au-boton--secundario self-start sm:self-auto">
-              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-recargar"></use></svg> <span>Actualizar Métricas</span>
-            </button>
+            <div class="au-cabecera__acciones">
+              <button type="button" data-accion="config-cargar-analiticas" class="au-boton au-boton--secundario">
+                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-recargar"></use></svg> <span>Actualizar Métricas</span>
+              </button>
+            </div>
           </div>
 
           <!-- KPI Cards de Tokens y Costos -->
-          <div class="grid grid-cols-2 sm:grid-cols-5 gap-3.5">
-            <div class="p-4 bg-slate-950/80 border border-slate-800/90 rounded-2xl shadow-sm">
-              <span class="text-xs uppercase font-bold text-slate-400 tracking-wider">Solicitudes</span>
-              <div class="text-xl sm:text-2xl font-black text-white mt-1" id="analytics-kpi-requests">0</div>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+            <div class="au-kpi">
+              <span class="au-kpi__etiqueta">Solicitudes</span>
+              <div class="au-kpi__valor" id="analytics-kpi-requests">0</div>
             </div>
-            <div class="p-4 bg-slate-950/80 border border-slate-800/90 rounded-2xl shadow-sm">
-              <span class="text-xs uppercase font-bold text-slate-400 tracking-wider">Tokens de Entrada</span>
-              <div class="text-xl sm:text-2xl font-black text-sky-400 mt-1" id="analytics-kpi-prompt-tokens">0</div>
+            <div class="au-kpi">
+              <span class="au-kpi__etiqueta">Tokens de Entrada</span>
+              <div class="au-kpi__valor" id="analytics-kpi-prompt-tokens">0</div>
             </div>
-            <div class="p-4 bg-slate-950/80 border border-slate-800/90 rounded-2xl shadow-sm">
-              <span class="text-xs uppercase font-bold text-slate-400 tracking-wider">Tokens de Salida</span>
-              <div class="text-xl sm:text-2xl font-black text-indigo-400 mt-1" id="analytics-kpi-comp-tokens">0</div>
+            <div class="au-kpi">
+              <span class="au-kpi__etiqueta">Tokens de Salida</span>
+              <div class="au-kpi__valor" id="analytics-kpi-comp-tokens">0</div>
             </div>
-            <div class="p-4 bg-slate-950/80 border border-slate-800/90 rounded-2xl shadow-sm">
-              <span class="text-xs uppercase font-bold text-slate-400 tracking-wider">Tokens Totales</span>
-              <div class="text-xl sm:text-2xl font-black text-purple-400 mt-1" id="analytics-kpi-total-tokens">0</div>
+            <div class="au-kpi">
+              <span class="au-kpi__etiqueta">Tokens Totales</span>
+              <div class="au-kpi__valor" id="analytics-kpi-total-tokens">0</div>
             </div>
-            <div class="p-4 bg-slate-950/80 border border-slate-800/90 rounded-2xl shadow-sm col-span-2 sm:col-span-1">
-              <span class="text-xs uppercase font-bold text-emerald-400 tracking-wider">Costo USD</span>
-              <div class="text-xl sm:text-2xl font-black text-emerald-400 mt-1" id="analytics-kpi-cost">$0.0000</div>
+            <div class="au-kpi col-span-2 sm:col-span-1">
+              <span class="au-kpi__etiqueta">Costo USD</span>
+              <div class="au-kpi__valor" id="analytics-kpi-cost">$0.0000</div>
             </div>
           </div>
 
           <!-- Tablas de Desglose: Por Modelo y Por Endpoint -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             <!-- Desglose por Modelo -->
-            <div class="p-5 bg-slate-950/80 border border-slate-800/90 rounded-2xl space-y-3 shadow-inner">
+            <div class="au-tarjeta au-tarjeta--hundida flex flex-col gap-3">
               <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
                 <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-ia"></use></svg> <span>Consumo por Modelo</span>
               </h4>
@@ -2482,7 +2488,7 @@
             </div>
 
             <!-- Desglose por Endpoint -->
-            <div class="p-5 bg-slate-950/80 border border-slate-800/90 rounded-2xl space-y-3 shadow-inner">
+            <div class="au-tarjeta au-tarjeta--hundida flex flex-col gap-3">
               <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
                 <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rapido"></use></svg> <span>Consumo por Función</span>
               </h4>
@@ -2493,7 +2499,7 @@
           </div>
 
           <!-- Tabla de Historial de Transacciones Recientes -->
-          <div class="p-5 bg-slate-950/80 border border-slate-800/90 rounded-2xl space-y-3 shadow-inner">
+          <div class="au-tarjeta au-tarjeta--hundida flex flex-col gap-3">
             <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
               <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-copiar"></use></svg> <span>Solicitudes Recientes a Gemini Gateway</span>
             </h4>
@@ -2526,7 +2532,7 @@
       <!-- SECCIÓN 5: SISTEMA & PRIVACIDAD (DISTRIBUCIÓN MEJORADA) -->
       <div id="cfg-sec-system" class="cfg-section hidden space-y-6">
         <!-- Tema de la interfaz (js/tema.js; se guarda en este navegador) -->
-        <div class="au-tarjeta au-tarjeta--hundida flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="au-seccion au-seccion--suave flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div class="au-campo flex-1">
             <label for="config-tema-select" class="au-campo__etiqueta">Tema de la interfaz</label>
             <span class="au-campo__ayuda">Se guarda en este navegador</span>
@@ -2540,59 +2546,63 @@
           </div>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <!-- TARJETA 1: ARQUITECTURA Y DATOS LOCALES -->
-          <div class="au-tarjeta">
-            <div class="flex items-center gap-3 border-b border-slate-800/80 pb-4">
-              <div class="w-10 h-10 rounded-xl bg-purple-600/20 text-purple-400 border border-purple-500/30 flex items-center justify-center shrink-0">
-                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-seguridad"></use></svg>
-              </div>
-              <div>
-                <h3 class="font-bold text-white text-base" data-texto="privacidad_titulo">Privacidad & Datos Locales</h3>
-                <p class="text-xs text-slate-400" data-texto="privacidad_subtitulo">Diseño Local-First y almacenamiento soberano</p>
+          <!-- PANEL 1: ARQUITECTURA Y DATOS LOCALES -->
+          <div class="au-seccion au-seccion--suave">
+            <div class="au-cabecera au-cabecera--con-linea">
+              <div class="au-cabecera__principal">
+                <span class="au-cabecera__icono text-purple-400">
+                  <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-seguridad"></use></svg>
+                </span>
+                <div class="au-cabecera__textos">
+                  <h3 class="au-cabecera__titulo" data-texto="privacidad_titulo">Privacidad & Datos Locales</h3>
+                  <p class="au-cabecera__subtitulo" data-texto="privacidad_subtitulo">Diseño Local-First y almacenamiento soberano</p>
+                </div>
               </div>
             </div>
-            <div class="space-y-3 text-xs text-slate-300">
-              <div class="flex items-center justify-between p-3 bg-slate-950/80 rounded-xl border border-slate-800">
+            <div class="flex flex-col gap-2.5 text-xs text-slate-300">
+              <div class="au-fila">
                 <span class="text-slate-400">Base de Datos:</span>
                 <span class="font-mono text-white font-semibold" data-texto="privacidad_bd">Base local en tu computadora</span>
               </div>
-              <div class="flex items-center justify-between p-3 bg-slate-950/80 rounded-xl border border-slate-800">
+              <div class="au-fila">
                 <span class="text-slate-400">Algoritmo de Repaso Espaciado:</span>
                 <span class="font-mono text-sky-400 font-semibold">Motor de Repaso Espaciado</span>
               </div>
-              <div class="flex items-center justify-between p-3 bg-slate-950/80 rounded-xl border border-slate-800">
+              <div class="au-fila">
                 <span class="text-slate-400">Mis notas:</span>
                 <span class="font-mono text-emerald-400 font-semibold" data-texto="privacidad_notas">Markdown + OKF v0.2 <span data-requiere="carpeta_local">(abrible con Obsidian)</span></span>
               </div>
-              <div class="flex items-center justify-between p-3 bg-slate-950/80 rounded-xl border border-slate-800">
+              <div class="au-fila">
                 <span class="text-slate-400">Licencia:</span>
                 <span class="font-bold text-emerald-400" data-texto="privacidad_licencia">100% Gratuito y Open Source</span>
               </div>
-              <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 space-y-1 text-slate-400" data-texto="privacidad_donde">
+              <div class="au-tarjeta au-tarjeta--hundida flex flex-col gap-1 text-slate-400" data-texto="privacidad_donde">
                 <span class="text-slate-300 font-semibold">Almacenamiento:</span> En local tus datos están en tu equipo en SQLite.
               </div>
-              <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 space-y-1 text-slate-400" data-texto="privacidad_quien_ve">
+              <div class="au-tarjeta au-tarjeta--hundida flex flex-col gap-1 text-slate-400" data-texto="privacidad_quien_ve">
                 <span class="text-slate-300 font-semibold">Acceso:</span> Solo vos accedés a tu instalación en tu computadora.
               </div>
-              <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 space-y-1 text-slate-400" data-texto="privacidad_exportar_borrar">
+              <div class="au-tarjeta au-tarjeta--hundida flex flex-col gap-1 text-slate-400" data-texto="privacidad_exportar_borrar">
                 <span class="text-slate-300 font-semibold">Exportación:</span> Podés exportar tu calendario (.ics) y mazo a Anki.
               </div>
             </div>
           </div>
 
-          <!-- TARJETA 2: ACTIVE RECALL & TÉCNICA FEYNMAN OFFLINE -->
-          <div class="au-tarjeta">
-            <div class="flex items-center gap-3 border-b border-slate-800/80 pb-4">
-              <div class="w-10 h-10 rounded-xl bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0">
-                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-examen"></use></svg>
-              </div>
-              <div>
-                <h3 class="font-bold text-white text-base">Motor de Estudio Local</h3>
-                <p class="text-xs text-slate-400">Evaluación socrática y simplicidad conceptual</p>
+          <!-- PANEL 2: ACTIVE RECALL & TÉCNICA FEYNMAN OFFLINE -->
+          <div class="au-seccion au-seccion--suave">
+            <div class="au-cabecera au-cabecera--con-linea">
+              <div class="au-cabecera__principal">
+                <span class="au-cabecera__icono text-emerald-400">
+                  <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-examen"></use></svg>
+                </span>
+                <div class="au-cabecera__textos">
+                  <h3 class="au-cabecera__titulo">Motor de Estudio Local</h3>
+                  <p class="au-cabecera__subtitulo">Evaluación socrática y simplicidad conceptual</p>
+                </div>
               </div>
             </div>
-            <div class="space-y-3 text-xs text-slate-300 leading-relaxed">
-              <div class="p-3.5 bg-slate-950/80 rounded-xl border border-slate-800 space-y-1.5">
+            <div class="flex flex-col gap-3 text-xs text-slate-300 leading-relaxed">
+              <div class="au-tarjeta au-tarjeta--hundida flex flex-col gap-1.5">
                 <span class="font-bold text-white flex items-center gap-1.5">
                   <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-plataforma"></use></svg> <span>Motor Semántico Local (Offline)</span>
                 </span>
@@ -2600,7 +2610,7 @@
                   Detecta jerga técnica vacía (<span class="text-amber-300">buzzwords</span>), verifica analogías cotidianas y calcula el índice de simplicidad conceptual <span data-texto="simplicidad_privacidad">sin enviar ningún dato fuera de tu equipo.</span>
                 </p>
               </div>
-              <div class="p-3.5 bg-slate-950/80 rounded-xl border border-slate-800 space-y-1.5">
+              <div class="au-tarjeta au-tarjeta--hundida flex flex-col gap-1.5">
                 <span class="font-bold text-indigo-300 flex items-center gap-1.5">
                   <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-generar"></use></svg> <span>Enriquecimiento Gemini (Opcional)</span>
                 </span>

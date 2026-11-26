@@ -272,30 +272,44 @@ async function renderMcpConnect() {
   const activos = mcpConnect.tokens.filter((t) => !t.revocado_en);
 
   const tarjetaLocal = info.local_disponible
-    ? `<div class="au-tarjeta au-tarjeta--destacada">
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h4 class="font-bold text-white text-base">En esta computadora <span class="text-xs font-semibold text-violet-300 ml-1">Recomendado</span></h4>
-          <p class="text-xs text-slate-400">Tu asistente arranca Aulento solo cuando lo necesita. Sin token ni puertos abiertos.</p>
+    ? `<section class="au-seccion au-seccion--suave">
+      <div class="au-cabecera">
+        <div class="au-cabecera__principal">
+          <div class="au-cabecera__textos">
+            <h4 class="au-cabecera__titulo">En esta computadora <span class="au-insignia au-insignia--primario ml-1">Recomendado</span></h4>
+            <p class="au-cabecera__subtitulo">Tu asistente arranca Aulento solo cuando lo necesita. Sin token ni puertos abiertos.</p>
+          </div>
         </div>
-        <div class="au-pestanas scroll-x-pista" role="tablist" aria-label="Clientes MCP">${pestana('claude-desktop', 'Claude Desktop')}${pestana('claude-code', 'Claude Code')}${pestana('cursor', 'Cursor y otros')}</div>
+        <div class="au-cabecera__acciones">
+          <div class="au-pestanas" role="tablist" aria-label="Clientes MCP">${pestana('claude-desktop', 'Claude Desktop')}${pestana('claude-code', 'Claude Code')}${pestana('cursor', 'Cursor y otros')}</div>
+        </div>
       </div>
       ${pasosLocalesMcp(info)}
       ${avisoClave}
-    </div>`
-    : `<div class="au-tarjeta">
-      <h4 class="font-bold text-white text-base">En esta computadora</h4>
-      <p class="text-xs text-slate-400">Esta forma la usa quien administra la instalación, porque necesita estar en la misma computadora que el servidor.
-        Vos te conectás por red, con un token propio: está acá abajo.</p>
-    </div>`;
+    </section>`
+    : `<section class="au-seccion au-seccion--suave">
+      <div class="au-cabecera">
+        <div class="au-cabecera__principal">
+          <div class="au-cabecera__textos">
+            <h4 class="au-cabecera__titulo">En esta computadora</h4>
+            <p class="au-cabecera__subtitulo">Esta forma la usa quien administra la instalación, porque necesita estar en la misma computadora que el servidor.
+              Vos te conectás por red, con un token propio: está acá abajo.</p>
+          </div>
+        </div>
+      </div>
+    </section>`;
 
   cuerpo.innerHTML = `
     ${tarjetaLocal}
 
-    <div class="au-tarjeta">
-      <div>
-        <h4 class="font-bold text-white text-base">Por red, con un token</h4>
-        <p class="text-xs text-slate-400">Para un asistente que se conecta por URL. Cada token es de tu cuenta y lo podés revocar cuando quieras.</p>
+    <section class="au-seccion au-seccion--suave">
+      <div class="au-cabecera">
+        <div class="au-cabecera__principal">
+          <div class="au-cabecera__textos">
+            <h4 class="au-cabecera__titulo">Por red, con un token</h4>
+            <p class="au-cabecera__subtitulo">Para un asistente que se conecta por URL. Cada token es de tu cuenta y lo podés revocar cuando quieras.</p>
+          </div>
+        </div>
       </div>
       <div class="flex flex-col sm:flex-row gap-2">
         <input id="mcp-token-nombre" type="text" maxlength="64" placeholder="Nombre del token (ej. Claude Code de la notebook)"
@@ -309,13 +323,19 @@ async function renderMcpConnect() {
         <table class="w-full text-xs"><thead><tr class="text-left text-slate-500">
           <th class="py-1 pr-3">Nombre</th><th class="py-1 pr-3">Creado</th><th class="py-1 pr-3">Último uso</th><th class="py-1 pr-3">Estado</th><th></th>
         </tr></thead><tbody>${mcpConnect.tokens.map(filaDeTokenMcp).join('')}</tbody></table></div>` : ''}
-    </div>
+    </section>
 
-    <div class="au-tarjeta">
-      <h4 class="font-bold text-white text-base">Probalo</h4>
-      <p class="text-xs text-slate-400">Con el asistente conectado, pedile por ejemplo:</p>
+    <section class="au-seccion au-seccion--suave">
+      <div class="au-cabecera">
+        <div class="au-cabecera__principal">
+          <div class="au-cabecera__textos">
+            <h4 class="au-cabecera__titulo">Probalo</h4>
+            <p class="au-cabecera__subtitulo">Con el asistente conectado, pedile por ejemplo:</p>
+          </div>
+        </div>
+      </div>
       ${EJEMPLOS_DE_PEDIDOS_MCP.map(snippetMcp).join('')}
-    </div>`;
+    </section>`;
 }
 
 function elegirClienteMcp(cliente) {
@@ -1024,11 +1044,11 @@ async function loadTokenAnalytics() {
           modelsContainer.innerHTML = models.map(m => {
             const data = summary.by_model[m];
             return `
-              <div class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-800">
-                <span class="font-mono text-white">${escapeHtml(m)}</span>
-                <div class="text-right">
-                  <div class="text-slate-300 font-bold">${(data.total_tokens || 0).toLocaleString()} tokens</div>
-                  <div class="text-xs text-emerald-400">$${(data.cost_usd || 0).toFixed(4)} • ${data.requests} reqs</div>
+              <div class="au-fila">
+                <span class="font-mono text-white text-xs truncate max-w-[180px]">${escapeHtml(m)}</span>
+                <div class="text-right shrink-0">
+                  <div class="text-slate-300 font-bold text-xs">${(data.total_tokens || 0).toLocaleString()} tokens</div>
+                  <div class="text-xs text-emerald-400 font-mono">$${(data.cost_usd || 0).toFixed(4)} • ${data.requests} reqs</div>
                 </div>
               </div>
             `;
@@ -1046,11 +1066,11 @@ async function loadTokenAnalytics() {
           endpointsContainer.innerHTML = endpoints.map(ep => {
             const data = summary.by_endpoint[ep];
             return `
-              <div class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+              <div class="au-fila">
                 <span class="font-mono text-white text-xs truncate max-w-[180px]">${escapeHtml(ep)}</span>
-                <div class="text-right">
-                  <div class="text-slate-300 font-bold">${(data.total_tokens || 0).toLocaleString()} tokens</div>
-                  <div class="text-xs text-emerald-400">$${(data.cost_usd || 0).toFixed(4)} • ${data.requests} reqs</div>
+                <div class="text-right shrink-0">
+                  <div class="text-slate-300 font-bold text-xs">${(data.total_tokens || 0).toLocaleString()} tokens</div>
+                  <div class="text-xs text-emerald-400 font-mono">$${(data.cost_usd || 0).toFixed(4)} • ${data.requests} reqs</div>
                 </div>
               </div>
             `;
