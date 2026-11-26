@@ -161,8 +161,8 @@ def test_duolingo_e_indice_en_popover_de_salud():
 def test_version_de_los_recursos_y_de_la_cache():
     """Todos los recursos de index.html con la misma versión, y la caché del service worker renovada con ellos."""
     html = INDEX.read_text(encoding="utf-8")
-    assert set(re.findall(r"\?v=([0-9.]+)", html)) == {"2.25"}
+    assert set(re.findall(r"\?v=([0-9.]+)", html)) == {"2.26"}
 
     sw = (ESTATICO / "sw.js").read_text(encoding="utf-8")
-    assert "const CACHE_NAME = 'aulento-v8';" in sw
+    assert "const CACHE_NAME = 'aulento-v9';" in sw
     assert "'/static/icons/aulento-iconos.svg'" in sw

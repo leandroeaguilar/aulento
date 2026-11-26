@@ -44,7 +44,7 @@ Están en `:root`, al principio de `componentes.css`:
 | Superficies | `--au-fondo`, `--au-superficie`, `--au-superficie-alta`, `--au-superficie-hundida`, `--au-borde`, `--au-borde-fuerte` |
 | Texto | `--au-texto`, `--au-texto-titulo`, `--au-texto-suave`, `--au-texto-tenue` |
 | Tonos | `--au-primario*`, `--au-exito*`, `--au-alerta*`, `--au-peligro*` (fuerte, `-texto`, `-suave` de fondo, `-borde`) |
-| Forma | `--au-radio-tarjeta` (24 px), `--au-radio-subtarjeta` (16 px), `--au-radio-control` (12 px), `--au-radio-pildora` |
+| Forma | `--au-radio-tarjeta` (12 px), `--au-radio-subtarjeta` (8 px), `--au-radio-control` (8 px), `--au-radio-pildora`. Son los radios de contenedor y de elemento de Astryx |
 | Controles | `--au-alto-control` (36 px con mouse), `--au-alto-control-tactil` (40 px con el dedo) |
 | Espacio | `--au-espacio-0-5` … `--au-espacio-10`: pasos de 4 px en rem (0,5 = 2 px, 1 = 4 px, 4 = 16 px, 10 = 40 px). En CSS propio, nada de px sueltos para el relleno interior |
 
