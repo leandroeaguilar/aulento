@@ -54,14 +54,14 @@
   --au-velo: rgb(var(--au-negro) / 0.75);
 
   /* Forma */
-  --au-radio-tarjeta: 1.5rem;     /* rounded-3xl */
-  --au-radio-subtarjeta: 1rem;    /* rounded-2xl */
-  --au-radio-control: 0.75rem;    /* rounded-xl */
+  --au-radio-tarjeta: 0.75rem;    /* 12 px, el radio de contenedor de Astryx */
+  --au-radio-subtarjeta: 0.5rem;  /* 8 px: recuadros, métricas y paneles */
+  --au-radio-control: 0.5rem;     /* 8 px: botones y campos */
   --au-radio-pildora: 9999px;
 
   /* Espacio */
   --au-espacio-tarjeta: 1rem;
-  --au-espacio-tarjeta-sm: 1.5rem;
+  --au-espacio-tarjeta-sm: 1rem;  /* 16 px también en escritorio, como la tarjeta de Astryx */
   --au-hueco: 0.75rem;
 
   /* Escala de espacio: pasos de 4 px en rem, para que crezcan con la letra del navegador (como la de Astryx).
@@ -115,7 +115,7 @@
   padding: var(--au-espacio-tarjeta);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--au-espacio-3);
   min-width: 0;
   box-shadow: var(--au-sombra-tarjeta);
 }
@@ -163,7 +163,7 @@
   padding: var(--au-espacio-4);
 }
 @media (min-width: 640px) {
-  .au-seccion--suave { padding: var(--au-espacio-5); }
+  .au-seccion--suave { padding: var(--au-espacio-4); }
 }
 /* Separador arriba: la siguiente región dentro de la misma tarjeta o columna */
 .au-seccion--con-linea {
@@ -195,14 +195,14 @@
 }
 .au-cabecera__icono {
   flex-shrink: 0;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--au-radio-control);
   background: var(--au-superficie-alta);
-  font-size: var(--au-texto-lg);
+  font-size: var(--au-texto-md);
 }
 .au-cabecera__textos { min-width: 0; }
 .au-cabecera__titulo {
