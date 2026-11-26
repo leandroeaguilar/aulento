@@ -551,7 +551,7 @@
 
         <!-- Tarjetas KPI Principales -->
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-          <section class="au-tarjeta justify-between">
+          <section class="au-tarjeta au-tarjeta--plana justify-between">
             <div>
               <div class="flex items-center justify-between mb-3">
                 <span class="au-kpi__etiqueta">Repaso de Inglés Hoy</span>
@@ -565,7 +565,7 @@
             </button>
           </section>
 
-          <section class="au-tarjeta justify-between">
+          <section class="au-tarjeta au-tarjeta--plana justify-between">
             <div>
               <div class="flex items-center justify-between mb-3">
                 <span class="au-kpi__etiqueta">Racha de Estudio</span>
@@ -574,12 +574,12 @@
               <div class="text-4xl font-black text-amber-400 tracking-tight" id="kpi-streak">0 días</div>
               <p class="au-kpi__detalle mt-2">Consistencia consecutiva</p>
             </div>
-            <div class="au-tarjeta--hundida text-xs text-emerald-400 font-semibold" id="kpi-retention-text">
+            <div class="au-seccion--con-linea text-xs text-emerald-400 font-semibold" id="kpi-retention-text">
               Retención histórica: 0%
             </div>
           </section>
 
-          <section class="au-tarjeta justify-between">
+          <section class="au-tarjeta au-tarjeta--plana justify-between">
             <div>
               <div class="flex items-center justify-between mb-3">
                 <span class="au-kpi__etiqueta">Cursos Activos</span>
@@ -593,7 +593,7 @@
             </button>
           </section>
 
-          <section class="au-tarjeta justify-between">
+          <section class="au-tarjeta au-tarjeta--plana justify-between">
             <div>
               <div class="flex items-center justify-between mb-3">
                 <span class="au-kpi__etiqueta">Libros Técnicos</span>
@@ -615,7 +615,7 @@
           <div class="lg:col-span-7 xl:col-span-8 space-y-8">
 
             <!-- 1. ACTIVIDAD Y HEATMAP DE CONSISTENCIA DE ESTUDIO (GITHUB-STYLE) -->
-            <section class="au-tarjeta">
+            <section class="au-seccion au-seccion--suave">
               <div class="au-cabecera">
                 <div class="au-cabecera__principal">
                   <span class="au-cabecera__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agenda"></use></svg></span>
@@ -640,7 +640,7 @@
               </div>
 
               <!-- Contenedor del Heatmap SVG/CSS Grid -->
-              <div class="au-tarjeta au-tarjeta--hundida overflow-x-auto no-scrollbar scroll-x-pista" tabindex="0" role="region" aria-label="Mapa de constancia diaria">
+              <div class="overflow-x-auto no-scrollbar scroll-x-pista" tabindex="0" role="region" aria-label="Mapa de constancia diaria">
                 <div id="heatmap-grid-container" class="flex flex-wrap gap-1.5 min-w-[500px]">
                   <!-- Renderizado dinámico -->
                 </div>
@@ -660,7 +660,7 @@
             </section>
 
             <!-- 2. PREGUNTAR AL TUTOR DESDE EL TABLERO (059 R4) -->
-            <section class="au-tarjeta">
+            <section class="au-seccion au-seccion--suave">
               <div class="au-cabecera au-cabecera--con-linea">
                 <div class="au-cabecera__principal">
                   <span class="au-cabecera__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cerebro"></use></svg></span>
@@ -694,7 +694,7 @@
             </section>
 
             <!-- 3. RETENCIÓN MACRO DE TEMAS (FSRS v5) -->
-            <section class="au-tarjeta">
+            <section class="au-seccion">
               <div class="au-cabecera">
                 <div class="au-cabecera__principal">
                   <span class="au-cabecera__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-repaso"></use></svg></span>
@@ -719,7 +719,7 @@
             </section>
 
             <!-- 4. Cursadas Activas en Progreso -->
-            <section class="au-tarjeta">
+            <section class="au-seccion">
               <div class="au-cabecera">
                 <div class="au-cabecera__principal">
                   <span class="au-cabecera__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cursos"></use></svg></span>
@@ -744,7 +744,7 @@
           <div class="lg:col-span-5 xl:col-span-4 space-y-8">
 
             <!-- FOCUS TIMER & POMODORO WIDGET -->
-            <div class="au-tarjeta" id="focus-pomodoro-widget">
+            <section class="au-seccion au-seccion--suave" id="focus-pomodoro-widget">
               <div class="au-cabecera au-cabecera--con-linea">
                 <div class="au-cabecera__principal">
                   <span class="au-cabecera__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-foco"></use></svg></span>
@@ -771,7 +771,7 @@
               </div>
 
               <!-- Controles y Formulario del Pomodoro -->
-              <div class="au-tarjeta au-tarjeta--hundida">
+              <div class="au-seccion au-seccion--apretada au-seccion--con-linea">
                 <div class="grid grid-cols-1 gap-2">
                   <div class="au-campo">
                     <label for="pomodoro-block-select" class="au-campo__etiqueta">Bloque de Agenda</label>
@@ -806,10 +806,10 @@
                   </button>
                 </div>
               </div>
-            </div>
+            </section>
 
             <!-- Bloques de Hoy (Agenda) -->
-            <section class="au-tarjeta">
+            <section class="au-seccion">
               <div class="au-cabecera">
                 <div class="au-cabecera__principal">
                   <span class="au-cabecera__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agenda"></use></svg></span>
@@ -829,7 +829,7 @@
             </section>
 
             <!-- Barra de Acceso Rápido a Plataformas + Weekly Digest -->
-            <section class="au-tarjeta">
+            <section class="au-seccion au-seccion--suave">
               <div class="au-cabecera">
                 <div class="au-cabecera__principal">
                   <span class="au-cabecera__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rapido"></use></svg></span>
