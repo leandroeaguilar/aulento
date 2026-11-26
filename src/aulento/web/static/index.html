@@ -2621,23 +2621,18 @@
     <!-- 8. TAB: RUTAS DE APRENDIZAJE & LESSON STUDIO -->
     <section id="tab-roadmap" data-demo-aviso="generacion" class="tab-content space-y-6 hidden">
       <!-- Barra Superior de Control de Rutas -->
-      <div class="au-tarjeta">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-2xl font-bold shadow-lg shadow-sky-500/20">
-              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rutas"></use></svg>
-            </div>
-            <div>
-              <div class="flex flex-wrap items-center gap-2">
-                <h2 class="text-xl font-bold text-white">Rutas de Aprendizaje Dinámicas</h2>
-                <span class="au-insignia au-insignia--primario">Evolving Path</span>
-              </div>
-              <p class="text-xs text-slate-400">Mapa de aprendizaje interactivo, ingesta de PDFs externos y generador de clases para Mis notas</p>
+      <div class="au-seccion au-seccion--suave">
+        <div class="au-cabecera">
+          <div class="au-cabecera__principal">
+            <span class="au-cabecera__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rutas"></use></svg></span>
+            <div class="au-cabecera__textos">
+              <h2 class="au-cabecera__titulo">Rutas de Aprendizaje Dinámicas <span class="au-insignia au-insignia--primario">Evolving Path</span></h2>
+              <p class="au-cabecera__subtitulo">Mapa de aprendizaje interactivo, ingesta de PDFs externos y generador de clases para Mis notas</p>
             </div>
           </div>
 
           <!-- Selector de Ruta Activa y Acciones (Distribución Limpia & Sin Iconos Apretados) -->
-          <div class="flex flex-wrap items-center gap-2.5">
+          <div class="au-cabecera__acciones">
             <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
               <label for="roadmap-selector" class="sr-only">Ruta de aprendizaje activa</label>
               <select id="roadmap-selector" data-accion="ruta-cambiar-seleccion" class="au-campo__control w-full sm:w-auto min-w-0 sm:min-w-[220px] max-w-full sm:max-w-[360px]">
@@ -2668,7 +2663,7 @@
         </div>
 
         <!-- Indicador de Progreso Global de la Ruta -->
-        <div class="p-4 bg-slate-950/70 border border-slate-800/80 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4" id="roadmap-kpi-banner">
+        <div class="au-seccion au-seccion--con-linea flex-col md:flex-row items-center justify-between gap-4" id="roadmap-kpi-banner">
           <div class="grid grid-cols-3 gap-2 w-full md:flex md:items-center md:gap-4 md:w-auto">
             <div class="au-kpi text-center">
               <span class="au-kpi__etiqueta block leading-tight">Nivel Objetivo</span>
@@ -2694,7 +2689,7 @@
       </div>
 
       <!-- Toggle de Vistas: Árbol vs Grafo de Prelaciones (DAG) -->
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-slate-900 border border-slate-800 rounded-2xl p-3">
+      <div class="au-seccion au-seccion--suave au-seccion--apretada flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div class="au-pestanas w-full sm:w-auto" role="tablist">
           <button type="button" id="btn-view-tree" role="tab" aria-selected="true" data-accion="ruta-cambiar-modo-vista" data-modo="tree" class="au-pestanas__boton">
             <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-cuaderno"></use></svg> Vista de Módulos (Árbol)
@@ -2737,16 +2732,16 @@
       <!-- Grafo de Prelaciones DAG (Modo 2) -->
       <div id="roadmap-dag-container" class="space-y-6 hidden">
         <!-- Grafo dibujado con Mermaid, panel del nodo y "Qué estudiar ahora" -->
-        <div class="au-tarjeta">
-          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
-            <div>
-              <div class="flex items-center gap-2">
-                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-grafo"></use></svg>
-                <h3 class="font-bold text-white text-base">Grafo</h3>
+        <div class="au-seccion au-seccion--suave">
+          <div class="au-cabecera au-cabecera--con-linea">
+            <div class="au-cabecera__principal">
+              <span class="au-cabecera__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-grafo"></use></svg></span>
+              <div class="au-cabecera__textos">
+                <h3 class="au-cabecera__titulo">Grafo</h3>
+                <p class="au-cabecera__subtitulo">Haz clic en un tema para ver sus requisitos previos, lo que desbloquea y sus conexiones.</p>
               </div>
-              <p class="text-xs text-slate-400 mt-0.5">Haz clic en un tema para ver sus requisitos previos, lo que desbloquea y sus conexiones.</p>
             </div>
-            <div class="flex flex-wrap items-center gap-3">
+            <div class="au-cabecera__acciones">
               <label for="dag-toggle-implicit" class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer" title="Cada tema sin requisito previo depende del tema anterior">
                 <input type="checkbox" id="dag-toggle-implicit" data-accion="ruta-alternar-secuencia-implicita" checked class="rounded bg-slate-900 border-slate-700 text-sky-600">
                 Secuencia implícita
@@ -2786,9 +2781,9 @@
               </div>
             </div>
             <div class="space-y-4">
-              <div id="dag-node-panel" class="bg-slate-950 border border-slate-800 rounded-2xl p-4 space-y-3 text-xs"></div>
-              <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 space-y-2">
-                <h3 class="text-xs font-bold text-white"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-empezar"></use></svg> Qué estudiar ahora</h3>
+              <div id="dag-node-panel" class="au-seccion au-seccion--suave text-xs"></div>
+              <div class="au-seccion au-seccion--suave au-seccion--apretada">
+                <h4 class="text-xs font-bold text-white flex items-center gap-1.5"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-empezar"></use></svg> <span>Qué estudiar ahora</span></h4>
                 <p class="text-xs text-slate-500">Temas sin completar cuyos prerrequisitos estrictos ya están dominados.</p>
                 <div id="dag-available-list" class="space-y-1.5 max-h-60 overflow-y-auto"></div>
               </div>
@@ -2817,29 +2812,31 @@
         </div>
 
         <!-- Secuencia Pedagógica Recomendada (Orden Topológico Enriquecido) -->
-        <div class="au-tarjeta">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
-            <div>
-              <div class="flex items-center gap-2">
-                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-objetivo"></use></svg>
-                <h4 class="font-bold text-white text-base">Secuencia Pedagógica Recomendada</h4>
+        <div class="au-seccion au-seccion--suave">
+          <div class="au-cabecera au-cabecera--con-linea">
+            <div class="au-cabecera__principal">
+              <span class="au-cabecera__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-objetivo"></use></svg></span>
+              <div class="au-cabecera__textos">
+                <h3 class="au-cabecera__titulo">Secuencia Pedagógica Recomendada</h3>
+                <p class="au-cabecera__subtitulo">
+                  Ruta pedagógica lineal sin dependencias rotas — cada concepto se aborda con sus bases ya consolidadas.
+                </p>
               </div>
-              <p class="text-xs text-slate-400 mt-0.5">
-                Ruta pedagógica lineal sin dependencias rotas — cada concepto se aborda con sus bases ya consolidadas.
-              </p>
             </div>
-            <div class="au-pestanas self-start sm:self-auto" role="tablist">
-              <button type="button" id="btn-dag-view-pipeline" data-accion="ruta-fijar-modo-dag" data-modo="pipeline" role="tab" aria-selected="true" class="au-pestanas__boton">
-                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rapido"></use></svg> Flujo Continuo
-              </button>
-              <button type="button" id="btn-dag-view-compact" data-accion="ruta-fijar-modo-dag" data-modo="compact" role="tab" aria-selected="false" class="au-pestanas__boton">
-                <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-etiqueta"></use></svg> Compacto
-              </button>
+            <div class="au-cabecera__acciones">
+              <div class="au-pestanas" role="tablist">
+                <button type="button" id="btn-dag-view-pipeline" data-accion="ruta-fijar-modo-dag" data-modo="pipeline" role="tab" aria-selected="true" class="au-pestanas__boton">
+                  <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rapido"></use></svg> Flujo Continuo
+                </button>
+                <button type="button" id="btn-dag-view-compact" data-accion="ruta-fijar-modo-dag" data-modo="compact" role="tab" aria-selected="false" class="au-pestanas__boton">
+                  <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-etiqueta"></use></svg> Compacto
+                </button>
+              </div>
             </div>
           </div>
 
           <!-- Barra de Progreso y Estadísticas de la Secuencia -->
-          <div id="dag-topological-stats" class="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400 bg-slate-950/60 p-3 rounded-2xl border border-slate-800/60">
+          <div id="dag-topological-stats" class="au-seccion au-seccion--suave au-seccion--apretada flex-wrap items-center justify-between gap-3 text-xs text-slate-400">
             <!-- Estadísticas dinámicas -->
           </div>
 
@@ -2850,18 +2847,23 @@
         </div>
 
         <!-- Tablero Visual de Nodos del Grafo por Estados -->
-        <div class="au-tarjeta">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
-            <div>
-              <h3 class="font-bold text-white text-base">Visualizador Interactivo de Requisitos Previos</h3>
-              <p class="text-xs text-slate-400">Haz clic en un tema para destacar sus requisitos previos y temas que desbloquea.</p>
+        <div class="au-seccion au-seccion--suave">
+          <div class="au-cabecera au-cabecera--con-linea">
+            <div class="au-cabecera__principal">
+              <span class="au-cabecera__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rutas"></use></svg></span>
+              <div class="au-cabecera__textos">
+                <h3 class="au-cabecera__titulo">Visualizador Interactivo de Requisitos Previos</h3>
+                <p class="au-cabecera__subtitulo">Haz clic en un tema para destacar sus requisitos previos y temas que desbloquea.</p>
+              </div>
             </div>
-            <div class="flex items-center gap-3 text-xs flex-wrap">
-              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Dominado</span>
-              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-sky-500 inline-block"></span> En Progreso</span>
-              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span> Listo para Aprender</span>
-              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span> Bloqueado <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-bloqueado"></use></svg></span>
-              <span class="flex items-center gap-1 text-amber-400 font-bold"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rapido"></use></svg> Crítico</span>
+            <div class="au-cabecera__acciones">
+              <div class="flex items-center gap-3 text-xs flex-wrap">
+                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Dominado</span>
+                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-sky-500 inline-block"></span> En Progreso</span>
+                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span> Listo para Aprender</span>
+                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span> Bloqueado <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-bloqueado"></use></svg></span>
+                <span class="flex items-center gap-1 text-amber-400 font-bold"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rapido"></use></svg> Crítico</span>
+              </div>
             </div>
           </div>
 
@@ -2871,7 +2873,7 @@
         </div>
 
         <!-- Visor de Código Mermaid para Mis notas -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
+        <div class="au-seccion au-seccion--suave au-seccion--apretada">
           <details class="group">
             <summary class="flex items-center justify-between cursor-pointer list-none text-xs font-bold text-slate-300">
               <div class="flex items-center gap-2">
@@ -2880,7 +2882,7 @@
               <span class="text-slate-500 group-open:rotate-180 transition-transform">▼</span>
             </summary>
             <div class="mt-3 relative">
-              <pre id="dag-mermaid-code" class="bg-slate-950 p-4 rounded-xl text-xs font-mono text-emerald-400 overflow-x-auto border border-slate-800/80 max-h-60"></pre>
+              <pre id="dag-mermaid-code" class="au-tarjeta au-tarjeta--hundida text-xs font-mono text-emerald-400 overflow-x-auto max-h-60"></pre>
             </div>
           </details>
         </div>
