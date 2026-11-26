@@ -1,5 +1,5 @@
 // Service Worker para Aulento PWA (Local-First)
-const CACHE_NAME = 'aulento-v7';
+const CACHE_NAME = 'aulento-v8';
 // Todo lo que carga index.html (lo controla tests/test_componentes_estatico.py)
 const STATIC_ASSETS = [
   '/',
