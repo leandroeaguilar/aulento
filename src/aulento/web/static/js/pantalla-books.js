@@ -84,7 +84,7 @@ function renderBooks() {
   }
 
   container.innerHTML = filteredBooks.map(b => `
-    <section class="au-tarjeta au-tarjeta--interactiva justify-between">
+    <section class="au-tarjeta au-tarjeta--plana au-tarjeta--interactiva justify-between">
       <div>
         <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
           <div class="flex items-center gap-1.5">
@@ -94,7 +94,7 @@ function renderBooks() {
           </div>
           ${Au.insignia({ texto: b.estado, tono: b.estado === 'completado' ? 'exito' : 'primario' })}
         </div>
-        <h3 class="font-bold text-white text-base leading-snug">${Au.escapar(b.titulo)}</h3>
+        <h3 class="au-cabecera__titulo leading-snug">${Au.escapar(b.titulo)}</h3>
       </div>
 
       <div class="space-y-3 pt-2">
@@ -425,7 +425,7 @@ async function generateBookActiveRecallQuestions() {
     document.getElementById('book-ar-modal-subtitle').textContent = `Tramo evaluado: ${currentBookAR.tramo}`;
     const container = document.getElementById('book-ar-questions-container');
     container.innerHTML = currentBookAR.questions.map((q, idx) => `
-      <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-3.5 space-y-2">
+      <div class="au-tarjeta au-tarjeta--hundida">
         <div class="flex items-center justify-between text-xs font-semibold text-sky-400">
           <span>Pregunta ${q.id || (idx + 1)}</span>
           <span class="text-xs text-slate-500 font-mono">${escapeHtml(q.objetivo_conceptual || '')}</span>
@@ -500,14 +500,14 @@ async function submitBookActiveRecallEvaluation() {
 
     const detail = document.getElementById('book-ar-results-detail');
     detail.innerHTML = (data.evaluaciones || []).map(ev => `
-      <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3.5 space-y-2">
+      <div class="au-tarjeta au-tarjeta--hundida">
         <div class="flex items-center justify-between text-xs font-bold">
           <span class="text-slate-200">Pregunta ${ev.question_id}</span>
           <span class="text-sky-400">${ev.puntaje}/100</span>
         </div>
         ${ev.aciertos ? `<div class="text-xs text-emerald-300"><strong class="text-emerald-400">Aciertos:</strong> ${escapeHtml(ev.aciertos)}</div>` : ''}
         ${ev.mejoras ? `<div class="text-xs text-amber-300"><strong class="text-amber-400">Oportunidad de mejora:</strong> ${escapeHtml(ev.mejoras)}</div>` : ''}
-        ${ev.explicacion_optima ? `<div class="text-xs text-slate-300 bg-slate-900 p-2.5 rounded-lg border border-slate-800"><strong class="text-slate-400 block mb-0.5 font-semibold">Explicación conceptual de referencia:</strong> ${escapeHtml(ev.explicacion_optima)}</div>` : ''}
+        ${ev.explicacion_optima ? `<div class="text-xs text-slate-300 pt-2 border-t border-slate-800"><strong class="text-slate-400 block mb-0.5 font-semibold">Explicación conceptual de referencia:</strong> ${escapeHtml(ev.explicacion_optima)}</div>` : ''}
       </div>
     `).join('');
 
@@ -561,7 +561,7 @@ async function previewBookHarvestCards() {
     document.getElementById('book-harvest-modal-subtitle').textContent = `Tramo: ${currentBookHarvest.tramo}`;
     const container = document.getElementById('book-harvest-cards-container');
     container.innerHTML = currentBookHarvest.cards.map((c, idx) => `
-      <label class="flex items-start gap-2.5 bg-slate-950/70 border border-slate-800 rounded-xl p-3 cursor-pointer hover:border-slate-700 transition">
+      <label class="flex items-start gap-2.5 au-tarjeta au-tarjeta--hundida cursor-pointer hover:border-slate-700 transition">
         <input type="checkbox" id="book-harvest-cb-${idx}" checked class="mt-1 rounded bg-slate-900 border-slate-700 text-purple-600 focus:ring-0">
         <div class="space-y-1 flex-1">
           <div class="flex items-center justify-between text-xs">
