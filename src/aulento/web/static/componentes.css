@@ -64,6 +64,19 @@
   --au-espacio-tarjeta-sm: 1.5rem;
   --au-hueco: 0.75rem;
 
+  /* Escala de espacio: pasos de 4 px en rem, para que crezcan con la letra del navegador (como la de Astryx).
+     Se mezclan huecos chicos (dentro de un grupo) y grandes (entre grupos): así se lee qué va junto sin bordes. */
+  --au-espacio-0-5: 0.125rem;
+  --au-espacio-1: 0.25rem;
+  --au-espacio-1-5: 0.375rem;
+  --au-espacio-2: 0.5rem;
+  --au-espacio-3: 0.75rem;
+  --au-espacio-4: 1rem;
+  --au-espacio-5: 1.25rem;
+  --au-espacio-6: 1.5rem;
+  --au-espacio-8: 2rem;
+  --au-espacio-10: 2.5rem;
+
   /* Texto: nunca menos de 12 px debajo de sm (071 R7) */
   --au-texto-xs: 0.75rem;
   --au-texto-sm: 0.875rem;
@@ -121,6 +134,36 @@
   box-shadow: none;
   padding: 0.875rem;
 }
+/* Sin sombra: para tarjetas que comparten una grilla dentro de una sección y no tienen que flotar */
+.au-tarjeta--plana { box-shadow: none; }
+
+/* ---------- Sección ---------- */
+/* Una región de la página (ajustes, un panel, un grupo de métricas). Agrupa con un título y espacio, sin borde ni
+   sombra: la tarjeta queda para lo que se puede comparar, reordenar o accionar por separado. La sección es dueña de
+   su relleno; lo de adentro no suma el suyo. */
+.au-seccion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--au-espacio-4);
+  min-width: 0;
+}
+/* Fondo hundido y borde: un panel o una barra de filtros que tiene que separarse del fondo */
+.au-seccion--suave {
+  background: var(--au-superficie-hundida);
+  border: 1px solid var(--au-borde);
+  border-radius: var(--au-radio-subtarjeta);
+  padding: var(--au-espacio-4);
+}
+@media (min-width: 640px) {
+  .au-seccion--suave { padding: var(--au-espacio-5); }
+}
+/* Separador arriba: la siguiente región dentro de la misma tarjeta o columna */
+.au-seccion--con-linea {
+  border-top: 1px solid var(--au-borde);
+  padding-top: var(--au-espacio-5);
+}
+/* Grupo apretado: los elementos de la sección van juntos (una lista, un formulario corto) */
+.au-seccion--apretada { gap: var(--au-espacio-2); }
 
 /* ---------- Cabecera de tarjeta ---------- */
 /* Ícono fijo a la izquierda; título e insignias bajan de línea; las acciones van abajo si no entran (071). */

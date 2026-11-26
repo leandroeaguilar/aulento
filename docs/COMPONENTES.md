@@ -46,12 +46,48 @@ Están en `:root`, al principio de `componentes.css`:
 | Tonos | `--au-primario*`, `--au-exito*`, `--au-alerta*`, `--au-peligro*` (fuerte, `-texto`, `-suave` de fondo, `-borde`) |
 | Forma | `--au-radio-tarjeta` (24 px), `--au-radio-subtarjeta` (16 px), `--au-radio-control` (12 px), `--au-radio-pildora` |
 | Controles | `--au-alto-control` (36 px con mouse), `--au-alto-control-tactil` (40 px con el dedo) |
+| Espacio | `--au-espacio-0-5` … `--au-espacio-10`: pasos de 4 px en rem (0,5 = 2 px, 1 = 4 px, 4 = 16 px, 10 = 40 px). En CSS propio, nada de px sueltos para el relleno interior |
 
 ## Catálogo
 
+### ¿Tarjeta o sección?
+
+La regla viene de [Astryx](https://github.com/meta/astryx), el sistema de diseño de Meta: **la tarjeta es la excepción, no la forma por defecto de agrupar**.
+
+- **Tarjeta** (`au-tarjeta`): un elemento suelto que se puede comparar, reordenar o accionar por separado. Por ejemplo, un curso en la grilla de cursos, una tarjeta de repaso o un examen.
+- **Sección** (`au-seccion`): una región de la página. Por ejemplo, un grupo de ajustes, un panel de la barra lateral, un bloque de métricas o una barra de filtros. Un título y el espacio ya marcan qué va junto, sin bordes.
+
+Qué no hacer:
+- **Tarjeta dentro de tarjeta.** Adentro de una tarjeta se usa una sección `--con-linea`, o una `au-tarjeta--hundida` solo si es un recuadro de verdad (una cita, un código).
+- **Grillas de tarjetas idénticas.** Ícono, título y texto repetidos no hacen falta: o se varía el diseño, o va una lista de `au-fila`, o una grilla de `au-kpi`.
+- **Relleno doble.** El contenedor es dueño del relleno, y lo de adentro no suma el suyo.
+- **Un mismo hueco en toda la pantalla.** Se combina uno chico dentro de cada grupo (`gap-2`, `gap-3`) con uno grande entre grupos (`gap-6`, `gap-8`).
+
+### Sección: `Au.seccion`, `.au-seccion`
+
+Una región de la página: va en columna, con un hueco de 16 px entre sus hijos, sin fondo, sin borde y sin sombra. Arriba lleva una `au-cabecera` (con `nivel: 3` si está dentro de otra región). Variantes, que se combinan:
+
+- `--suave`: fondo hundido, borde y relleno. Es un panel o una barra de filtros que tiene que separarse del fondo.
+- `--con-linea`: un separador arriba. Es la siguiente región dentro de la misma tarjeta o columna.
+- `--apretada`: un hueco de 8 px. Es para un grupo cuyos elementos van juntos.
+
+```js
+Au.seccion({
+  cabecera: { titulo: 'Notificaciones', nivel: 3, subtitulo: 'Qué te avisa Aulento y cuándo' },
+  cuerpoHtml: camposHtml,
+  variantes: ['con-linea'],
+});
+```
+
+En HTML estático: `<section class="au-seccion au-seccion--suave">`. Una variante que no existe lanza un error.
+
 ### Tarjeta: `Au.tarjeta`, `.au-tarjeta`
 
-Agrupa un tema de la pantalla. Variantes: `--interactiva` (borde al pasar el mouse), `--destacada` (la del saludo del Dashboard) y `--hundida` (una subtarjeta dentro de otra).
+Un elemento suelto de la pantalla (ver «¿Tarjeta o sección?»). Variantes:
+- `--interactiva`: borde al pasar el mouse.
+- `--destacada`: la del saludo del Dashboard.
+- `--hundida`: un recuadro dentro de otro.
+- `--plana`: sin sombra, para tarjetas que comparten una grilla.
 
 ```js
 Au.tarjeta({

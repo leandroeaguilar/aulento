@@ -73,6 +73,26 @@ def test_variantes_del_boton(pagina: Page):
         pagina.evaluate("Au.boton({texto: 'x', variante: 'verde'})")
 
 
+def test_la_seccion_es_una_region_sin_borde_ni_sombra(pagina: Page):
+    """Astryx: la sección agrupa con título y espacio; solo `suave` le pone fondo y borde."""
+    _poner(
+        pagina,
+        "[Au.seccion({cabecera: {titulo: 'Ajustes <b>', nivel: 3}, cuerpoHtml: '<p>x</p>'}),"
+        " Au.seccion({cuerpoHtml: '<p>y</p>', variantes: ['suave', 'apretada']})].join('')",
+    )
+    clases = pagina.evaluate("Array.from(document.querySelectorAll('section')).map(s => s.className)")
+    assert clases == ["au-seccion", "au-seccion au-seccion--suave au-seccion--apretada"]
+    assert pagina.locator("h3.au-cabecera__titulo").inner_text() == "Ajustes <b>"
+    estilos = pagina.evaluate(
+        "Array.from(document.querySelectorAll('section')).map(s => { const c = getComputedStyle(s);"
+        " return [c.borderTopWidth, c.boxShadow, c.backgroundColor === 'rgba(0, 0, 0, 0)', c.rowGap]; })"
+    )
+    assert estilos[0] == ["0px", "none", True, "16px"]
+    assert estilos[1][0] == "1px" and estilos[1][2] is False and estilos[1][3] == "8px"
+    with pytest.raises(Exception, match="Variante de sección desconocida"):
+        pagina.evaluate("Au.seccion({variantes: ['verde']})")
+
+
 def test_r4_el_boton_de_icono_exige_etiqueta(pagina: Page):
     with pytest.raises(Exception, match="aria-label"):
         pagina.evaluate("Au.boton({icono: '✕', soloIcono: true})")
