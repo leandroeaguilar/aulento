@@ -136,6 +136,14 @@
 }
 /* Sin sombra: para tarjetas que comparten una grilla dentro de una sección y no tienen que flotar */
 .au-tarjeta--plana { box-shadow: none; }
+/* Compacta: un ítem de una lista densa (los temas de un módulo). Va después de la regla de sm para ganarle */
+.au-tarjeta--compacta {
+  border-radius: var(--au-radio-subtarjeta);
+  padding: var(--au-espacio-3);
+}
+@media (min-width: 640px) {
+  .au-tarjeta--compacta { padding: var(--au-espacio-3) var(--au-espacio-4); }
+}
 
 /* ---------- Sección ---------- */
 /* Una región de la página (ajustes, un panel, un grupo de métricas). Agrupa con un título y espacio, sin borde ni

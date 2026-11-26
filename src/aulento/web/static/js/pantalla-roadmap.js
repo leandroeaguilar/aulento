@@ -381,7 +381,7 @@ function renderRoadmap(detail) {
         : '';
 
       topicsHtml += `
-        <div class="au-tarjeta au-tarjeta--plana flex flex-col md:flex-row md:items-center justify-between gap-3 transition">
+        <div class="au-tarjeta au-tarjeta--plana au-tarjeta--compacta flex flex-col md:flex-row md:items-center justify-between gap-3 transition">
           <div class="flex items-start gap-3">
             <button type="button" data-accion="cambiar-estado-tema" data-topic-id="${Number(topicId)}" data-estado="${escapeHtml(estado)}" class="au-boton au-boton--fantasma au-boton--icono au-boton--chico" title="Cambiar estado: Pendiente -> En curso -> Dominado">
               ${isCompleted ? _icono('ok') : (isInProgress ? _icono('recargar') : _icono('punto'))}

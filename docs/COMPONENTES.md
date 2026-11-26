@@ -88,6 +88,7 @@ Un elemento suelto de la pantalla (ver «¿Tarjeta o sección?»). Variantes:
 - `--destacada`: la del saludo del Dashboard.
 - `--hundida`: un recuadro dentro de otro.
 - `--plana`: sin sombra, para tarjetas que comparten una grilla.
+- `--compacta`: radio y relleno chicos, para un ítem de una lista densa (los temas de un módulo de Rutas).
 
 ```js
 Au.tarjeta({
