@@ -875,7 +875,7 @@
       </div>
 
       <!-- Barra de Búsqueda y Filtros de Cursos -->
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 au-tarjeta au-tarjeta--hundida">
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 au-seccion au-seccion--suave">
         <search class="relative flex-1 max-w-md">
           <label for="course-search-input" class="sr-only">Buscar curso o plataforma</label>
           <input type="text" id="course-search-input" data-accion="buscar-cursos" data-al-escribir placeholder="Buscar curso o plataforma..." class="au-campo__control au-campo__control--con-icono">
@@ -916,7 +916,7 @@
       </div>
 
       <!-- Barra de Búsqueda y Filtros de Libros -->
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 au-tarjeta au-tarjeta--hundida">
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 au-seccion au-seccion--suave">
         <search class="relative flex-1 max-w-md">
           <label for="book-search-input" class="sr-only">Buscar libro por título o autor</label>
           <input type="text" id="book-search-input" data-accion="buscar-libros" data-al-escribir placeholder="Buscar por título o autor..." class="au-campo__control au-campo__control--con-icono">
@@ -937,31 +937,29 @@
     <!-- 4. TAB: CRONOGRAMA SEMANAL -->
     <section id="tab-schedule" class="tab-content hidden space-y-6">
       <!-- Header con acciones -->
-      <div class="au-tarjeta">
-        <div class="au-cabecera">
-          <div class="au-cabecera__principal">
-            <span class="au-cabecera__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agenda"></use></svg></span>
-            <div class="au-cabecera__textos">
-              <h2 class="au-cabecera__titulo">Cronograma Semanal de Estudio</h2>
-              <p class="au-cabecera__subtitulo">
-                Planificación estructurada de cursos, inglés técnico, lectura y sesiones de foco.
-              </p>
-            </div>
+      <div class="au-cabecera">
+        <div class="au-cabecera__principal">
+          <span class="au-cabecera__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agenda"></use></svg></span>
+          <div class="au-cabecera__textos">
+            <h2 class="au-cabecera__titulo">Cronograma Semanal de Estudio</h2>
+            <p class="au-cabecera__subtitulo">
+              Planificación estructurada de cursos, inglés técnico, lectura y sesiones de foco.
+            </p>
           </div>
-          <div class="au-cabecera__acciones">
-            <a href="/api/schedule/export/calendar.ics" download="cronograma-estudio.ics" class="au-boton au-boton--secundario" title="Descargar archivo .ics para Apple Calendar, Outlook u otros calendarios">
-              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-descargar"></use></svg><span>Exportar .ICS</span>
-            </a>
-            <button type="button" data-accion="abrir-google-calendar" class="au-boton au-boton--secundario" title="Exportar y agregar a Google Calendar">
-              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agenda"></use></svg><span>Exportar a Google Calendar</span>
-            </button>
-            <button type="button" data-accion="abrir-planificador" class="au-boton au-boton--secundario" title="Generar plan adaptativo inteligente según minutos disponibles">
-              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-objetivo"></use></svg><span>Plan Inteligente</span>
-            </button>
-            <button type="button" data-accion="abrir-agendar-bloque" class="au-boton au-boton--primario">
-              <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agregar"></use></svg><span>Agendar Bloque</span>
-            </button>
-          </div>
+        </div>
+        <div class="au-cabecera__acciones">
+          <a href="/api/schedule/export/calendar.ics" download="cronograma-estudio.ics" class="au-boton au-boton--secundario" title="Descargar archivo .ics para Apple Calendar, Outlook u otros calendarios">
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-descargar"></use></svg><span>Exportar .ICS</span>
+          </a>
+          <button type="button" data-accion="abrir-google-calendar" class="au-boton au-boton--secundario" title="Exportar y agregar a Google Calendar">
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agenda"></use></svg><span>Exportar a Google Calendar</span>
+          </button>
+          <button type="button" data-accion="abrir-planificador" class="au-boton au-boton--secundario" title="Generar plan adaptativo inteligente según minutos disponibles">
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-objetivo"></use></svg><span>Plan Inteligente</span>
+          </button>
+          <button type="button" data-accion="abrir-agendar-bloque" class="au-boton au-boton--primario">
+            <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agregar"></use></svg><span>Agendar Bloque</span>
+          </button>
         </div>
       </div>
 
@@ -994,7 +992,7 @@
       </div>
 
       <!-- Barra de Filtros, Vistas y Selector de Tamaño de Tarjetas -->
-      <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-3 bg-slate-900/40 border border-slate-800/60 p-3 rounded-2xl">
+      <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-3 au-seccion au-seccion--suave">
         <div class="flex items-center gap-3 text-xs flex-wrap">
           <!-- Filtro por categoría -->
           <div class="flex items-center gap-1.5 flex-wrap">
@@ -1044,17 +1042,17 @@
 
       <!-- Banner de bienvenida / Estado Vacío de Agenda -->
       <section id="schedule-empty-banner" class="au-tarjeta au-tarjeta--destacada hidden shadow-xl">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div class="flex items-start sm:items-center gap-3.5">
+        <div class="au-cabecera">
+          <div class="au-cabecera__principal">
             <span class="au-cabecera__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-agenda"></use></svg></span>
-            <div class="space-y-1">
-              <h3 class="text-sm sm:text-base font-bold text-white">Tu cronograma semanal aún no tiene bloques programados</h3>
-              <p class="text-xs text-slate-400 max-w-xl">
+            <div class="au-cabecera__textos">
+              <h3 class="au-cabecera__titulo">Tu cronograma semanal aún no tiene bloques programados</h3>
+              <p class="au-cabecera__subtitulo">
                 Podés generar un plan semanal balanceado automáticamente con IA basado en tus materias de mayor urgencia, o agendar tus bloques manualmente día por día.
               </p>
             </div>
           </div>
-          <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+          <div class="au-cabecera__acciones">
             <button type="button" data-accion="abrir-planificador" class="au-boton au-boton--primario">
               <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-rapido"></use></svg><span>Autogenerar Plan con IA</span>
             </button>
@@ -1867,13 +1865,13 @@
       </div>
 
       <!-- Configuración de Carpeta en Local (R5 & R6) -->
-      <div data-requiere="carpeta_local" class="au-tarjeta au-tarjeta--hundida">
+      <div data-requiere="carpeta_local" class="au-seccion au-seccion--suave">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <div>
-            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <div class="au-cabecera__textos">
+            <h3 class="au-cabecera__titulo flex items-center gap-2">
               <svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-carpeta"></use></svg> <span>Carpeta de notas en la PC</span>
             </h3>
-            <p class="text-xs text-slate-400 mt-0.5">
+            <p class="au-cabecera__subtitulo">
               Podés elegir una carpeta en tu equipo, por ejemplo una bóveda de Obsidian, para leer y guardar tus notas.
             </p>
           </div>
@@ -1908,14 +1906,14 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           <!-- Columna izquierda: Lista agrupada por carpeta (4 cols) -->
-          <div class="lg:col-span-4 au-tarjeta au-tarjeta--hundida max-h-[750px] overflow-y-auto">
+          <div class="lg:col-span-4 au-seccion au-seccion--suave max-h-[750px] overflow-y-auto">
             <div id="notes-list-container" class="space-y-3">
               <div class="p-6 text-center text-xs text-slate-500">Cargando notas...</div>
             </div>
           </div>
 
           <!-- Columna derecha: Visor de lectura segura y descarga individual (8 cols) -->
-          <div class="lg:col-span-8 au-tarjeta au-tarjeta--hundida min-h-[400px]">
+          <div class="lg:col-span-8 au-seccion au-seccion--suave min-h-[400px]">
             <div id="note-detail-container">
               <div class="au-vacio">
                 <span class="au-vacio__icono" aria-hidden="true"><svg class="au-icono" aria-hidden="true" focusable="false"><use href="/static/icons/aulento-iconos.svg#i-documento"></use></svg></span>

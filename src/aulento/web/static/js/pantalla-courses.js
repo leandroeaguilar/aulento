@@ -92,7 +92,7 @@ function renderPlatforms() {
   }
 
   container.innerHTML = filteredPlatforms.map(p => `
-    <section class="au-tarjeta au-tarjeta--interactiva">
+    <section class="au-seccion au-seccion--suave">
       <div class="au-cabecera">
         <div class="au-cabecera__principal">
           <span class="w-3 h-3 rounded-full bg-${Au.escapar(p.icono_color || 'sky')}-400 shrink-0"></span>
@@ -111,7 +111,7 @@ function renderPlatforms() {
       <div class="space-y-3">
         ${p.cursos.length === 0 ? '<p class="text-xs text-slate-500 italic">No hay cursos registrados en esta plataforma.</p>' : ''}
         ${p.cursos.map(c => `
-          <div class="au-tarjeta au-tarjeta--hundida">
+          <div class="au-tarjeta au-tarjeta--plana">
             <div class="flex items-center justify-between text-xs">
               <span class="font-semibold text-slate-200">${Au.escapar(c.nombre_curso)}</span>
               <div class="flex items-center gap-1.5">

@@ -271,8 +271,8 @@ function renderSchedule() {
     }
 
     const cardClasses = isToday
-      ? `bg-slate-900/95 border-2 border-sky-500/80 shadow-xl shadow-sky-950/50 rounded-2xl p-4 min-h-[300px] ring-1 ring-sky-500/30 ${columnWidthClass} ${responsiveFlex}`
-      : `bg-slate-900/70 border border-slate-800/80 hover:border-slate-700/80 rounded-2xl p-4 min-h-[300px] transition ${columnWidthClass} ${responsiveFlex}`;
+      ? `au-seccion au-seccion--suave border-2 border-sky-500/80 shadow-xl shadow-sky-950/50 min-h-[300px] ring-1 ring-sky-500/30 ${columnWidthClass} ${responsiveFlex}`
+      : `au-seccion au-seccion--suave hover:border-slate-700/80 min-h-[300px] transition ${columnWidthClass} ${responsiveFlex}`;
 
     const botonAgregarDia = Au.boton({
       icono: 'agregar',
@@ -365,7 +365,7 @@ function renderSchedule() {
               }) : '';
 
               return `
-                <div data-accion="detalle-bloque-agenda" data-id="${Number(b.id)}" class="au-tarjeta au-tarjeta--hundida ${meta.borderClass} border-l-4 cursor-pointer hover:border-slate-700 transition">
+                <div data-accion="detalle-bloque-agenda" data-id="${Number(b.id)}" class="au-tarjeta au-tarjeta--plana au-tarjeta--interactiva ${meta.borderClass} border-l-4 cursor-pointer">
                   <!-- Fila 1: Horario, Duración y Botones de Acción -->
                   <div class="flex flex-wrap items-center justify-between gap-1.5 pb-1.5 border-b border-slate-800 text-xs font-mono">
                     <div class="flex items-center gap-1.5 min-w-0">
@@ -1064,7 +1064,7 @@ async function openGoogleCalendarModal() {
     }
 
     container.innerHTML = blocks.map(b => `
-      <div class="p-3 bg-slate-950 border border-slate-800/80 rounded-2xl flex items-center justify-between gap-3 hover:border-slate-700 transition">
+      <div class="au-tarjeta au-tarjeta--hundida flex items-center justify-between gap-3 hover:border-slate-700 transition">
         <div class="space-y-1 min-w-0 flex-1">
           <div class="flex items-center gap-2">
             <span class="text-xs font-bold text-white">${escapeHtml(b.dia_nombre)}</span>

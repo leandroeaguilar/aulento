@@ -41,22 +41,10 @@ async function openWeeklyDigestModal() {
 
       const m = data.metrics || {};
       metricsEl.innerHTML = `
-        <div class="p-2.5 bg-slate-950 border border-slate-800 rounded-xl">
-          <div class="text-slate-400">Racha FSRS</div>
-          <div class="text-base font-bold text-amber-400">${Au.icono('racha')} ${m.streak || 0} días</div>
-        </div>
-        <div class="p-2.5 bg-slate-950 border border-slate-800 rounded-xl">
-          <div class="text-slate-400">Retención</div>
-          <div class="text-base font-bold text-emerald-400">${Au.icono('objetivo')} ${(m.retention || 0).toFixed(1)}%</div>
-        </div>
-        <div class="p-2.5 bg-slate-950 border border-slate-800 rounded-xl">
-          <div class="text-slate-400">Cursos Activos</div>
-          <div class="text-base font-bold text-sky-400">${Au.icono('cursos')} ${m.courses_count || 0}</div>
-        </div>
-        <div class="p-2.5 bg-slate-950 border border-slate-800 rounded-xl">
-          <div class="text-slate-400">Libros Monitoreados</div>
-          <div class="text-base font-bold text-purple-400">${Au.icono('lectura')} ${m.books_count || 0}</div>
-        </div>
+        ${Au.kpi({ etiqueta: 'Racha FSRS', valor: `${m.streak || 0}`, unidad: 'días' })}
+        ${Au.kpi({ etiqueta: 'Retención', valor: `${(m.retention || 0).toFixed(1)}`, unidad: '%' })}
+        ${Au.kpi({ etiqueta: 'Cursos Activos', valor: `${m.courses_count || 0}`, unidad: 'cursos' })}
+        ${Au.kpi({ etiqueta: 'Libros Monitoreados', valor: `${m.books_count || 0}`, unidad: 'libros' })}
       `;
     } else {
       const err = await res.json();
@@ -688,7 +676,7 @@ function renderNoteDetail(note) {
         </div>
       ` : ''}
 
-      <div class="note-markdown-body au-tarjeta au-tarjeta--hundida block text-sm text-slate-200 leading-relaxed overflow-x-auto">
+      <div class="block text-sm text-slate-200 leading-relaxed overflow-x-auto">
         ${renderNoteMarkdown(note.content || note.clean_text || '')}
       </div>
     </div>`;
